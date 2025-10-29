@@ -1,16 +1,11 @@
 import React from 'react';
-import { useAppSelector } from '../app/hooks';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../features/auth/authSlice';
-import { useAppDispatch } from '../app/hooks';
+import { logout } from '../../features/auth/authSlice';
 
 const HomePage: React.FC = () => {
-  const { user } = useAppSelector((state) => state.auth);
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logout());
     navigate('/login');
   };
 
@@ -25,9 +20,9 @@ const HomePage: React.FC = () => {
               </div>
             </div>
             <div className="flex items-center">
-              {user && (
+              { (
                 <div className="flex items-center space-x-4">
-                  <span className="text-gray-700">Welcome, {user.name}</span>
+                  <span className="text-gray-700">Welcome,</span>
                   <button
                     onClick={handleLogout}
                     className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
