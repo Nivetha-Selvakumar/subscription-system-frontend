@@ -5,11 +5,13 @@ import { images } from "../../assets";
 import { LOGIN_PAGE_CONSTANTS } from "../../utils/constants/LoginPage/LoginPage";
 import { useDispatch, useSelector } from "react-redux";
 import "../../styles/LoginPage/LoginPage.scss";
+import DynamicInput from "../../common-components/ui/dynamicInput";
 
 const LoginPage: React.FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { data, error, loading } = useSelector((state: any) => state.LoginRequest);
+    // const { data, error, loading } = useSelector((state: any) => state.LoginRequest);
+    const { error, loading } = useSelector((state: any) => state.LoginRequest);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -71,28 +73,26 @@ const LoginPage: React.FC = () => {
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
-                            <input
+                            <DynamicInput
                                 type="email"
                                 placeholder={LOGIN_PAGE_CONSTANTS.EMAIL}
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e:any) => setEmail(e.target.value)}
                                 required
-                                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             />
                         </div>
                         <div>
-                            <input
+                            <DynamicInput
                                 type="password"
                                 placeholder={LOGIN_PAGE_CONSTANTS.PASSWORD}
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e:any) => setPassword(e.target.value)}
                                 required
-                                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             />
                         </div>
 
                         <div className="flex items-center text-sm">
-                            <a href="#" className="text-indigo-600 hover:text-indigo-500">
+                            <a href="/forgetPassword" className="text-indigo-600 hover:text-indigo-500">
                                 {LOGIN_PAGE_CONSTANTS.FORGET_PASSWORD}
                             </a>
                         </div>
@@ -100,7 +100,7 @@ const LoginPage: React.FC = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className={`w-full py-2 px-4 text-white text-sm font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 transition ${loading ? "opacity-50 cursor-not-allowed" : ""
+                            className={`w-full py-2 px-4 text-white text-sm leading-[2.25rem] font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 transition ${loading ? "opacity-50 cursor-not-allowed" : ""
                                 }`}
                         >
                             {loading ? LOGIN_PAGE_CONSTANTS.SIGN_IN : LOGIN_PAGE_CONSTANTS.LOGIN}
@@ -110,7 +110,7 @@ const LoginPage: React.FC = () => {
                     <div className="mt-4 text-sm text-center">
                         <p>
                             {LOGIN_PAGE_CONSTANTS.DONT_HAVE_ACCOUNT}{" "}
-                            <a href="#" className="text-indigo-600 font-medium hover:underline">
+                            <a href="/signup" className="text-indigo-600 font-medium hover:underline">
                                 {LOGIN_PAGE_CONSTANTS.SIGN_UP}
                             </a>
                         </p>
