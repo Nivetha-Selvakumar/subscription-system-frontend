@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../../features/auth/authSlice';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();

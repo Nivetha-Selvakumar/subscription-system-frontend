@@ -46,11 +46,11 @@ const LoginPage: React.FC = () => {
     return (
         <div className="login-container">
             {/* Left Side Image */}
-            <div className="hidden md:flex w-1/2 bg-gray-200">
+            <div className="hidden md:flex w-1/2 bg-white justify-center items-center">
                 <img
                     src={images.LoginPage}
                     alt="Login background"
-                    className="object-cover w-full h-full"
+                    className="object-contain w-[750px] h-[500px]" // increased size
                 />
             </div>
 
@@ -86,7 +86,7 @@ const LoginPage: React.FC = () => {
                                 type="password"
                                 placeholder={LOGIN_PAGE_CONSTANTS.PASSWORD}
                                 value={password}
-                                onChange={(e:any) => setPassword(e.target.value)}
+                                onChange={(e: any) => setPassword(e.target.value)}
                                 required
                             />
                         </div>

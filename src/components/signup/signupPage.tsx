@@ -35,11 +35,11 @@ const SignUpPage: React.FC = () => {
     return (
         <div className="login-container">
             {/* Left Side Image */}
-            <div className="hidden md:flex w-1/2 bg-gray-200">
+            <div className="hidden md:flex w-1/2 bg-white justify-center items-center">
                 <img
                     src={images.LoginPage}
-                    alt="Signup background"
-                    className="object-cover w-full h-full"
+                    alt="Login background"
+                    className="object-contain w-[750px] h-[500px]" // increased size
                 />
             </div>
 
@@ -59,7 +59,7 @@ const SignUpPage: React.FC = () => {
                                 type="text"
                                 placeholder={SIGNUP_PAGE_CONSTANTS.FIRST_NAME}
                                 value={firstName}
-                                onChange={setFirstName}
+                                onChange={(e:any) => setFirstName(e.target.value)}
                             />
                         </div>
                         <div>
@@ -67,7 +67,7 @@ const SignUpPage: React.FC = () => {
                                 type="text"
                                 placeholder={SIGNUP_PAGE_CONSTANTS.LAST_NAME}
                                 value={lastName}
-                                onChange={setLastName}
+                                onChange={(e:any) => setLastName(e.target.value)}
                             />
                         </div>
                         <div>
@@ -75,7 +75,7 @@ const SignUpPage: React.FC = () => {
                                 type="email"
                                 placeholder={SIGNUP_PAGE_CONSTANTS.EMAIL}
                                 value={email}
-                                onChange={setEmail}
+                                onChange={(e:any) => setEmail(e.target.value)}
                             />
                         </div>
                         <div>
@@ -83,7 +83,7 @@ const SignUpPage: React.FC = () => {
                                 type="password"
                                 placeholder={SIGNUP_PAGE_CONSTANTS.CREATE_PASSWORD}
                                 value={password}
-                                onChange={setPassword}
+                                onChange={(e:any) => setPassword(e.target.value)}
                             />
                         </div>
                         <div className="flex items-center text-sm">

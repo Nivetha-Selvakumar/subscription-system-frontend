@@ -6,7 +6,8 @@ interface DynamicInputProps {
   type?: string;
   placeholder?: string;
   value: string;
-  onChange: ((value: string) => void) | ((value: string, e: React.ChangeEvent<HTMLInputElement>) => void);
+//   onChange: (value: string, e?: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: any;
   required?: boolean;
   disabled?: boolean;
   maxLength?: number;
@@ -29,18 +30,9 @@ const DynamicInput: React.FC<DynamicInputProps> = ({
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      // Supports both (value) => {} and (value, e) => {}
-      if (onChange.length === 1) {
-        (onChange as (value: string) => void)(e.target.value);
-      } else {
-        (onChange as (value: string, e: React.ChangeEvent<HTMLInputElement>) => void)(e.target.value, e);
-      }
-    } catch (err) {
-      console.error("DynamicInput onChange error:", err);
-    }
-  };
+//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     onChange(e.target.value, e);
+//   };
 
   return (
     <div className="w-full mb-3">
@@ -64,7 +56,7 @@ const DynamicInput: React.FC<DynamicInputProps> = ({
         maxLength={maxLength}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        onChange={handleChange}
+        onChange={onChange}
         className={`w-full border rounded-md px-3 py-2 text-sm leading-[2.25rem] outline-none transition-all duration-200
           ${isFocused ? "border-indigo-500 ring-2 ring-indigo-200" : "border-gray-300"}
           ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white"}
