@@ -1,46 +1,46 @@
 // reducers.js
 import {
-    SUBSCRIBER_CREATE_CLEAR,
-    SUBSCRIBER_CREATE_FAILURE,
-    SUBSCRIBER_CREATE_REQUEST,
-    SUBSCRIBER_CREATE_SUCCESS,  
+    USER_CREATE_CLEAR,
+    USER_CREATE_FAILURE,
+    USER_CREATE_REQUEST,
+    USER_CREATE_SUCCESS,  
 } from '../../actionTypes/SignUpPage/SignupActionTypes';
 
 
 const initialState = {
-    subscriberCreate: null,
-    subscriberCreateLoading: false,
+    userCreate: null,
+    userCreateLoading: false,
     error: null,
 };
 
-const subscriberCreateReducer = (state = initialState, action: any) => {
+const userCreateReducer = (state = initialState, action: any) => {
     switch (action.type) {
-        case SUBSCRIBER_CREATE_REQUEST:
+        case USER_CREATE_REQUEST:
             return {
                 ...state,
-                subscriberCreate: null,
-                subscriberCreateLoading: true,
+                userCreate: null,
+                userCreateLoading: true,
                 error: null,
             };
-        case SUBSCRIBER_CREATE_SUCCESS:
+        case USER_CREATE_SUCCESS:
             return {
                 ...state,
-                subscriberCreate: action.payload,
-                subscriberCreateLoading: false,
+                userCreate: action.payload,
+                userCreateLoading: false,
                 error: null,
             };
-        case SUBSCRIBER_CREATE_FAILURE:
+        case USER_CREATE_FAILURE:
             return {
                 ...state,
-                subscriberCreate: null,
-                subscriberCreateLoading: false,
+                userCreate: null,
+                userCreateLoading: false,
                 error: action.payload,
             };
 
-        case SUBSCRIBER_CREATE_CLEAR:
+        case USER_CREATE_CLEAR:
             return {
-                subscriberCreate: null,
-                subscriberCreateLoading: false,
+                userCreate: null,
+                userCreateLoading: false,
                 error: null,
             };
         default:
@@ -48,4 +48,4 @@ const subscriberCreateReducer = (state = initialState, action: any) => {
     }
 };
 
-export default subscriberCreateReducer;
+export default userCreateReducer;

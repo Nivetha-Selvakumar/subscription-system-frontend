@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { images } from "../../assets";
 import { SIGNUP_PAGE_CONSTANTS } from "../../utils/constants/SignUpPage/SignUpPage";
 import { useDispatch } from "react-redux";
-import { SUBSCRIBER_CREATE_REQUEST } from "../../redux/actionTypes/SignUpPage/SignupActionTypes";
+import { USER_CREATE_REQUEST } from "../../redux/actionTypes/SignUpPage/SignupActionTypes";
 import "../../styles/LoginPage/LoginPage.scss";
 import DynamicInput from "../../common-components/ui/dynamicInput";
 import DynamicCheckbox from "../../common-components/ui/dynamicCheckbox";
@@ -26,7 +26,7 @@ const SignUpPage: React.FC = () => {
         setLoading(true);
         try {
             const payload = { name: "Nivetha", email, password };
-            dispatch({ type: SUBSCRIBER_CREATE_REQUEST, payload });
+            dispatch({ type: USER_CREATE_REQUEST, payload });
         } finally {
             setLoading(false);
         }
@@ -59,7 +59,7 @@ const SignUpPage: React.FC = () => {
                                 type="text"
                                 placeholder={SIGNUP_PAGE_CONSTANTS.FIRST_NAME}
                                 value={firstName}
-                                onChange={(e:any) => setFirstName(e.target.value)}
+                                onChange={(e: any) => setFirstName(e.target.value)}
                             />
                         </div>
                         <div>
@@ -67,7 +67,7 @@ const SignUpPage: React.FC = () => {
                                 type="text"
                                 placeholder={SIGNUP_PAGE_CONSTANTS.LAST_NAME}
                                 value={lastName}
-                                onChange={(e:any) => setLastName(e.target.value)}
+                                onChange={(e: any) => setLastName(e.target.value)}
                             />
                         </div>
                         <div>
@@ -75,7 +75,7 @@ const SignUpPage: React.FC = () => {
                                 type="email"
                                 placeholder={SIGNUP_PAGE_CONSTANTS.EMAIL}
                                 value={email}
-                                onChange={(e:any) => setEmail(e.target.value)}
+                                onChange={(e: any) => setEmail(e.target.value)}
                             />
                         </div>
                         <div>
@@ -83,7 +83,7 @@ const SignUpPage: React.FC = () => {
                                 type="password"
                                 placeholder={SIGNUP_PAGE_CONSTANTS.CREATE_PASSWORD}
                                 value={password}
-                                onChange={(e:any) => setPassword(e.target.value)}
+                                onChange={(e: any) => setPassword(e.target.value)}
                             />
                         </div>
                         <div className="flex items-center text-sm">
