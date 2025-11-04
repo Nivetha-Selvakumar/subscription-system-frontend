@@ -16,25 +16,16 @@ function* userCreateSaga(action: any): Generator<any, void, any> {
 
     try {
         isPrevent = true
-        // const tokenVal = localStorage.getItem('token');
-
-        // const token = 'Bearer ' + tokenVal;
-
-        // // Set up the request headers with the bearer token
-        // const config = {
-        //     headers: {
-        //         Authorization: token,
-        //     },
-        // };
-
         const payload = action.payload;
 
         const response = yield call(axios.post, AUTH.SIGNUP, payload);
+        console.log("Response>>>>>>>>>>>>>>",response)
         const data = yield response;
+
         yield put(userCreateSuccess(data.data));
     } catch (error: any) {
         yield put(userCreateFailure(error.message));
-        const errorMessage = error?.response?.data?.message;
+        const errorMessage = error?.response?.data?.Error;
 
         if (Array.isArray(errorMessage)) {
             // Handle as array

@@ -1,6 +1,6 @@
-const subscribe = process.env.NEXT_PUBLIC_SUBSCRIBE!;
+const subscribe = process.env.REACT_APP_SUBSCRIBE;
 
 export const AUTH = {
   LOGIN: `${subscribe}/auth/login`,
-  SIGNUP: `${subscribe}/create/user`,
+  SIGNUP: `${subscribe}/user/create/user`,
 };
