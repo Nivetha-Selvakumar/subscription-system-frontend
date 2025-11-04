@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Icon } from "@iconify/react";
 
 interface DynamicInputProps {
   label?: string;
@@ -6,12 +7,13 @@ interface DynamicInputProps {
   type?: string;
   placeholder?: string;
   value: string;
-//   onChange: (value: string, e?: React.ChangeEvent<HTMLInputElement>) => void;
-  onChange: any;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   required?: boolean;
   disabled?: boolean;
   maxLength?: number;
   error?: string;
+  touched?: boolean;
   className?: string;
 }
 
@@ -22,20 +24,18 @@ const DynamicInput: React.FC<DynamicInputProps> = ({
   placeholder,
   value,
   onChange,
+  onBlur,
   required = false,
   disabled = false,
   maxLength,
   error,
+  touched,
   className = "",
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
-//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     onChange(e.target.value, e);
-//   };
-
   return (
-    <div className="w-full mb-3">
+    <div className={`w-full mb-3 ${className}`}>
       {label && (
         <label
           htmlFor={name}
@@ -45,26 +45,41 @@ const DynamicInput: React.FC<DynamicInputProps> = ({
         </label>
       )}
 
-      <input
-        id={name}
-        name={name}
-        type={type}
-        value={value}
-        placeholder={placeholder}
-        required={required}
-        disabled={disabled}
-        maxLength={maxLength}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        onChange={onChange}
-        className={`w-full border rounded-md px-3 py-2 text-sm leading-[2.25rem] outline-none transition-all duration-200
-          ${isFocused ? "border-indigo-500 ring-2 ring-indigo-200" : "border-gray-300"}
-          ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white"}
-          ${error ? "border-red-500 ring-2 ring-red-200" : ""}
-          ${className}`}
-      />
+      <div
+        className={`rounded-md border transition-all duration-200 ${error && touched
+            ? "border-red-500"
+            : isFocused
+              ? "border-indigo-500"
+              : "border-gray-300"
+          }`}
+      >
+        <input
+          id={name}
+          name={name}
+          type={type}
+          value={value}
+          placeholder={placeholder}
+          required={required}
+          disabled={disabled}
+          maxLength={maxLength}
+          onFocus={() => setIsFocused(true)}
+          onBlur={(e) => {
+            setIsFocused(false);
+            if (onBlur) onBlur(e);
+          }}
+          onChange={onChange}
+          className={`w-full px-3 py-2 text-sm rounded-md outline-none bg-white
+            ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}
+          `}
+        />
+      </div>
 
-      {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+      {error && touched && (
+        <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
+          <Icon icon="mingcute:warning-fill" width="14" height="14" />
+          {error}
+        </p>
+      )}
     </div>
   );
 };

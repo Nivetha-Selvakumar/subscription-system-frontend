@@ -1,49 +1,48 @@
 // reducers.js
 
-import { FETCH_DATA_SUCCESS, FETCH_DATA_FAILURE, FETCH_DATA_REQUEST, } from '../../actionTypes/LoginPage/LoginActionTypes';
+import { FETCH_DATA_SUCCESS, FETCH_DATA_FAILURE, FETCH_DATA_REQUEST, FETCH_DATA_CLEAR, } from '../../actionTypes/LoginPage/LoginActionTypes'
+
+
 
 const initialState = {
-    data: null,
-    loading: false,
-
+    loginUser: null,
+    loginUserLoading: false,
     error: null,
-    successMessage: '',
-    errorMessage: ''
-
 };
-const dataReducer = (state = initialState, action: any) => {
+
+const loginUserReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case FETCH_DATA_REQUEST:
             return {
                 ...state,
-                loading: true,
+                loginUser: null,
+                loginUserLoading: true,
                 error: null,
-
-                successMessage: '',
-                errorMessage: ''
-
-
             };
         case FETCH_DATA_SUCCESS:
             return {
                 ...state,
-                data: action.payload,
-                loading: false,
+                loginUser: action.payload,
+                loginUserLoading: false,
                 error: null,
-                successMessage: 'Login Success', // Set success message here
-                errorMessage: '',
             };
         case FETCH_DATA_FAILURE:
             return {
                 ...state,
-                data: null,
-                loading: false,
+                loginUser: null,
+                loginUserLoading: false,
                 error: action.payload,
+            };
 
+        case FETCH_DATA_CLEAR:
+            return {
+                loginUser: null,
+                loginUserLoading: false,
+                error: null,
             };
         default:
             return state;
     }
 };
 
-export default dataReducer;
+export default loginUserReducer;
