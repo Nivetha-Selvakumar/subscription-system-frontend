@@ -19,7 +19,6 @@ function* userCreateSaga(action: any): Generator<any, void, any> {
         const payload = action.payload;
 
         const response = yield call(axios.post, AUTH.SIGNUP, payload);
-        console.log("Response>>>>>>>>>>>>>>",response)
         const data = yield response;
 
         yield put(userCreateSuccess(data.data));

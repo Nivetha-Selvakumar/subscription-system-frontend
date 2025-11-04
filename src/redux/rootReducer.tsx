@@ -1,12 +1,12 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
-import LoginRequest from '../redux/reducer/LoginPage/LoginPageReducer';
+import LoginUserReducer from '../redux/reducer/LoginPage/LoginPageReducer';
 import UserCreateReducer from "../redux/reducer/SignUpPage/SignUpReducer";
 
 
 
 const rootReducer = combineReducers({
-    LoginRequest: LoginRequest ,
+    loginUserReducer: LoginUserReducer ,
     userCreateReducer: UserCreateReducer,
 });
 

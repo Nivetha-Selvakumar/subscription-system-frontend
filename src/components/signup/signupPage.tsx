@@ -63,12 +63,13 @@ const SignUpPage: React.FC = () => {
             dispatch({ type: USER_CREATE_CLEAR });
             showToast(userCreate?.message, "success", "User-Create");
             setTimeout(() => {
-                window.location.href = `/admin/dashboard`;
+                window.location.href = `/dashboard`;
             }, 3000);
         }
-    }, [userCreate,dispatch]);
+    }, [userCreate, dispatch]);
 
     const handleSubmit = async (values: typeof initialValues) => {
+        const sexValue = values.sex?.toLowerCase();
         const payload = {
             firstName: values.firstName,
             lastName: values.lastName,
@@ -77,7 +78,12 @@ const SignUpPage: React.FC = () => {
             phoneNumber: values.phoneNumber,
             address: values.address,
             dateOfBirth: values.dateOfBirth,
-            sex: values.sex,
+            sex: sexValue === "male"
+                ? "MALE"
+                : sexValue === "female"
+                    ? "FEMALE"
+                    : "OTHER",
+            role: "USER",
         };
         dispatch({ type: USER_CREATE_REQUEST, payload });
     };
