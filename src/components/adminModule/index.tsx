@@ -1,13 +1,8 @@
-import Sidebar from "../layout/sideBar";
+import AdminDashboard from "./adminDashboard/AdminDashboard";
 
-const AdminDashboard: React.FC = () => {
+const AdminIndex: React.FC = () => {
     return (
-       <Sidebar>
-        <div style={{ padding: "300px" }}>
-          <h1>Admin Dashboard</h1>
-          <p>Welcome to the admin dashboard!</p>
-        </div>
-      </Sidebar>
+       <AdminDashboard />
     );
  }
-export default AdminDashboard;
+export default AdminIndex

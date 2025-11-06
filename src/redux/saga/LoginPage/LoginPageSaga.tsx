@@ -30,7 +30,6 @@ function* fetchLoginUserSaga(action: any): Generator<any, void, any> {
         const response = yield call(axios.post, AUTH.LOGIN, payload);
         const data = response?.data;
 
-        console.log("Login Response Data:", data);
         // ✅ Token handling
         if (data?.loginData?.authToken) {
             localStorage.setItem("authToken", data?.loginData?.authToken);

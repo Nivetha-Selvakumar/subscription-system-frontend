@@ -6,6 +6,15 @@ import axios from "axios";
 import showToast from "../../../common-components/ui/toastNotification";
 import { userCreateFailure, userCreateSuccess } from "../../action/SignUpPage/SignUpAction";
 import { USER_CREATE_REQUEST } from "../../actionTypes/SignUpPage/SignupActionTypes";
+import { setCookie } from "../../../utils/constants/Functional/funtional";
+
+function setAuthHeader(token: string) {
+    if (token) {
+        axios.defaults.headers.common["Auth-token"] = token;
+    } else {
+        delete axios.defaults.headers.common["Auth-token"];
+    }
+}
 
 let isPrevent = false;
 function* userCreateSaga(action: any): Generator<any, void, any> {
@@ -21,7 +30,14 @@ function* userCreateSaga(action: any): Generator<any, void, any> {
         const response = yield call(axios.post, AUTH.SIGNUP, payload);
         const data = yield response;
 
-        yield put(userCreateSuccess(data.data));
+        // ✅ Token handling
+        if (data?.data?.userData?.authToken) {
+            localStorage.setItem("authToken", data?.data?.userData?.authToken);
+            setCookie("authToken", data?.data?.userData?.authToken);
+            setAuthHeader(data?.data?.userData?.authToken);
+        }
+
+        yield put(userCreateSuccess(data?.data));
     } catch (error: any) {
         yield put(userCreateFailure(error.message));
         const errorMessage = error?.response?.data?.Error;

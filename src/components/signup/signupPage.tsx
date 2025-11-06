@@ -12,6 +12,7 @@ import DynamicDropdown from "../../common-components/ui/dynamicDropdown";
 import DynamicDatePicker from "../../common-components/ui/dynamicDatePicker";
 import { ToastContainer } from "react-toastify";
 import showToast from "../../common-components/ui/toastNotification";
+import { setStorage } from "../../utils/constants/Functional/funtional";
 
 const SignUpPage: React.FC = () => {
     const dispatch = useDispatch();
@@ -60,8 +61,25 @@ const SignUpPage: React.FC = () => {
 
     useEffect(() => {
         if (userCreate?.code === 201 || userCreate?.code === 200) {
-            dispatch({ type: USER_CREATE_CLEAR });
             showToast(userCreate?.message, "success", "User-Create");
+            const data = userCreate?.userData?.user;
+            if (data) {
+                const UserName = `${data?.firstName} ${data?.lastName}`;
+
+                // Set values to a custom storage function
+                setStorage('firstName', data?.firstName);
+                setStorage('lastName', data?.lastName);
+
+                // Set values to localStorage
+                localStorage.setItem('firstName', data?.firstName);
+                localStorage.setItem('lastName', data?.lastName);
+                localStorage.setItem('user_id', data?.id);
+                localStorage.setItem('role', data?.role);
+                localStorage.setItem('email', data?.email);
+                localStorage.setItem('userName', UserName);
+            }
+
+            dispatch({ type: USER_CREATE_CLEAR });
             setTimeout(() => {
                 window.location.href = `/dashboard`;
             }, 3000);

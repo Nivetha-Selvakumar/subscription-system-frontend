@@ -52,7 +52,6 @@ const LoginPage: React.FC = () => {
 
             const data = loginUser?.loginData?.user;
 
-            console.log("User Data:", data);
             if (data) {
                 const UserName = `${data?.firstName} ${data?.lastName}`;
 
@@ -69,9 +68,9 @@ const LoginPage: React.FC = () => {
                 localStorage.setItem('userName', UserName);
             }
 
-
             setTimeout(() => {
-                const role = loginUser?.loginData?.role?.toLowerCase(); // ✅ fix here
+                const role = data?.role?.toLowerCase(); // ✅ fix here
+                console.log("User Role:", role);
                 if (role === "admin") {
                     navigate("/admin/dashboard");
                 } else {

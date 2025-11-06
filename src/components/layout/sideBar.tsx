@@ -9,7 +9,7 @@ interface SidebarProps {
     children?: React.ReactNode;
 }
 
-const Sidebar: React.FC<SidebarProps> = () => {
+const Sidebar: React.FC<SidebarProps> = ({children}) => {
     const [collapsed, setCollapsed] = useState<boolean>(false);
     const [role, setRole] = useState<string>("");
     const [userName, setUserName] = useState<string>("");
@@ -51,9 +51,9 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 </ul>
             </div>
 
-            {/* Main content */}
+            {/* ✅ Main content area */}
             <div className="main-content">
-                <div className="content-wrapper">{/* Routed page content */}</div>
+                <div className="content-wrapper">{children}</div>
             </div>
         </div>
     );
