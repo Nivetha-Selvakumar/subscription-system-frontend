@@ -4,8 +4,8 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { AUTH } from "../../endpoints/endpoints";
 import axios from "axios";
 import showToast from "../../../common-components/ui/toastNotification";
-import { userCreateFailure, userCreateSuccess } from "../../action/SignUpPage/SignUpAction";
-import { USER_CREATE_REQUEST } from "../../actionTypes/SignUpPage/SignupActionTypes";
+import { signupUserFailure, signupUserSuccess } from "../../action/SignUpPage/SignUpAction";
+import { SIGNUP_USER_REQUEST } from "../../actionTypes/SignUpPage/SignupActionTypes";
 import { setCookie } from "../../../utils/constants/Functional/funtional";
 
 function setAuthHeader(token: string) {
@@ -17,7 +17,7 @@ function setAuthHeader(token: string) {
 }
 
 let isPrevent = false;
-function* userCreateSaga(action: any): Generator<any, void, any> {
+function* signupUserSaga(action: any): Generator<any, void, any> {
     if (isPrevent) {
         return
     }
@@ -37,9 +37,9 @@ function* userCreateSaga(action: any): Generator<any, void, any> {
             setAuthHeader(data?.data?.userData?.authToken);
         }
 
-        yield put(userCreateSuccess(data?.data));
+        yield put(signupUserSuccess(data?.data));
     } catch (error: any) {
-        yield put(userCreateFailure(error.message));
+        yield put(signupUserFailure(error.message));
         const errorMessage = error?.response?.data?.Error;
 
         if (Array.isArray(errorMessage)) {
@@ -59,6 +59,6 @@ function* userCreateSaga(action: any): Generator<any, void, any> {
     }
 }
 
-export function* watchUserCreate() {
-    yield takeLatest(USER_CREATE_REQUEST, userCreateSaga);
+export function* watchSignupUser() {
+    yield takeLatest(SIGNUP_USER_REQUEST, signupUserSaga);
 }

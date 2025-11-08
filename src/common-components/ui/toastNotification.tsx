@@ -13,7 +13,7 @@ const showToast = (message: string, type: string, containerId: string = 'default
         draggable: true,
         progress: undefined,
         className: 'custom-toast-container',
-        style: { fontFamily: 'Inter', zIndex: 9999999999999, marginTop: 40, whiteSpace: 'normal' },
+        style: { fontFamily: `Inter, sans-serif  !important`, zIndex: 9999999999999, marginTop: 40, whiteSpace: 'normal' },
         containerId: containerId,
     };
 

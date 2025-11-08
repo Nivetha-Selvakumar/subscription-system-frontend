@@ -1,28 +1,28 @@
 // actions.js
 
 import {
-    USER_CREATE_CLEAR,
-    USER_CREATE_FAILURE,
-    USER_CREATE_REQUEST,
-    USER_CREATE_SUCCESS,  
+    SIGNUP_USER_CLEAR,
+    SIGNUP_USER_FAILURE,
+    SIGNUP_USER_REQUEST,
+    SIGNUP_USER_SUCCESS,  
 } from '../../actionTypes/SignUpPage/SignupActionTypes';
 
-export const userCreateRequest = (payload: any) => ({
-    type: USER_CREATE_REQUEST,
+export const signupUserRequest = (payload: any) => ({
+    type: SIGNUP_USER_REQUEST,
     payload: payload,
 });
 
-export const userCreateSuccess = (data: string) => ({
-    type: USER_CREATE_SUCCESS,
+export const signupUserSuccess = (data: string) => ({
+    type: SIGNUP_USER_SUCCESS,
     payload: data,
 });
 
-export const userCreateFailure = (error: any) => ({
-    type: USER_CREATE_FAILURE,
+export const signupUserFailure = (error: any) => ({
+    type: SIGNUP_USER_FAILURE,
     payload: error,
 });
 
-export const userCreateClear = (data: any) => ({
-    type: USER_CREATE_CLEAR,
+export const signupUserClear = (data: any) => ({
+    type: SIGNUP_USER_CLEAR,
     payload: data,
 });

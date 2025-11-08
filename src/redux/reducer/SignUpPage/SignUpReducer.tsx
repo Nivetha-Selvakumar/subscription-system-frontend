@@ -1,46 +1,46 @@
 // reducers.js
 import {
-    USER_CREATE_CLEAR,
-    USER_CREATE_FAILURE,
-    USER_CREATE_REQUEST,
-    USER_CREATE_SUCCESS,  
+    SIGNUP_USER_CLEAR,
+    SIGNUP_USER_FAILURE,
+    SIGNUP_USER_REQUEST,
+    SIGNUP_USER_SUCCESS,  
 } from '../../actionTypes/SignUpPage/SignupActionTypes';
 
 
 const initialState = {
-    userCreate: null,
-    userCreateLoading: false,
+    signupUser: null,
+    signupUserLoading: false,
     error: null,
 };
 
-const userCreateReducer = (state = initialState, action: any) => {
+const signupUserReducer = (state = initialState, action: any) => {
     switch (action.type) {
-        case USER_CREATE_REQUEST:
+        case SIGNUP_USER_REQUEST:
             return {
                 ...state,
-                userCreate: null,
-                userCreateLoading: true,
+                signupUser: null,
+                signupUserLoading: true,
                 error: null,
             };
-        case USER_CREATE_SUCCESS:
+        case SIGNUP_USER_SUCCESS:
             return {
                 ...state,
-                userCreate: action.payload,
-                userCreateLoading: false,
+                signupUser: action.payload,
+                signupUserLoading: false,
                 error: null,
             };
-        case USER_CREATE_FAILURE:
+        case SIGNUP_USER_FAILURE:
             return {
                 ...state,
-                userCreate: null,
-                userCreateLoading: false,
+                signupUser: null,
+                signupUserLoading: false,
                 error: action.payload,
             };
 
-        case USER_CREATE_CLEAR:
+        case SIGNUP_USER_CLEAR:
             return {
-                userCreate: null,
-                userCreateLoading: false,
+                signupUser: null,
+                signupUserLoading: false,
                 error: null,
             };
         default:
@@ -48,4 +48,4 @@ const userCreateReducer = (state = initialState, action: any) => {
     }
 };
 
-export default userCreateReducer;
+export default signupUserReducer;

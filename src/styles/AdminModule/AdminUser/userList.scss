@@ -1,3 +1,5 @@
+$font-family: "Inter", sans-serif !important;
+
 body {
   font-family: "Inter" !important;
 }
@@ -9,7 +11,7 @@ body {
 .list-parent-container {
   background-color: #f5f5f5;
   min-height: calc(100vh - 64px);
-  font-family: "Inter" !important;
+  font-family: "Inter", sans-serif  !important;
 }
 
 .list-parent-container .header-container {
@@ -21,7 +23,7 @@ body {
   position: sticky;
   top: 0px !important;
   z-index: 1;
-  font-family: "Inter" !important;
+  font-family: "Inter", sans-serif  !important;
 }
 
 /* Chip Styles */
@@ -32,7 +34,7 @@ body {
 }
 
 .department-text {
-  font-family: "Inter";
+  font-family: "Inter", sans-serif !important;
   font-size: 18px;
   font-weight: 600;
   color: rgba(0, 16, 30, 0.87);
@@ -137,6 +139,7 @@ body {
 
 .user-filter-header {
   display: flex;
+  
   justify-content: space-between;
   align-items: center;
   padding: 16px 24px;
@@ -189,4 +192,21 @@ body {
     padding: 8px 16px;
     cursor: pointer;
   }
+}
+
+
+.user-filter-form {
+  font-family: "Inter", sans-serif;
+}
+
+.filter-footer button {
+  transition: all 0.2s ease;
+}
+
+.filter-footer .apply-btn:hover {
+  background: #4f46e5 !important;
+}
+
+.filter-footer .reset-btn:hover {
+  background: #f3f4f6 !important;
 }

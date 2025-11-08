@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import {
   Chip,
@@ -37,6 +36,7 @@ import UserFilterModal from "./UserListFilter";
 
 const AdminUsers: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);
@@ -45,23 +45,11 @@ const AdminUsers: React.FC = () => {
   const [sortOrdered, setSortOrdered] = useState<"asc" | "desc">("asc");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [filterValue, setFilterValue] = useState<any>();
+  const [filterData, setFilterData] = useState<any>({});
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedUser, setSelectedUser] = useState<any>(null);
-  const [tabeldata, setTabelData] = useState<any>([]);
   const [columnMenuAnchorEl, setColumnMenuAnchorEl] =
     useState<null | HTMLElement>(null);
-  const [appliedFilter, setAppliedFilter] = useState<any>({
-    filterStartDate: null,
-    filterEndDate: null,
-    filterClientType: null,
-    filterIndustryType: null,
-    filterSourceTypeId: null,
-    filterSubSourceTypeId: null,
-    filterClientRegion: null,
-  });
-  const [filterData, setFilterData] = useState<any>({});
-  const navigate = useNavigate();
 
   const { userListLoading, userList } = useSelector(
     (state: any) => state.userListReducer
@@ -96,48 +84,62 @@ const AdminUsers: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    setTabelData(userList?.data);
-  }, [userList]);
-
   const fetchUserList = () => {
+    // Base payload
+    const payload: any = {
+      search: searchValue,
+      sortBy: sortField,
+      sortDir: sortOrdered,
+      offset: page * rowsPerPage,
+      limit: rowsPerPage,
+    };
+
+    // 🧠 Convert filters to backend-friendly format
+    const filterPairs: string[] = [];
+
+    if (filterData.role) filterPairs.push(`role:${filterData.role}`);
+    if (filterData.gender) filterPairs.push(`sex:${filterData.gender}`); // match backend field name
+    if (filterData.status) filterPairs.push(`status:${filterData.status}`);
+    if (filterData.salary) filterPairs.push(`salary:${filterData.salary}`);
+    if (filterData.joinDate) filterPairs.push(`joinDate:${filterData.joinDate}`);
+    if (filterData.currentSubStatus)
+      filterPairs.push(`currentSubStatus:${filterData.currentSubStatus}`);
+    if (filterData.subStartDate)
+      filterPairs.push(`subStartDate:${filterData.subStartDate}`);
+    if (filterData.subEndDate)
+      filterPairs.push(`subEndDate:${filterData.subEndDate}`);
+
+    // Join filters into single comma-separated string
+    const filterBy =
+      filterPairs.length > 0 ? filterPairs.join(",") : null;
+
+    // Dispatch request
     dispatch({
       type: USER_LIST_REQUEST,
-      payload: {
-        search: searchValue,
-        sortBy: sortField,
-        sortDir: sortOrdered,
-        offset: page * rowsPerPage,
-        limit: rowsPerPage,
-      },
+      payload: { ...payload, filterBy },
     });
   };
 
-  useEffect(() => {
-    fetchUserList();
-  }, [page, rowsPerPage, sortField, sortOrdered, filterData]);
 
   useEffect(() => {
-    setSearchValue(searchValue);
-  }, [searchValue]);
+    fetchUserList();
+  }, [page, rowsPerPage, sortField, sortOrdered, filterData,searchValue]);
+
+  const handleFilterChange = (newFilter: any) => {
+    setFilterData(newFilter);
+    setPage(0);
+  };
+
+  const handleChangePage = (_: any, newPage: number) => setPage(newPage);
+  const handleChangeRowsPerPage = (event: any) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const handleSort = (field: string) => {
     const isAsc = sortField === field && sortOrdered === "asc";
     setSortField(field);
     setSortOrdered(isAsc ? "desc" : "asc");
-  };
-
-  // Handle filter changes from the modal
-  const handleFilterChange = (filterData: any) => {
-    setFilterValue(filterData);
-    setAppliedFilter(filterData);
-    setFilterData(filterData);
-    setPage(0);
-  };
-  const handleChangePage = (_: any, newPage: number) => setPage(newPage);
-  const handleChangeRowsPerPage = (event: any) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, user: any) => {
@@ -153,12 +155,15 @@ const AdminUsers: React.FC = () => {
     setColumnMenuAnchorEl(event.currentTarget);
   };
   const handleColumnMenuClose = () => setColumnMenuAnchorEl(null);
+
   const handleSearchText = (text: any) => {
     setSearchValue(text);
   };
+
   const handleAddUser = () => {
-    navigate("/dashboard"); // Navigate to add user. 
+    navigate("/dashboard");
   };
+
   const safeValue = (val: any) =>
     val === null || val === undefined || val === "" ? "-" : val;
 
@@ -175,7 +180,13 @@ const AdminUsers: React.FC = () => {
             />
           </div>
           <div className="search-container">
-            <DynamicSearchField type="search" name={""} disabled={false || userListLoading} label={"Search"} onChange={handleSearchText} />
+            <DynamicSearchField
+              type="search"
+              name={""}
+              disabled={false || userListLoading}
+              label={"Search"}
+              onChange={handleSearchText}
+            />
             <div className="button-container">
               <Button
                 variant="outlined"
@@ -259,13 +270,19 @@ const AdminUsers: React.FC = () => {
               <TableBody>
                 {userListLoading ? (
                   <TableRow>
-                    <TableCell colSpan={visibleColumns.length + 1} align="center">
+                    <TableCell
+                      colSpan={visibleColumns.length + 1}
+                      align="center"
+                    >
                       Loading...
                     </TableCell>
                   </TableRow>
                 ) : users.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={visibleColumns.length + 1} align="center">
+                    <TableCell
+                      colSpan={visibleColumns.length + 1}
+                      align="center"
+                    >
                       No users found
                     </TableCell>
                   </TableRow>
@@ -291,9 +308,9 @@ const AdminUsers: React.FC = () => {
                   ))
                 )}
               </TableBody>
-
             </Table>
           </TableContainer>
+
           {/* Pagination */}
           <div className="pagination-container">
             <TablePagination
@@ -314,6 +331,7 @@ const AdminUsers: React.FC = () => {
             />
           </div>
         </div>
+
         {/* Actions Menu */}
         <Menu
           anchorEl={anchorEl}
@@ -331,13 +349,14 @@ const AdminUsers: React.FC = () => {
           </MenuItem>
         </Menu>
       </div>
+
+      {/* Filter Modal */}
       <UserFilterModal
         isModalOpen={isModalOpen}
         toggleModal={setIsModalOpen}
         onChangeFilter={handleFilterChange}
-        initialFilter={appliedFilter}
+        initialFilter={filterData}
       />
-
     </Sidebar>
   );
 };
