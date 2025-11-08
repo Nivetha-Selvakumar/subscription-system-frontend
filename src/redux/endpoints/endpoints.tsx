@@ -5,5 +5,7 @@ export const AUTH = {
   LOGOUT: `${subscribe}/logout`,
   SIGNUP: `${subscribe}/create/user`,
 
+  USER_LIST : `${subscribe}/get/users`,
+
 
 };

@@ -26,6 +26,8 @@ function App() {
         <Route path="/admin/payments" element={<AdminPayment />} />
         <Route path="/admin/adminSupportTicket" element={<AdminSupportTicket />} />
         <Route path="/admin/helpAndFeedback" element={<AdminHelpAndFeedback />} />
+        {/* Add create user url */}
+        {/* <Route path="/admin/create/user" element={<AdminHelpAndFeedback />} />  */}
 
         {/* User Module */}
         <Route path="/dashboard" element={<AdminIndex />} />

@@ -102,6 +102,7 @@ const SignUpPage: React.FC = () => {
                     ? "FEMALE"
                     : "OTHER",
             role: "USER",
+            status: "ACTIVE",
         };
         dispatch({ type: USER_CREATE_REQUEST, payload });
     };
