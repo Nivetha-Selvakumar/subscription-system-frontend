@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { images } from "../../assets";
 import { SIGNUP_PAGE_CONSTANTS } from "../../utils/constants/SignUpPage/SignUpPage";
 import { useDispatch, useSelector } from "react-redux";
-import { USER_CREATE_CLEAR, USER_CREATE_REQUEST } from "../../redux/actionTypes/SignUpPage/SignupActionTypes";
+import { SIGNUP_USER_CLEAR, SIGNUP_USER_REQUEST } from "../../redux/actionTypes/SignUpPage/SignupActionTypes";
 import "../../styles/SignUpPage/SignUpPage.scss";
 import DynamicInput from "../../common-components/ui/dynamicInput";
 import DynamicCheckbox from "../../common-components/ui/dynamicCheckbox";
@@ -12,11 +12,12 @@ import DynamicDropdown from "../../common-components/ui/dynamicDropdown";
 import DynamicDatePicker from "../../common-components/ui/dynamicDatePicker";
 import { ToastContainer } from "react-toastify";
 import showToast from "../../common-components/ui/toastNotification";
+import { setStorage } from "../../utils/constants/Functional/funtional";
 
 const SignUpPage: React.FC = () => {
     const dispatch = useDispatch();
-    const { userCreate, userCreateLoading } = useSelector(
-        (state: any) => state.userCreateReducer
+    const { signupUser, signupUserLoading } = useSelector(
+        (state: any) => state.signupUserReducer
     );
     useEffect(() => {
         document.title = "Subscription | Sign up";
@@ -59,14 +60,31 @@ const SignUpPage: React.FC = () => {
     };
 
     useEffect(() => {
-        if (userCreate?.code === 201 || userCreate?.code === 200) {
-            dispatch({ type: USER_CREATE_CLEAR });
-            showToast(userCreate?.message, "success", "User-Create");
+        if (signupUser?.code === 201 || signupUser?.code === 200) {
+            showToast(signupUser?.message, "success", "User-Create");
+            const data = signupUser?.userData?.user;
+            if (data) {
+                const UserName = `${data?.firstName} ${data?.lastName}`;
+
+                // Set values to a custom storage function
+                setStorage('firstName', data?.firstName);
+                setStorage('lastName', data?.lastName);
+
+                // Set values to localStorage
+                localStorage.setItem('firstName', data?.firstName);
+                localStorage.setItem('lastName', data?.lastName);
+                localStorage.setItem('user_id', data?.id);
+                localStorage.setItem('role', data?.role);
+                localStorage.setItem('email', data?.email);
+                localStorage.setItem('userName', UserName);
+            }
+
+            dispatch({ type: SIGNUP_USER_CLEAR });
             setTimeout(() => {
                 window.location.href = `/dashboard`;
             }, 3000);
         }
-    }, [userCreate, dispatch]);
+    }, [signupUser, dispatch]);
 
     const handleSubmit = async (values: typeof initialValues) => {
         const sexValue = values.sex?.toLowerCase();
@@ -84,8 +102,9 @@ const SignUpPage: React.FC = () => {
                     ? "FEMALE"
                     : "OTHER",
             role: "USER",
+            status: "ACTIVE",
         };
-        dispatch({ type: USER_CREATE_REQUEST, payload });
+        dispatch({ type: SIGNUP_USER_REQUEST, payload });
     };
 
     return (
@@ -244,11 +263,11 @@ const SignUpPage: React.FC = () => {
                                     {/* Submit Button */}
                                     <button
                                         type="submit"
-                                        disabled={userCreateLoading}
-                                        className={`w-full py-2 px-4 text-white text-sm leading-[2.25rem] font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 transition ${userCreateLoading ? "opacity-50 cursor-not-allowed" : ""
+                                        disabled={signupUserLoading}
+                                        className={`w-full py-2 px-4 text-white text-sm leading-[2.25rem] font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 transition ${signupUserLoading ? "opacity-50 cursor-not-allowed" : ""
                                             }`}
                                     >
-                                        {userCreateLoading
+                                        {signupUserLoading
                                             ? SIGNUP_PAGE_CONSTANTS.SIGNING_IN
                                             : SIGNUP_PAGE_CONSTANTS.CREATE_AN_ACCOUNT}
                                     </button>

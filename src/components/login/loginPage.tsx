@@ -10,13 +10,13 @@ import DynamicInput from "../../common-components/ui/dynamicInput";
 import showToast from "../../common-components/ui/toastNotification";
 import "../../styles/LoginPage/LoginPage.scss";
 import { FETCH_DATA_CLEAR, FETCH_DATA_REQUEST } from "../../redux/actionTypes/LoginPage/LoginActionTypes";
+import { setStorage } from "../../utils/constants/Functional/funtional";
 
 const LoginPage: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const loginUserReducer = useSelector((state: any) => state.loginUserReducer);
-    console.log("Redux state =>", loginUserReducer);
 
     const { loginUser, loginUserLoading } = loginUserReducer;
 
@@ -49,8 +49,28 @@ const LoginPage: React.FC = () => {
     useEffect(() => {
         if (loginUser?.code === 200 || loginUser?.code === 201) {
             showToast("Login successful!", "success", "Login-Container");
+
+            const data = loginUser?.loginData?.user;
+
+            if (data) {
+                const UserName = `${data?.firstName} ${data?.lastName}`;
+
+                // Set values to a custom storage function
+                setStorage('firstName', data?.firstName);
+                setStorage('lastName', data?.lastName);
+
+                // Set values to localStorage
+                localStorage.setItem('firstName', data?.firstName);
+                localStorage.setItem('lastName', data?.lastName);
+                localStorage.setItem('user_id', data?.id);
+                localStorage.setItem('role', data?.role);
+                localStorage.setItem('email',  data?.email);
+                localStorage.setItem('userName', UserName);
+            }
+
             setTimeout(() => {
-                const role = loginUser?.loginData?.role?.toLowerCase(); // ✅ fix here
+                const role = data?.role?.toLowerCase(); // ✅ fix here
+                console.log("User Role:", role);
                 if (role === "admin") {
                     navigate("/admin/dashboard");
                 } else {
@@ -59,7 +79,7 @@ const LoginPage: React.FC = () => {
                 dispatch({ type: FETCH_DATA_CLEAR });
             }, 2000)
         }
-    }, [loginUser, navigate,dispatch]);
+    }, [loginUser, navigate, dispatch]);
 
     return (
         <>
