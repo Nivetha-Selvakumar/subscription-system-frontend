@@ -9,13 +9,9 @@ $transition-speed: 0.3s;
 
 .layout {
   display: flex;
-  min-height: 100vh;
-  /* allow page to grow and use the document scrollbar */
-  overflow: visible;
   font-family: $font-family;
-
-  //  height: 100vh;
-  // overflow: hidden;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .sidebar {
@@ -132,7 +128,7 @@ $transition-speed: 0.3s;
   /* allow the main content to scroll while sidebar stays fixed */
   overflow-y: auto;
 
-  .sidebar.collapsed~& {
+  .sidebar.collapsed ~ & {
     margin-left: $sidebar-collapsed-width;
   }
 

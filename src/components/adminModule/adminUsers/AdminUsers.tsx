@@ -54,8 +54,8 @@ const AdminUsers: React.FC = () => {
   const { userListLoading, userList } = useSelector(
     (state: any) => state.userListReducer
   );
-  const users = userList?.userDetails || [];
-  const totalCount = userList?.totalCount || users.length || 0;
+  const users = userList?.userDetails?.userDetails || [];
+  const totalCount = userList?.userDetails?.totalCount  || 0;
 
   const allColumns = [
     { id: "firstName", label: "User Name", sortable: true },

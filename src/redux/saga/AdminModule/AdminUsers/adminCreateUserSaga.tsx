@@ -23,22 +23,19 @@ function* userCreateSaga(action: any): Generator<any, void, any> {
     const tokenVal = localStorage.getItem("token");
     const user_id = localStorage.getItem("user_id"); // assuming admin is logged in
 
-    // 🧠 Proper axios.post signature
-    const response = yield call(
-      axios.post,
-      AUTH.USER_CREATE,
-      payload, // ✅ body
-      {
-        headers: {
-          Authorization: tokenVal ? `Bearer ${tokenVal}` : "",
-          "User-Id": user_id || "", // ✅ optional header
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const url = `${AUTH.USER_CREATE}?User-Id=${user_id}`;
+
+    // ✅ Correct axios signature: axios.post(url, data, config)
+    const response = yield call(axios.post, url, payload, {
+      headers: {
+        Authorization: tokenVal ? `Bearer ${tokenVal}` : "",
+        "Content-Type": "application/json",
+      },
+    });
 
     // ✅ Extract data
     const data = yield response.data;
+    console.log("User created successfully:", data);
 
     yield put(userCreateSuccess(data));
     showToast("User created successfully", "success", "User-Create");
