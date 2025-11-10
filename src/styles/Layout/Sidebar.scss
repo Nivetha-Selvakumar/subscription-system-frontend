@@ -9,9 +9,13 @@ $transition-speed: 0.3s;
 
 .layout {
   display: flex;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  /* allow page to grow and use the document scrollbar */
+  overflow: visible;
   font-family: $font-family;
+
+  //  height: 100vh;
+  // overflow: hidden;
 }
 
 .sidebar {
@@ -125,12 +129,16 @@ $transition-speed: 0.3s;
   transition: margin-left $transition-speed ease;
   background: #f9fafb;
   min-height: 100vh;
+  /* allow the main content to scroll while sidebar stays fixed */
+  overflow-y: auto;
 
-  .sidebar.collapsed ~ & {
+  .sidebar.collapsed~& {
     margin-left: $sidebar-collapsed-width;
   }
 
   .content-wrapper {
     padding: 24px;
+    /* ensure content has breathing room at bottom */
+    padding-bottom: 48px;
   }
 }

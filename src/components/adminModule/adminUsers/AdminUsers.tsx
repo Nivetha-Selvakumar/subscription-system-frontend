@@ -123,7 +123,7 @@ const AdminUsers: React.FC = () => {
 
   useEffect(() => {
     fetchUserList();
-  }, [page, rowsPerPage, sortField, sortOrdered, filterData,searchValue]);
+  }, [page, rowsPerPage, sortField, sortOrdered, filterData, searchValue]);
 
   const handleFilterChange = (newFilter: any) => {
     setFilterData(newFilter);
@@ -161,7 +161,7 @@ const AdminUsers: React.FC = () => {
   };
 
   const handleAddUser = () => {
-    navigate("/dashboard");
+    navigate("/admin/create/user");
   };
 
   const safeValue = (val: any) =>
