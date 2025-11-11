@@ -9,6 +9,8 @@ import AdminPayment from './components/adminModule/adminPayment/AdminPayment';
 import AdminSupportTicket from './components/adminModule/adminSupportTicket/AdminSupportTicktet';
 import AdminHelpAndFeedback from './components/adminModule/adminHelpAndFeedback/AdminHelpAndFeedback';
 import AdminAddUser from './components/adminModule/adminUsers/AdminAddUser';
+import AdminViewUser from './components/adminModule/adminUsers/AdminViewUser';
+import AdminEditUser from './components/adminModule/adminUsers/AdminEditUser';
 
 function App() {
 
@@ -28,6 +30,9 @@ function App() {
         <Route path="/admin/adminSupportTicket" element={<AdminSupportTicket />} />
         <Route path="/admin/helpAndFeedback" element={<AdminHelpAndFeedback />} />
         <Route path="/admin/create/user" element={<AdminAddUser />} />
+        <Route path="/admin/users/view/:id" element={<AdminViewUser />} />
+        <Route path="/admin/users/edit/:id" element={<AdminEditUser />} />
+
 
         {/* User Module */}
         <Route path="/dashboard" element={<AdminIndex />} />

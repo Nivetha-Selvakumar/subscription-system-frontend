@@ -5,6 +5,9 @@ import SignupUserReducer from "../redux/reducer/SignUpPage/SignUpReducer";
 import LogoutReducer from "../redux/reducer/Logout/LogoutReducer";
 import UserListReducer from "../redux/reducer/AdminModule/AdminUsers/adminUserListReducer";
 import UserCreateReducer from "../redux/reducer/AdminModule/AdminUsers/adminCreateUserReducer";
+import UserDeleteReducer from "../redux/reducer/AdminModule/AdminUsers/adminDeleteUserReducer";
+import UserViewReducer from "../redux/reducer/AdminModule/AdminUsers/adminViewUserReducer";
+import UserEditReducer from "../redux/reducer/AdminModule/AdminUsers/adminEditUserReducer";
 
 
 
@@ -14,6 +17,9 @@ const rootReducer = combineReducers({
     logoutReducer: LogoutReducer,
     userListReducer: UserListReducer,
     userCreateReducer : UserCreateReducer,
+    userEditReducer : UserEditReducer,
+    userViewReducer : UserViewReducer,
+    userDeleteReducer : UserDeleteReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

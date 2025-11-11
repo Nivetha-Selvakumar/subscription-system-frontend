@@ -5,6 +5,9 @@ import { watchUserCreate } from "./saga/AdminModule/AdminUsers/adminCreateUserSa
 import { watchLogoutSaga } from "./saga/Logout/LogoutSaga";
 import { watchUserList } from "./saga/AdminModule/AdminUsers/adminUserListSaga";
 import { watchSignupUser } from "./saga/SignUpPage/signUpUserSaga";
+import { watchUserEdit } from "./saga/AdminModule/AdminUsers/adminEditUserSaga";
+import { watchUserDelete } from "./saga/AdminModule/AdminUsers/adminDeleteUserSaga";
+import { watchUserView } from "./saga/AdminModule/AdminUsers/adminViewUserSaga";
 
 export default function* rootSaga() {
   yield all([  
@@ -14,6 +17,9 @@ export default function* rootSaga() {
     watchSignupUser(),
     watchUserList(),
     watchUserCreate(),
+    watchUserEdit(),
+    watchUserView(),
+    watchUserDelete(),
 
   ]);
 }
