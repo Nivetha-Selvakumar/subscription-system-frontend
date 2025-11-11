@@ -3,7 +3,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { AUTH } from "../../../endpoints/endpoints";
 import axios from "axios";
-import showToast from "../../../../common-components/ui/toastNotification";
 import {
     fetchUserViewFailure,
     fetchUserViewSuccess,

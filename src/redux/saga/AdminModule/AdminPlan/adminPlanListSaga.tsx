@@ -1,29 +1,67 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { PLAN_LIST_REQUEST, PLAN_LIST_SUCCESS, PLAN_LIST_FAILURE } from '../../../actionTypes/AdminModule/AdminPlan/adminPlanListActionTypes';
-import { API_BASE_URL } from '../../../endpoints/endpoints';
+import { call, put, takeLeading } from "redux-saga/effects";
+import axios from "axios";
+import {
+    fetchPlanListSuccess,
+    fetchPlanListFailure,
+} from "../../../action/AdminModule/AdminPlanDetails/adminUserPlanAction";
+import { PLAN_LIST_REQUEST } from "../../../actionTypes/AdminModule/AdminPlan/adminPlanListActionTypes";
+import showToast from "../../../../common-components/ui/toastNotification";
+import { AUTH } from "../../../endpoints/endpoints";
+
+let isPrevent = false;
 
 function* planListSaga(action: any): Generator<any, void, any> {
+    if (isPrevent) return;
+
     try {
-        const { search, sort, filter } = action.payload || {};
-        const params = new URLSearchParams();
-        if (search) params.append('search', search);
-        if (sort) params.append('sort', sort);
-        if (filter) params.append('filter', filter);
-        const response = yield call(
-            fetch,
-            `${API_BASE_URL}/plans${params.toString() ? '?' + params.toString() : ''}`
-        );
-        const data = yield call([response, 'json']);
-        if (response.ok) {
-            yield put({ type: PLAN_LIST_SUCCESS, payload: data });
-        } else {
-            yield put({ type: PLAN_LIST_FAILURE, payload: data?.message || 'Failed to fetch plans' });
-        }
+        isPrevent = true;
+
+        const payload = action.payload;
+        const tokenVal = localStorage.getItem("token");
+        const user_id = localStorage.getItem("user_id");
+
+        // ✅ Axios GET with params & headers
+        const response = yield call(axios.get, AUTH.PLAN_LIST, {
+            params: {
+                search: payload?.search || "",
+                filterBy: payload?.filterBy || "",
+                sortBy: payload?.sortBy || "planName",
+                sortDir: payload?.sortDir || "asc",
+                offset: payload?.offset || 0,
+                limit: payload?.limit || 10,
+            },
+            headers: {
+                Authorization: tokenVal ? `Bearer ${tokenVal}` : "",
+                "User-id": user_id,
+            },
+        });
+
+        console.log("Plan List Response:", response);
+
+        // ✅ Dispatch success action
+        yield put(fetchPlanListSuccess(response?.data));
     } catch (error: any) {
-        yield put({ type: PLAN_LIST_FAILURE, payload: error?.message || 'An error occurred' });
+        // ❌ Handle API or network errors
+        yield put(fetchPlanListFailure(error.message));
+
+        const errorMessage = error?.response?.data?.Error;
+        if (Array.isArray(errorMessage)) {
+            showToast(errorMessage[0], "error", "Admin-Plan-List");
+        } else if (typeof errorMessage === "object" && errorMessage !== null) {
+            showToast(JSON.stringify(errorMessage), "error", "Admin-Plan-List");
+        } else {
+            showToast(
+                errorMessage || "An unexpected error occurred",
+                "error",
+                "Admin-Plan-List"
+            );
+        }
+    } finally {
+        isPrevent = false;
     }
 }
 
-export default function* adminPlanListSaga() {
-    yield takeEvery(PLAN_LIST_REQUEST, planListSaga);
+// ✅ Watcher
+export function* watchPlanList() {
+    yield takeLeading(PLAN_LIST_REQUEST, planListSaga);
 }

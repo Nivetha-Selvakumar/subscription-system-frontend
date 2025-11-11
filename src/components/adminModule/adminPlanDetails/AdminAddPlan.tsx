@@ -8,21 +8,25 @@ import DynamicInput from "../../../common-components/ui/dynamicInput";
 import DynamicDropdown from "../../../common-components/ui/dynamicDropdown";
 import showToast from "../../../common-components/ui/toastNotification";
 import "../../../styles/AdminModule/AdminUser/userList.scss";
+import DynamicTextarea from "../../../common-components/ui/dynamicTextArea";
+import { ToastContainer } from "react-toastify";
 
 const validationSchema = Yup.object().shape({
 	planName: Yup.string().required("Plan name is required"),
 	planType: Yup.string().required("Plan type is required"),
-	cost: Yup.number().typeError("Cost must be a number").required("Cost is required"),
-	status: Yup.string().required("Status is required"),
+	cost: Yup.number()
+		.typeError("Cost must be a number")
+		.required("Cost is required")
+		.min(1, "Cost must be greater than 0"),
+	// status: Yup.string().required("Status is required"),
 });
 
 const PLAN_TYPES = [
 	{ label: "Monthly", value: "Monthly" },
 	{ label: "Yearly", value: "Yearly" },
-	{ label: "One-time", value: "One-time" },
 ];
 
-const STATUS = [
+const STATUS_OPTIONS = [
 	{ label: "Active", value: "Active" },
 	{ label: "Inactive", value: "Inactive" },
 ];
@@ -45,9 +49,9 @@ const AdminAddPlan: React.FC = () => {
 
 	const handleSubmit = (values: any) => {
 		const payload = {
-			name: values.planName,
-			type: values.planType,
-			cost: Number(values.cost),
+			planName: values.planName,
+			planType: values.planType,
+			planCost: values.cost,
 			status: values.status,
 			description: values.description || null,
 		};
@@ -57,24 +61,40 @@ const AdminAddPlan: React.FC = () => {
 
 	useEffect(() => {
 		if (planCreate?.code === 201 || planCreate?.code === 200) {
-			showToast("Plan created successfully", "success", "AddPlan-Container");
+			showToast("Plan created successfully", "success", "Plan-Create");
 			dispatch({ type: "PLAN_CREATE_CLEAR" });
 			setTimeout(() => {
-				window.location.href = `/admin/plans`;
+				navigate("/admin/plans");
 			}, 2000);
 		}
 	}, [planCreate, dispatch, navigate]);
 
 	return (
 		<Sidebar>
+			<ToastContainer containerId="Plan-Create" />
 			<div className="flex justify-center items-start w-full min-h-screen bg-gray-50">
 				<div className="max-w-4xl-[75rem] w-full bg-white rounded-lg shadow flex flex-col h-[80vh] my-8">
-					<h1 className="text-2xl font-bold text-gray-900 px-6 pt-6">Add New Plan</h1>
+					<h1 className="text-2xl font-bold text-gray-900 px-6 pt-6">
+						Add New Plan
+					</h1>
+
 					<div className="flex flex-col flex-1 overflow-y-auto px-6 pt-6">
-						<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-							{({ values, errors, touched, handleChange, handleBlur }) => (
+						<Formik
+							initialValues={initialValues}
+							validationSchema={validationSchema}
+							onSubmit={handleSubmit}
+						>
+							{({
+								values,
+								errors,
+								touched,
+								handleChange,
+								handleBlur,
+								setFieldValue,
+							}) => (
 								<Form>
-									<div className="grid grid-cols-2 gap-4">
+									<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+										{/* Plan Name */}
 										<DynamicInput
 											label="Plan Name"
 											name="planName"
@@ -82,45 +102,77 @@ const AdminAddPlan: React.FC = () => {
 											onChange={handleChange}
 											onBlur={handleBlur}
 											placeholder="Enter plan name"
-											error={touched.planName && errors.planName ? String(errors.planName) : ""}
+											error={
+												touched.planName && errors.planName
+													? String(errors.planName)
+													: ""
+											}
+											touched={touched.planName}
 										/>
+
+										{/* Plan Type */}
 										<DynamicDropdown
 											label="Plan Type"
 											name="planType"
 											value={values.planType}
-											onChange={handleChange}
 											options={PLAN_TYPES}
+											onChange={handleChange}
+											error={
+												touched.planType && errors.planType
+													? String(errors.planType)
+													: ""
+											}
+											touched={touched.planType}
 										/>
+
+										{/* Cost */}
 										<DynamicInput
-											label="Cost"
+											label="Cost (in ₹)"
 											name="cost"
 											type="number"
 											value={values.cost}
 											onChange={handleChange}
 											onBlur={handleBlur}
 											placeholder="0"
-											error={touched.cost && errors.cost ? String(errors.cost) : ""}
+											error={
+												touched.cost && errors.cost
+													? String(errors.cost)
+													: ""
+											}
+											touched={touched.cost}
 										/>
-										<DynamicDropdown
+
+										{/* Status */}
+										{/* <DynamicDropdown
 											label="Status"
 											name="status"
 											value={values.status}
-											onChange={handleChange}
-											options={STATUS}
-										/>
-									</div>
-									<div className="mt-4">
-										<label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-										<textarea
-											name="description"
-											value={values.description}
-											onChange={handleChange}
-											placeholder="Optional description"
-											className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-											rows={4}
-										/>
+											options={STATUS_OPTIONS}
+											onChange={(e: any) =>
+												setFieldValue("status", e.target.value)
+											}
+											required
+											error={
+												touched.status && errors.status
+													? String(errors.status)
+													: ""
+											}
+											touched={touched.status}
+										/> */}
 									</div>
 
+									{/* Description */}
+									<DynamicTextarea
+										label="Description"
+										name="description"
+										placeholder="Enter plan description (optional)"
+										value={values.description}
+										onChange={handleChange}
+										onBlur={handleBlur}
+										rows={4}
+									/>
+
+									{/* Buttons */}
 									<div className="flex justify-end gap-3 py-6">
 										<button
 											type="button"
@@ -129,6 +181,7 @@ const AdminAddPlan: React.FC = () => {
 										>
 											Cancel
 										</button>
+
 										<button
 											type="submit"
 											disabled={!!planCreateLoading}
@@ -148,4 +201,3 @@ const AdminAddPlan: React.FC = () => {
 };
 
 export default AdminAddPlan;
-

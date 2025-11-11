@@ -9,6 +9,7 @@ import DynamicInput from '../../../common-components/ui/dynamicInput';
 import DynamicDropdown from '../../../common-components/ui/dynamicDropdown';
 import DynamicDatePicker from '../../../common-components/ui/dynamicDatePicker';
 import showToast from '../../../common-components/ui/toastNotification';
+import DynamicTextarea from '../../../common-components/ui/dynamicTextArea';
 
 const validationSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required'),
@@ -201,22 +202,17 @@ const AdminAddUser: React.FC = () => {
                                         />
 
                                         {/* ADDRESS */}
-                                        <div className="col-span-1 md:col-span-2">
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                Address
-                                            </label>
-                                            <textarea
-                                                name="address"
-                                                value={values.address}
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                rows={3}
-                                                className={`w-full px-3 py-2 text-sm border rounded-md outline-none ${errors.address && touched.address
-                                                    ? 'border-red-500'
-                                                    : 'border-gray-300'
-                                                    }`}
-                                            />
-                                        </div>
+                                        <DynamicTextarea
+                                            label="Address"
+                                            name="address"
+                                            value={values.address}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            rows={4}
+                                            error={errors.address}
+                                            touched={touched.address}
+                                        />
+
 
                                         {/* DOB */}
                                         <DynamicDatePicker

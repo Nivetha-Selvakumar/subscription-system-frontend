@@ -1,22 +1,50 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { PLAN_VIEW_REQUEST, PLAN_VIEW_SUCCESS, PLAN_VIEW_FAILURE } from '../../../actionTypes/AdminModule/AdminPlan/adminPlanViewActionTypes';
-import { API_BASE_URL } from '../../../endpoints/endpoints';
+import { call, put, takeLatest } from "redux-saga/effects";
+import { AUTH } from "../../../endpoints/endpoints";
+import axios from "axios";
+import {
+    fetchPlanViewFailure,
+    fetchPlanViewSuccess,
+} from "../../../action/AdminModule/AdminPlanDetails/adminViewPlanAction";
+import { PLAN_VIEW_REQUEST } from "../../../actionTypes/AdminModule/AdminPlan/adminPlanViewActionTypes";
+
+let isPrevent = false;
 
 function* planViewSaga(action: any): Generator<any, void, any> {
+    if (isPrevent) return;
+
     try {
-        const planId = action.payload;
-        const response = yield call(fetch, `${API_BASE_URL}/plans/${planId}`);
-        const data = yield call([response, 'json']);
-        if (response.ok) {
-            yield put({ type: PLAN_VIEW_SUCCESS, payload: data });
-        } else {
-            yield put({ type: PLAN_VIEW_FAILURE, payload: data?.message || 'Failed to fetch plan' });
-        }
+        isPrevent = true;
+
+        const { planId } = action.payload;
+        const tokenVal = localStorage.getItem("token");
+        const userId = localStorage.getItem("user_id");
+
+        // ✅ Construct URL with query param
+        const url = `${AUTH.PLAN_VIEW}?targetPlanId=${planId}`;
+
+        // ✅ API call with headers
+        const response = yield call(axios.get, url, {
+            headers: {
+                Authorization: tokenVal ? `Bearer ${tokenVal}` : "",
+                "Content-Type": "application/json",
+                "User-Id": userId,
+            },
+        });
+
+        // ✅ Extract and dispatch data
+        const data = response.data;
+        yield put(fetchPlanViewSuccess(data));
+
+        // Optionally, show toast
+        // showToast("Plan details loaded successfully", "success", "Plan-View");
     } catch (error: any) {
-        yield put({ type: PLAN_VIEW_FAILURE, payload: error?.message || 'An error occurred' });
+        yield put(fetchPlanViewFailure(error.message));
+    } finally {
+        isPrevent = false;
     }
 }
 
-export default function* adminPlanViewSaga() {
-    yield takeEvery(PLAN_VIEW_REQUEST, planViewSaga);
+// ✅ Watcher Saga
+export function* watchPlanView() {
+    yield takeLatest(PLAN_VIEW_REQUEST, planViewSaga);
 }

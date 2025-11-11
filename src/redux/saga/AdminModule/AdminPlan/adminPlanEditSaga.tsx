@@ -1,28 +1,63 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { PLAN_EDIT_REQUEST, PLAN_EDIT_SUCCESS, PLAN_EDIT_FAILURE } from '../../../actionTypes/AdminModule/AdminPlan/adminPlanEditActionTypes';
-import { API_BASE_URL } from '../../../endpoints/endpoints';
+import { call, put, takeLatest } from "redux-saga/effects";
+import { AUTH } from "../../../endpoints/endpoints";
+import axios from "axios";
+import showToast from "../../../../common-components/ui/toastNotification";
+import {
+    fetchPlanEditFailure,
+    fetchPlanEditSuccess,
+} from "../../../action/AdminModule/AdminPlanDetails/adminEditPlanAction";
+import { PLAN_EDIT_REQUEST } from "../../../actionTypes/AdminModule/AdminPlan/adminPlanEditActionTypes";
+
+let isPrevent = false;
 
 function* planEditSaga(action: any): Generator<any, void, any> {
+    if (isPrevent) return;
+
     try {
-        const { planId, ...planData } = action.payload;
-        const response = yield call(fetch, `${API_BASE_URL}/plans/${planId}`, {
-            method: 'PUT',
+        isPrevent = true;
+
+        const { userId, targetPlanId, payload } = action.payload;
+        const tokenVal = localStorage.getItem("token");
+
+        // ✅ Build correct URL with query parameter
+        const url = `${AUTH.PLAN_EDIT}?targetPlanId=${targetPlanId}`;
+
+        // ✅ Axios PUT request with headers
+        const response = yield call(axios.put, url, payload, {
             headers: {
-                'Content-Type': 'application/json',
+                Authorization: tokenVal ? `Bearer ${tokenVal}` : "",
+                "Content-Type": "application/json",
+                "User-Id": userId, // matches backend header
             },
-            body: JSON.stringify(planData),
         });
-        const data = yield call([response, 'json']);
-        if (response.ok) {
-            yield put({ type: PLAN_EDIT_SUCCESS, payload: data });
-        } else {
-            yield put({ type: PLAN_EDIT_FAILURE, payload: data?.message || 'Failed to update plan' });
-        }
+
+        const data = response.data;
+
+        // ✅ Dispatch success
+        yield put(fetchPlanEditSuccess(data));
+        showToast("Plan updated successfully", "success", "Plan-Edit");
     } catch (error: any) {
-        yield put({ type: PLAN_EDIT_FAILURE, payload: error?.message || 'An error occurred' });
+        // ✅ Dispatch failure
+        yield put(fetchPlanEditFailure(error.message));
+
+        const errorMessage = error?.response?.data?.Error;
+
+        if (Array.isArray(errorMessage)) {
+            showToast(errorMessage[0], "error", "Plan-Edit");
+        } else if (typeof errorMessage === "object" && errorMessage !== null) {
+            showToast(JSON.stringify(errorMessage), "error", "Plan-Edit");
+        } else {
+            showToast(
+                errorMessage || "An unexpected error occurred",
+                "error",
+                "Plan-Edit"
+            );
+        }
+    } finally {
+        isPrevent = false;
     }
 }
 
-export default function* adminPlanEditSaga() {
-    yield takeEvery(PLAN_EDIT_REQUEST, planEditSaga);
+export function* watchPlanEdit() {
+    yield takeLatest(PLAN_EDIT_REQUEST, planEditSaga);
 }

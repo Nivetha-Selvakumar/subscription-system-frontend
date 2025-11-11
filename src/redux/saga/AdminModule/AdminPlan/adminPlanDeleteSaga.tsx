@@ -1,24 +1,61 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { PLAN_DELETE_REQUEST, PLAN_DELETE_SUCCESS, PLAN_DELETE_FAILURE } from '../../../actionTypes/AdminModule/AdminPlan/adminPlanDeleteActionTypes';
-import { API_BASE_URL } from '../../../endpoints/endpoints';
+import { call, put, takeLatest } from "redux-saga/effects";
+import { PLAN_DELETE_REQUEST } from "../../../actionTypes/AdminModule/AdminPlan/adminPlanDeleteActionTypes";
+import { AUTH } from "../../../endpoints/endpoints";
+import {
+    fetchPlanDeleteFailure,
+    fetchPlanDeleteSuccess,
+} from "../../../action/AdminModule/AdminPlanDetails/adminDeletePlanAction";
+import showToast from "../../../../common-components/ui/toastNotification";
+import axios from "axios";
+
+let isPrevent = false;
 
 function* planDeleteSaga(action: any): Generator<any, void, any> {
+    if (isPrevent) return;
+
     try {
-        const planId = action.payload;
-        const response = yield call(fetch, `${API_BASE_URL}/plans/${planId}`, {
-            method: 'DELETE',
+        isPrevent = true;
+
+        const { userId, targetPlanId } = action.payload;
+        const tokenVal = localStorage.getItem("token");
+
+        // ✅ Build URL with query parameter
+        const url = `${AUTH.PLAN_DELETE}?targetPlanId=${targetPlanId}`;
+
+        // ✅ DELETE request with headers
+        const response = yield call(axios.delete, url, {
+            headers: {
+                Authorization: tokenVal ? `Bearer ${tokenVal}` : "",
+                "Content-Type": "application/json",
+                userId,
+            },
         });
-        const data = yield call([response, 'json']);
-        if (response.ok) {
-            yield put({ type: PLAN_DELETE_SUCCESS, payload: data });
-        } else {
-            yield put({ type: PLAN_DELETE_FAILURE, payload: data?.message || 'Failed to delete plan' });
-        }
+
+        // ✅ Dispatch success
+        yield put(fetchPlanDeleteSuccess(response.data));
+        showToast("Plan deleted successfully", "success", "Plan-List");
     } catch (error: any) {
-        yield put({ type: PLAN_DELETE_FAILURE, payload: error?.message || 'An error occurred' });
+        // ✅ Handle failure
+        yield put(fetchPlanDeleteFailure(error.message));
+
+        const errorMessage = error?.response?.data?.Error;
+
+        if (Array.isArray(errorMessage)) {
+            showToast(errorMessage[0], "error", "Plan-List");
+        } else if (typeof errorMessage === "object" && errorMessage !== null) {
+            showToast(JSON.stringify(errorMessage), "error", "Plan-List");
+        } else {
+            showToast(
+                errorMessage || "An unexpected error occurred",
+                "error",
+                "Plan-List"
+            );
+        }
+    } finally {
+        isPrevent = false;
     }
 }
 
-export default function* adminPlanDeleteSaga() {
-    yield takeEvery(PLAN_DELETE_REQUEST, planDeleteSaga);
+export function* watchPlanDelete() {
+    yield takeLatest(PLAN_DELETE_REQUEST, planDeleteSaga);
 }
