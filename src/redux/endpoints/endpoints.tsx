@@ -15,3 +15,5 @@ export const AUTH = {
 
 
 };
+
+export const API_BASE_URL = subscribe;

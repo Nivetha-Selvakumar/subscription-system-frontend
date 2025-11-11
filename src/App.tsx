@@ -5,6 +5,7 @@ import Login from './components/login';
 import AdminIndex from './components/adminModule';
 import AdminUsers from './components/adminModule/adminUsers/AdminUsers';
 import AdminPlan from './components/adminModule/adminPlanDetails/AdminPlan';
+import AdminAddPlan from './components/adminModule/adminPlanDetails/AdminAddPlan';
 import AdminPayment from './components/adminModule/adminPayment/AdminPayment';
 import AdminSupportTicket from './components/adminModule/adminSupportTicket/AdminSupportTicktet';
 import AdminHelpAndFeedback from './components/adminModule/adminHelpAndFeedback/AdminHelpAndFeedback';
@@ -30,6 +31,7 @@ function App() {
         <Route path="/admin/adminSupportTicket" element={<AdminSupportTicket />} />
         <Route path="/admin/helpAndFeedback" element={<AdminHelpAndFeedback />} />
         <Route path="/admin/create/user" element={<AdminAddUser />} />
+        <Route path="/admin/create/plan" element={<AdminAddPlan />} />
         <Route path="/admin/users/view/:id" element={<AdminViewUser />} />
         <Route path="/admin/users/edit/:id" element={<AdminEditUser />} />
 
