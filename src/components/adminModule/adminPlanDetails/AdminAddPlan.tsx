@@ -26,10 +26,10 @@ const PLAN_TYPES = [
 	{ label: "Yearly", value: "Yearly" },
 ];
 
-const STATUS_OPTIONS = [
-	{ label: "Active", value: "Active" },
-	{ label: "Inactive", value: "Inactive" },
-];
+// const STATUS_OPTIONS = [
+// 	{ label: "Active", value: "Active" },
+// 	{ label: "Inactive", value: "Inactive" },
+// ];
 
 const initialValues = {
 	planName: "",
@@ -184,7 +184,7 @@ const AdminAddPlan: React.FC = () => {
 
 										<button
 											type="submit"
-											disabled={!!planCreateLoading}
+											disabled={planCreateLoading}
 											className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 disabled:opacity-60"
 										>
 											{planCreateLoading ? "Saving..." : "Save Plan"}

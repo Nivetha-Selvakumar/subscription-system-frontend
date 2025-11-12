@@ -35,8 +35,6 @@ function* planViewSaga(action: any): Generator<any, void, any> {
         const data = response.data;
         yield put(fetchPlanViewSuccess(data));
 
-        // Optionally, show toast
-        // showToast("Plan details loaded successfully", "success", "Plan-View");
     } catch (error: any) {
         yield put(fetchPlanViewFailure(error.message));
     } finally {

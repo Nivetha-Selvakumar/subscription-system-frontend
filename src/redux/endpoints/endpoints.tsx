@@ -18,7 +18,7 @@ export const AUTH = {
   PLAN_CREATE: `${subscribe}/create/plan`,
   PLAN_EDIT: `${subscribe}/edit/plan`,
   PLAN_VIEW: `${subscribe}/get/planDetails`,
-  PLAN_DELETE: `${subscribe}/delete/plan  `,
+  PLAN_DELETE: `${subscribe}/delete/plan`,
 
 
 };

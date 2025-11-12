@@ -16,7 +16,7 @@ function* planEditSaga(action: any): Generator<any, void, any> {
     try {
         isPrevent = true;
 
-        const { userId, targetPlanId, payload } = action.payload;
+        const { adminUserId, targetPlanId, payload } = action.payload;
         const tokenVal = localStorage.getItem("token");
 
         // ✅ Build correct URL with query parameter
@@ -27,7 +27,7 @@ function* planEditSaga(action: any): Generator<any, void, any> {
             headers: {
                 Authorization: tokenVal ? `Bearer ${tokenVal}` : "",
                 "Content-Type": "application/json",
-                "User-Id": userId, // matches backend header
+                "User-Id": adminUserId, // matches backend header
             },
         });
 

@@ -2,7 +2,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { PLAN_CREATE_REQUEST } from '../../../actionTypes/AdminModule/AdminPlan/adminPlanCreateActionTypes';
 import { AUTH } from '../../../endpoints/endpoints';
 import axios from 'axios';
-import { fetchPlanCreateSuccess } from '../../../action/AdminModule/AdminPlanDetails/adminCreatePlanAction';
+import { fetchPlanCreateFailure, fetchPlanCreateSuccess } from '../../../action/AdminModule/AdminPlanDetails/adminCreatePlanAction';
 import showToast from '../../../../common-components/ui/toastNotification';
 
 
@@ -25,7 +25,7 @@ function* planCreateSaga(action: any): Generator<any, void, any> {
             headers: {
                 Authorization: tokenVal ? `Bearer ${tokenVal}` : "",
                 "Content-Type": "application/json",
-                "User-Id" : user_id,
+                "User-Id": user_id,
             },
         });
 
@@ -37,6 +37,7 @@ function* planCreateSaga(action: any): Generator<any, void, any> {
         // showToast("Plan created successfully", "success", "Plan-Create");
     } catch (error: any) {
 
+        yield put(fetchPlanCreateFailure(error.message));
         const errorMessage = error?.response?.data?.Error;
 
         if (Array.isArray(errorMessage)) {
@@ -50,6 +51,8 @@ function* planCreateSaga(action: any): Generator<any, void, any> {
                 "Plan-Create"
             );
         }
+    } finally {
+        isPrevent = false;
     }
 }
 

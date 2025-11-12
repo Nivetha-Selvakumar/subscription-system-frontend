@@ -16,7 +16,6 @@ interface PlanFilterProps {
 const PLAN_TYPES = [
 	{ label: "Monthly", value: "Monthly" },
 	{ label: "Yearly", value: "Yearly" },
-	{ label: "One-time", value: "One-time" },
 ];
 
 const STATUS = [

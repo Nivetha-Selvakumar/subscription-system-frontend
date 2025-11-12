@@ -56,7 +56,7 @@ const AdminUsers: React.FC = () => {
     (state: any) => state.userListReducer
   );
 
-    const { userDelete } = useSelector(
+  const { userDelete } = useSelector(
     (state: any) => state.userDeleteReducer
   );
 
@@ -129,7 +129,7 @@ const AdminUsers: React.FC = () => {
 
   useEffect(() => {
     fetchUserList();
-  }, [page, rowsPerPage, sortField, sortOrdered, filterData, searchValue,userDelete]);
+  }, [page, rowsPerPage, sortField, sortOrdered, filterData, searchValue, userDelete]);
 
   const handleFilterChange = (newFilter: any) => {
     setFilterData(newFilter);

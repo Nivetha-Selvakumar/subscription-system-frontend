@@ -12,7 +12,7 @@ import showToast from "../../../common-components/ui/toastNotification";
 
 // ✅ Redux Action Types
 import { USER_VIEW_REQUEST } from "../../../redux/actionTypes/AdminModule/AdminUsers/adminViewUserActionType";
-import { USER_EDIT_CLEAR, USER_EDIT_REQUEST } from "../../../redux/actionTypes/AdminModule/AdminUsers/adminEditUserActionType";
+import { USER_EDIT_REQUEST } from "../../../redux/actionTypes/AdminModule/AdminUsers/adminEditUserActionType";
 
 const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First name is required"),
@@ -87,7 +87,7 @@ const formatDate = (dateStr: string) => {
     // Match yyyy-MMM-dd (case-insensitive)
     const match = dateStr.match(/^(\d{4})-([A-Za-z]{3})-(\d{2})$/);
     if (match) {
-        const [_, year, month, day] = match;
+        const [year, month, day] = match;
         const upperMonth = month.toUpperCase();
         const numericMonth = monthMap[upperMonth] || "01";
         return `${year}-${numericMonth}-${day}`; // ✅ 2020-11-20
@@ -113,7 +113,7 @@ const AdminEditUser: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { userView, userViewLoading } = useSelector(
+    const { userView } = useSelector(
         (state: any) => state.userViewReducer || {}
     );
 
@@ -152,7 +152,6 @@ const AdminEditUser: React.FC = () => {
 
     // ✅ Set form values when API returns data
     useEffect(() => {
-        console.log("userView data:", userView);
         if (userView?.userDetails) {
             const u = userView?.userDetails;
             setInitialValues({
@@ -214,7 +213,7 @@ const AdminEditUser: React.FC = () => {
                 navigate("/admin/users");
             }, 2000);
         }
-    }, [userEdit, dispatch,navigate]);
+    }, [userEdit, dispatch, navigate]);
 
     return (
         <Sidebar>
