@@ -38,7 +38,7 @@ function App() {
         <Route path="/admin/plans" element={<AdminPlan />} />
         <Route path="/admin/payments" element={<AdminPayment />} />
         <Route path="/admin/adminSupportTicket" element={<AdminSupportTicket />} />
-        <Route path="/admin/helpAndFeedback" element={<AdminHelpAndFeedback />} />
+        <Route path="/admin/feedback" element={<AdminHelpAndFeedback />} />
 
         <Route path="/admin/create/user" element={<AdminAddUser />} />
         <Route path="/admin/users/view/:id" element={<AdminViewUser />} />
@@ -55,7 +55,7 @@ function App() {
         <Route path="/user/plans" element={<UserPlanDetails />} />
         <Route path="/user/payments" element={<UserPayments />} />
         <Route path="/user/supportTicket" element={<UserSupportTicket />} />
-        <Route path="/user/helpAndFeedback" element={<UserHelpAndFeedback />} />
+        <Route path="/user/feedback" element={<UserHelpAndFeedback />} />
         
         
         <Route path="/user/profile/edit" element={<UserProfileEdit />} />
