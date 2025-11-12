@@ -8,9 +8,16 @@ import { watchSignupUser } from "./saga/SignUpPage/signUpUserSaga";
 import { watchUserEdit } from "./saga/AdminModule/AdminUsers/adminEditUserSaga";
 import { watchUserDelete } from "./saga/AdminModule/AdminUsers/adminDeleteUserSaga";
 import { watchUserView } from "./saga/AdminModule/AdminUsers/adminViewUserSaga";
+import adminPaymentListSaga from './saga/AdminModule/AdminPayment/adminPaymentListSaga';
+import adminSupportTicketListSaga from './saga/AdminModule/AdminSupportTicket/adminSupportTicketListSaga';
+import { watchPlanView } from "./saga/AdminModule/AdminPlan/adminPlanViewSaga";
+import { watchPlanCreate } from "./saga/AdminModule/AdminPlan/adminPlanCreateSaga";
+import { watchPlanEdit } from "./saga/AdminModule/AdminPlan/adminPlanEditSaga";
+import { watchPlanList } from "./saga/AdminModule/AdminPlan/adminPlanListSaga";
+import { watchPlanDelete } from "./saga/AdminModule/AdminPlan/adminPlanDeleteSaga";
 
 export default function* rootSaga() {
-  yield all([  
+  yield all([
     //Add other sagas here in future
     watchFetchLoginData(),
     watchLogoutSaga(),
@@ -20,6 +27,15 @@ export default function* rootSaga() {
     watchUserEdit(),
     watchUserView(),
     watchUserDelete(),
+
+    watchPlanView(),
+    watchPlanCreate(),
+    watchPlanDelete(),
+    watchPlanEdit(),
+    watchPlanList(),
+
+    adminPaymentListSaga(),
+    adminSupportTicketListSaga(),
 
   ]);
 }

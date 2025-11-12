@@ -5,12 +5,22 @@ import Login from './components/login';
 import AdminIndex from './components/adminModule';
 import AdminUsers from './components/adminModule/adminUsers/AdminUsers';
 import AdminPlan from './components/adminModule/adminPlanDetails/AdminPlan';
+import AdminAddPlan from './components/adminModule/adminPlanDetails/AdminAddPlan';
 import AdminPayment from './components/adminModule/adminPayment/AdminPayment';
 import AdminSupportTicket from './components/adminModule/adminSupportTicket/AdminSupportTicktet';
 import AdminHelpAndFeedback from './components/adminModule/adminHelpAndFeedback/AdminHelpAndFeedback';
 import AdminAddUser from './components/adminModule/adminUsers/AdminAddUser';
 import AdminViewUser from './components/adminModule/adminUsers/AdminViewUser';
 import AdminEditUser from './components/adminModule/adminUsers/AdminEditUser';
+import AdminEditPlan from './components/adminModule/adminPlanDetails/AdminEditPlan';
+import AdminViewPlan from './components/adminModule/adminPlanDetails/AdminViewPlan';
+import UserDashboard from './components/userModule/userDashboard/UserDashboard';
+import UserHelpAndFeedback from './components/userModule/userHelpAndFeedback/UserHelpAndFeedback';
+import UserPayments from './components/userModule/userPayments/UserPayments';
+import UserPlanDetails from './components/userModule/userPlanDetails/UserPlanDetails';
+import UserProfile from './components/userModule/userProfile/UserProfile';
+import UserSupportTicket from './components/userModule/userSupportTicket/UserSupportTicket';
+import UserProfileEdit from './components/userModule/userProfile/UserProfileEdit';
 
 function App() {
 
@@ -29,14 +39,28 @@ function App() {
         <Route path="/admin/payments" element={<AdminPayment />} />
         <Route path="/admin/adminSupportTicket" element={<AdminSupportTicket />} />
         <Route path="/admin/helpAndFeedback" element={<AdminHelpAndFeedback />} />
+
         <Route path="/admin/create/user" element={<AdminAddUser />} />
         <Route path="/admin/users/view/:id" element={<AdminViewUser />} />
         <Route path="/admin/users/edit/:id" element={<AdminEditUser />} />
 
+        <Route path="/admin/create/plan" element={<AdminAddPlan />} />
+        <Route path="/admin/plans/edit/:id" element={<AdminEditPlan />} />
+        <Route path="/admin/plans/view/:id" element={<AdminViewPlan />} />
+
 
         {/* User Module */}
-        <Route path="/dashboard" element={<AdminIndex />} />
+        <Route path="/user/dashboard" element={<UserDashboard />} />
+        <Route path="/user/profile" element={<UserProfile />} />
+        <Route path="/user/plans" element={<UserPlanDetails />} />
+        <Route path="/user/payments" element={<UserPayments />} />
+        <Route path="/user/supportTicket" element={<UserSupportTicket />} />
+        <Route path="/user/helpAndFeedback" element={<UserHelpAndFeedback />} />
+        
+        
+        <Route path="/user/profile/edit" element={<UserProfileEdit />} />
 
+        
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

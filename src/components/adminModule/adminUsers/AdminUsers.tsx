@@ -55,6 +55,11 @@ const AdminUsers: React.FC = () => {
   const { userListLoading, userList } = useSelector(
     (state: any) => state.userListReducer
   );
+
+  const { userDelete } = useSelector(
+    (state: any) => state.userDeleteReducer
+  );
+
   const users = userList?.userDetails?.userDetails || [];
   const totalCount = userList?.userDetails?.totalCount || 0;
 
@@ -124,7 +129,7 @@ const AdminUsers: React.FC = () => {
 
   useEffect(() => {
     fetchUserList();
-  }, [page, rowsPerPage, sortField, sortOrdered, filterData, searchValue]);
+  }, [page, rowsPerPage, sortField, sortOrdered, filterData, searchValue, userDelete]);
 
   const handleFilterChange = (newFilter: any) => {
     setFilterData(newFilter);

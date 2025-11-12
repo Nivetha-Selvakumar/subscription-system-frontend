@@ -9,17 +9,31 @@ import UserDeleteReducer from "../redux/reducer/AdminModule/AdminUsers/adminDele
 import UserViewReducer from "../redux/reducer/AdminModule/AdminUsers/adminViewUserReducer";
 import UserEditReducer from "../redux/reducer/AdminModule/AdminUsers/adminEditUserReducer";
 
+import PlanListReducer from "../redux/reducer/AdminModule/AdminPlan/adminPlanListReducer";
+import PlanCreateReducer from "../redux/reducer/AdminModule/AdminPlan/adminPlanCreateReducer";
+import PlanEditReducer from "../redux/reducer/AdminModule/AdminPlan/adminPlanEditReducer";
+import PlanDeleteReducer from "../redux/reducer/AdminModule/AdminPlan/adminPlanDeleteReducer";
+import PlanViewReducer from "../redux/reducer/AdminModule/AdminPlan/adminPlanViewReducer";
+import PaymentListReducer from "../redux/reducer/AdminModule/AdminPayment/adminPaymentListReducer";
+import SupportTicketListReducer from "../redux/reducer/AdminModule/AdminSupportTicket/adminSupportTicketListReducer";
 
 
 const rootReducer = combineReducers({
-    loginUserReducer: LoginUserReducer ,
+    loginUserReducer: LoginUserReducer,
     signupUserReducer: SignupUserReducer,
     logoutReducer: LogoutReducer,
     userListReducer: UserListReducer,
-    userCreateReducer : UserCreateReducer,
-    userEditReducer : UserEditReducer,
-    userViewReducer : UserViewReducer,
-    userDeleteReducer : UserDeleteReducer,
+    userCreateReducer: UserCreateReducer,
+    userEditReducer: UserEditReducer,
+    userViewReducer: UserViewReducer,
+    userDeleteReducer: UserDeleteReducer,
+    planListReducer: PlanListReducer,
+    planCreateReducer: PlanCreateReducer,
+    planEditReducer: PlanEditReducer,
+    planDeleteReducer: PlanDeleteReducer,
+    planViewReducer: PlanViewReducer,
+    paymentListReducer: PaymentListReducer,
+    supportTicketListReducer: SupportTicketListReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

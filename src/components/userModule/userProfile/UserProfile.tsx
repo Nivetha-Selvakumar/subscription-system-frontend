@@ -1,9 +1,8 @@
+import Sidebar from "../../layout/sideBar";
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import Sidebar from '../../layout/sideBar';
-
 //  Redux Action Types
 import { USER_VIEW_REQUEST } from '../../../redux/actionTypes/AdminModule/AdminUsers/adminViewUserActionType';
 
@@ -39,7 +38,7 @@ const formatDateDisplay = (dateStr: string | undefined): string => {
   }
 };
 
-const AdminViewUser: React.FC = () => {
+const UserProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -54,9 +53,13 @@ const AdminViewUser: React.FC = () => {
   const hasFetched = useRef(false);
 
   useEffect(() => {
-    if (id && !hasFetched.current) {
+    if (!hasFetched.current) {
+      const userId = localStorage.getItem("user_id");
       hasFetched.current = true;
-      dispatch({ type: USER_VIEW_REQUEST, payload: { userId: id } });
+      dispatch({
+        type: USER_VIEW_REQUEST,
+        payload: { userId: userId }
+      });
     }
   }, [id, dispatch]);
 
@@ -84,6 +87,7 @@ const AdminViewUser: React.FC = () => {
         createdAt: u.createdAt || '',
         updatedAt: u.updatedAt || '',
       });
+      console.log('Set user state:', u);
       setLoading(false);
     } else if (userViewLoading === false) {
       setLoading(false);
@@ -91,11 +95,11 @@ const AdminViewUser: React.FC = () => {
   }, [userView, userViewLoading]);
 
   const handleEdit = () => {
-    navigate(`/admin/users/edit/${id}`);
+    navigate(`/user/profile/edit`);
   };
 
   const handleBack = () => {
-    navigate('/admin/users');
+    navigate('/user/dashboard');
   };
 
   if (loading || userViewLoading) {
@@ -347,5 +351,4 @@ const AdminViewUser: React.FC = () => {
     </Sidebar>
   );
 };
-
-export default AdminViewUser;
+export default UserProfile;

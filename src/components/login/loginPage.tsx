@@ -74,7 +74,7 @@ const LoginPage: React.FC = () => {
                 if (role === "admin") {
                     navigate("/admin/dashboard");
                 } else {
-                    navigate("/dashboard");
+                    navigate("/user/dashboard");
                 }
                 dispatch({ type: FETCH_DATA_CLEAR });
             }, 2000)
