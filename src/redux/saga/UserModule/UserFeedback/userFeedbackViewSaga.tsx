@@ -43,6 +43,6 @@ function* userFeedbackListSaga(action: any): Generator<any, void, any> {
 }
 
 // ✅ Watcher Saga
-export function* watchPlanView() {
+export function* watchUserFeedbackView() {
     yield takeLatest(USER_FEEDBACK_VIEW_REQUEST, userFeedbackListSaga);
 }

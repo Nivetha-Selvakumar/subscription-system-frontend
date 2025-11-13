@@ -57,6 +57,8 @@ const AdminPlan: React.FC = () => {
     "description",
     "createdBy",
     "createdAt",
+    "updatedBy",
+    "updatedAt",
   ]);
   const [columnAnchorEl, setColumnAnchorEl] = useState<null | HTMLElement>(
     null

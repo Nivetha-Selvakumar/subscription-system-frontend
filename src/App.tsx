@@ -8,7 +8,7 @@ import AdminPlan from './components/adminModule/adminPlanDetails/AdminPlan';
 import AdminAddPlan from './components/adminModule/adminPlanDetails/AdminAddPlan';
 import AdminPayment from './components/adminModule/adminPayment/AdminPayment';
 import AdminSupportTicket from './components/adminModule/adminSupportTicket/AdminSupportTicktet';
-import AdminHelpAndFeedback from './components/adminModule/adminHelpAndFeedback/AdminHelpAndFeedback';
+import AdminFeedback from './components/adminModule/adminFeedback/AdminFeedback';
 import AdminAddUser from './components/adminModule/adminUsers/AdminAddUser';
 import AdminViewUser from './components/adminModule/adminUsers/AdminViewUser';
 import AdminEditUser from './components/adminModule/adminUsers/AdminEditUser';
@@ -21,6 +21,7 @@ import UserProfile from './components/userModule/userProfile/UserProfile';
 import UserSupportTicket from './components/userModule/userSupportTicket/UserSupportTicket';
 import UserProfileEdit from './components/userModule/userProfile/UserProfileEdit';
 import UserFeedback from './components/userModule/userFeedback/UserFeedback';
+import AdminFeedbackView from './components/adminModule/adminFeedback/AdminFeedbackView';
 
 function App() {
 
@@ -38,7 +39,7 @@ function App() {
         <Route path="/admin/plans" element={<AdminPlan />} />
         <Route path="/admin/payments" element={<AdminPayment />} />
         <Route path="/admin/adminSupportTicket" element={<AdminSupportTicket />} />
-        <Route path="/admin/feedback" element={<AdminHelpAndFeedback />} />
+        <Route path="/admin/feedback" element={<AdminFeedback />} />
 
         <Route path="/admin/create/user" element={<AdminAddUser />} />
         <Route path="/admin/users/view/:id" element={<AdminViewUser />} />
@@ -56,7 +57,9 @@ function App() {
         <Route path="/user/payments" element={<UserPayments />} />
         <Route path="/user/supportTicket" element={<UserSupportTicket />} />
         <Route path="/user/feedback" element={<UserFeedback />} />
-        
+
+         {/*Feedback  */}
+        <Route path="/admin/feedback/view/:id" element={<AdminFeedbackView />} />
         
         <Route path="/user/profile/edit" element={<UserProfileEdit />} />
 
