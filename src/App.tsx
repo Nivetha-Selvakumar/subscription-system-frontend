@@ -15,12 +15,12 @@ import AdminEditUser from './components/adminModule/adminUsers/AdminEditUser';
 import AdminEditPlan from './components/adminModule/adminPlanDetails/AdminEditPlan';
 import AdminViewPlan from './components/adminModule/adminPlanDetails/AdminViewPlan';
 import UserDashboard from './components/userModule/userDashboard/UserDashboard';
-import UserHelpAndFeedback from './components/userModule/userHelpAndFeedback/UserHelpAndFeedback';
 import UserPayments from './components/userModule/userPayments/UserPayments';
 import UserPlanDetails from './components/userModule/userPlanDetails/UserPlanDetails';
 import UserProfile from './components/userModule/userProfile/UserProfile';
 import UserSupportTicket from './components/userModule/userSupportTicket/UserSupportTicket';
 import UserProfileEdit from './components/userModule/userProfile/UserProfileEdit';
+import UserFeedback from './components/userModule/userFeedback/UserFeedback';
 
 function App() {
 
@@ -55,7 +55,7 @@ function App() {
         <Route path="/user/plans" element={<UserPlanDetails />} />
         <Route path="/user/payments" element={<UserPayments />} />
         <Route path="/user/supportTicket" element={<UserSupportTicket />} />
-        <Route path="/user/feedback" element={<UserHelpAndFeedback />} />
+        <Route path="/user/feedback" element={<UserFeedback />} />
         
         
         <Route path="/user/profile/edit" element={<UserProfileEdit />} />

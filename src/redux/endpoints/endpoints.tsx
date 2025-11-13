@@ -20,6 +20,12 @@ export const AUTH = {
   PLAN_VIEW: `${subscribe}/get/planDetails`,
   PLAN_DELETE: `${subscribe}/delete/plan`,
 
+  FEEDBACK_CREATE: `${subscribe}/create/feedback`,
+  FEEDBACK_LIST: `${subscribe}/get/feedbackList`,
+  FEEDBACK_EDIT: `${subscribe}/edit/feedback`,
+  FEEDBACK_DELETE: `${subscribe}/delete/feedback`,
+  FEEDBACK_VIEW: `${subscribe}/get/feedbackDetails`,
+
 
 };
 
