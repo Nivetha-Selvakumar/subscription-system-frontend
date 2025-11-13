@@ -65,9 +65,10 @@ const UserFeedback: React.FC = () => {
   return (
     <Sidebar>
       <ToastContainer containerId="Feedback-Create" />
+      {/* min-h-screen */}
+      <div className="flex justify-center items-start w-full  bg-gradient-to-r from-green-300 to-teal-400 p-[1.25rem]">
+        <div className="bg-white w-full max-w-4xl rounded-2xl shadow-2xl p-12">
 
-      <div className="flex justify-center w-full min-h-screen bg-gradient-to-r from-green-300 to-teal-400 p-6">
-        <div className="bg-white w-full max-w-2xl rounded-xl shadow-xl p-10">
           <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
             Feedback Form
           </h2>
@@ -87,25 +88,29 @@ const UserFeedback: React.FC = () => {
             }) => (
               <Form className="space-y-6">
 
-                {/* RATING */}
+                {/* STAR RATING */}
                 <div>
                   <label className="block text-gray-700 font-medium mb-2">
-                    Rating (0 - 5)
+                    Rating
                   </label>
-                  <select
-                    name="ratings"
-                    value={values.ratings}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"
-                  >
-                    <option value="">Select Rating</option>
-                    {ratingOptions.map((item) => (
-                      <option key={item.value} value={item.value}>
-                        {item.label}
-                      </option>
+
+                  <div className="flex space-x-2 mb-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <svg
+                        key={star}
+                        onClick={() => setFieldValue("ratings", star)}
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill={star <= Number(values.ratings) ? "gold" : "none"}
+                        stroke="gold"
+                        strokeWidth="2"
+                        className="w-[6rem] h-8 cursor-pointer hover:scale-110 transition-transform"
+                      >
+                        <path d="M12 .587l3.668 7.431 8.2 1.193-5.934 5.786 1.4 8.167L12 18.896l-7.334 3.868 1.4-8.167L.132 9.211l8.2-1.193z" />
+                      </svg>
                     ))}
-                  </select>
+                  </div>
+
                   {errors.ratings && touched.ratings && (
                     <p className="text-red-500 text-sm mt-1">
                       {errors.ratings}
@@ -113,10 +118,11 @@ const UserFeedback: React.FC = () => {
                   )}
                 </div>
 
+
                 {/* COMMENTS */}
                 <div>
                   <label className="block text-gray-700 font-medium mb-2">
-                    Message
+                    Comments
                   </label>
                   <textarea
                     name="comments"
