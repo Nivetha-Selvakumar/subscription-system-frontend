@@ -15,6 +15,11 @@ import { watchPlanCreate } from "./saga/AdminModule/AdminPlan/adminPlanCreateSag
 import { watchPlanEdit } from "./saga/AdminModule/AdminPlan/adminPlanEditSaga";
 import { watchPlanList } from "./saga/AdminModule/AdminPlan/adminPlanListSaga";
 import { watchPlanDelete } from "./saga/AdminModule/AdminPlan/adminPlanDeleteSaga";
+import { watchUserFeedbackCreate } from "./saga/UserModule/UserFeedback/userFeedbackCreateSaga";
+import { watchuserFeedbackDelete } from "./saga/UserModule/UserFeedback/userFeedbackDeleteSaga";
+import { watchuserFeedbackEdit } from "./saga/UserModule/UserFeedback/userFeedbackEditSaga";
+import { watchUserFeedbackList } from "./saga/UserModule/UserFeedback/userFeedbackListSaga";
+import { watchUserFeedbackView } from "./saga/UserModule/UserFeedback/userFeedbackViewSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -36,6 +41,12 @@ export default function* rootSaga() {
 
     adminPaymentListSaga(),
     adminSupportTicketListSaga(),
+
+    watchUserFeedbackCreate(),
+    watchuserFeedbackEdit(),
+    watchuserFeedbackDelete(),
+    watchUserFeedbackList(),
+    watchUserFeedbackView(),
 
   ]);
 }

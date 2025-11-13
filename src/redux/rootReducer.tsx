@@ -17,6 +17,11 @@ import PlanViewReducer from "../redux/reducer/AdminModule/AdminPlan/adminPlanVie
 import PaymentListReducer from "../redux/reducer/AdminModule/AdminPayment/adminPaymentListReducer";
 import SupportTicketListReducer from "../redux/reducer/AdminModule/AdminSupportTicket/adminSupportTicketListReducer";
 
+import UserFeedbackCreateReducer from "../redux/reducer/UserModule/UserFeedback/userFeedbackCreateReducer";
+import UserFeedbackDeleteReducer from "../redux/reducer/UserModule/UserFeedback/userFeedbackDeleteReducer";
+import UserFeedbackEditReducer from "../redux/reducer/UserModule/UserFeedback/userFeedbackEditReducer";
+import UserFeedbackListReducer from "../redux/reducer/UserModule/UserFeedback/userFeedbackListReducer";
+import UserFeedbackViewReducer from "../redux/reducer/UserModule/UserFeedback/userFeedbackViewReducer";
 
 const rootReducer = combineReducers({
     loginUserReducer: LoginUserReducer,
@@ -34,6 +39,13 @@ const rootReducer = combineReducers({
     planViewReducer: PlanViewReducer,
     paymentListReducer: PaymentListReducer,
     supportTicketListReducer: SupportTicketListReducer,
+
+    userFeedbackCreateReducer: UserFeedbackCreateReducer,
+    userFeedbackDeleteReducer: UserFeedbackDeleteReducer,
+    userFeedbackEditReducer: UserFeedbackEditReducer,
+    userFeedbackListReducer: UserFeedbackListReducer,
+    userFeedbackViewReducer: UserFeedbackViewReducer,
+
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

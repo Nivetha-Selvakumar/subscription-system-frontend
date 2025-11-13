@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Chip,
   Table,
@@ -90,8 +90,8 @@ const AdminUsers: React.FC = () => {
     }
   };
 
-  const fetchUserList = () => {
-    // Base payload
+  // ✅ Memoized – will only recreate when values change
+  const fetchUserList = useCallback(() => {
     const payload: any = {
       search: searchValue,
       sortBy: sortField,
@@ -100,11 +100,10 @@ const AdminUsers: React.FC = () => {
       limit: rowsPerPage,
     };
 
-    // 🧠 Convert filters to backend-friendly format
     const filterPairs: string[] = [];
 
     if (filterData.role) filterPairs.push(`role:${filterData.role}`);
-    if (filterData.gender) filterPairs.push(`sex:${filterData.gender}`); // match backend field name
+    if (filterData.gender) filterPairs.push(`sex:${filterData.gender}`);
     if (filterData.status) filterPairs.push(`status:${filterData.status}`);
     if (filterData.salary) filterPairs.push(`salary:${filterData.salary}`);
     if (filterData.joinDate) filterPairs.push(`joinDate:${filterData.joinDate}`);
@@ -115,21 +114,26 @@ const AdminUsers: React.FC = () => {
     if (filterData.subEndDate)
       filterPairs.push(`subEndDate:${filterData.subEndDate}`);
 
-    // Join filters into single comma-separated string
-    const filterBy =
-      filterPairs.length > 0 ? filterPairs.join(",") : null;
+    const filterBy = filterPairs.length ? filterPairs.join(",") : null;
 
-    // Dispatch request
     dispatch({
       type: USER_LIST_REQUEST,
       payload: { ...payload, filterBy },
     });
-  };
+  }, [
+    searchValue,
+    sortField,
+    sortOrdered,
+    page,
+    rowsPerPage,
+    filterData,
+    dispatch,
+  ]);
 
-
+  // 👇 Now useEffect can safely depend on fetchUserList
   useEffect(() => {
     fetchUserList();
-  }, [page, rowsPerPage, sortField, sortOrdered, filterData, searchValue, userDelete]);
+  }, [fetchUserList,userDelete]);
 
   const handleFilterChange = (newFilter: any) => {
     setFilterData(newFilter);

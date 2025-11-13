@@ -14,6 +14,7 @@ function* userFeedbackListSaga(action: any): Generator<any, void, any> {
     if (isPrevent) return;
 
     try {
+        console.log("Entered saga")
         isPrevent = true;
 
         const payload = action.payload;
