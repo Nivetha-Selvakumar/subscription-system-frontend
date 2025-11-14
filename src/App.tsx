@@ -65,8 +65,6 @@ function App() {
 
         <Route path="/user/profile/edit" element={<UserProfileEdit />} />
 
-
-
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
