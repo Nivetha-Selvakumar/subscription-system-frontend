@@ -58,12 +58,11 @@ function App() {
         <Route path="/user/supportTicket" element={<UserSupportTicket />} />
         <Route path="/user/feedback" element={<UserFeedback />} />
 
-         {/*Feedback  */}
+        {/*Feedback  */}
         <Route path="/admin/feedback/view/:id" element={<AdminFeedbackView />} />
-        
+
         <Route path="/user/profile/edit" element={<UserProfileEdit />} />
 
-        
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

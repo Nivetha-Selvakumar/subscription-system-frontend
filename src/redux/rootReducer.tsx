@@ -45,7 +45,6 @@ const rootReducer = combineReducers({
     userFeedbackEditReducer: UserFeedbackEditReducer,
     userFeedbackListReducer: UserFeedbackListReducer,
     userFeedbackViewReducer: UserFeedbackViewReducer,
-
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
