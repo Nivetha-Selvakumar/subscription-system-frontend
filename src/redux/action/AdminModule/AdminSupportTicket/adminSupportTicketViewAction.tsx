@@ -7,22 +7,22 @@ import {
     SUPPORT_TICKET_VIEW_SUCCESS,
 } from '../../../actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketViewActionTypes';
 
-export const fetchSupportTicketCreateRequest = (payload: any) => ({
+export const fetchSupportTicketViewRequest = (payload: any) => ({
     type: SUPPORT_TICKET_VIEW_REQUEST,
     payload: payload,
 });
 
-export const fetchSupportTicketCreateSuccess = (data: string) => ({
+export const fetchSupportTicketViewSuccess = (data: string) => ({
     type: SUPPORT_TICKET_VIEW_SUCCESS,
     payload: data,
 });
 
-export const fetchSupportTicketCreateFailure = (error: any) => ({
+export const fetchSupportTicketViewFailure = (error: any) => ({
     type: SUPPORT_TICKET_VIEW_FAILURE,
     payload: error,
 });
 
-export const fetchSupportTicketCreateClear = (data: any) => ({
+export const fetchSupportTicketViewClear = (data: any) => ({
     type: SUPPORT_TICKET_VIEW_CLEAR,
     payload: data,
 });

@@ -1,8 +1,8 @@
 import { call, put, takeLeading } from "redux-saga/effects";
 import axios from "axios";
 import {
-    fetchSupportTicketCreateSuccess,
-    fetchSupportTicketCreateFailure,
+    fetchSupportTicketViewSuccess,
+    fetchSupportTicketViewFailure,
 } from "../../../action/AdminModule/AdminSupportTicket/adminSupportTicketViewAction";
 import { SUPPORT_TICKET_VIEW_REQUEST } from "../../../actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketViewActionTypes";
 import showToast from "../../../../common-components/ui/toastNotification";
@@ -11,6 +11,7 @@ import { AUTH } from "../../../endpoints/endpoints";
 let isPrevent = false;
 
 function* supportTicketViewSaga(action: any): Generator<any, void, any> {
+
     if (isPrevent) return;
 
     try {
@@ -39,11 +40,11 @@ function* supportTicketViewSaga(action: any): Generator<any, void, any> {
         console.log("Support Ticket View Response:", response);
 
         // ▶ Dispatch Success
-        yield put(fetchSupportTicketCreateSuccess(response?.data));
+        yield put(fetchSupportTicketViewSuccess(response?.data));
 
     } catch (error: any) {
         // ▶ Dispatch Failure
-        yield put(fetchSupportTicketCreateFailure(error.message));
+        yield put(fetchSupportTicketViewFailure(error.message));
 
         const errorMessage = error?.response?.data?.Error;
 
