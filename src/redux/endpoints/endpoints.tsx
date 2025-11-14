@@ -25,6 +25,15 @@ export const AUTH = {
   FEEDBACK_EDIT: `${subscribe}/edit/feedback`,
   FEEDBACK_DELETE: `${subscribe}/delete/feedback`,
   FEEDBACK_VIEW: `${subscribe}/get/feedbackDetails`,
+ 
+ 
+  SUPPORT_TICKET_CREATE: `${subscribe}/create/supportTicket`,
+  SUPPORT_TICKET_RESPONSE_CREATE: `${subscribe}/create/supportTicketResponse`,
+  SUPPORT_TICKET_VIEW: `${subscribe}/get/supportTicketDetails`,
+  SUPPORT_TICKET_LIST: `${subscribe}/get/supportTicketList`,
+  SUPPORT_TICKET_EDIT: `${subscribe}/edit/supportTicket`,
+  SUPPORT_TICKET_RESPONSE_EDIT: `${subscribe}/edit/supportTicketResponse`,
+  SUPPORT_TICKET_RESPONSE_DELETE: `${subscribe}/delete/supportTicketResponse`,
 
 
 };

@@ -10,14 +10,14 @@ import {
   USER_FEEDBACK_CREATE_CLEAR,
 } from "../../../redux/actionTypes/UserModule/UserFeedback/userFeedbackCreateActionTypes";
 
-const ratingOptions = [
-  { label: "0", value: 0 },
-  { label: "1", value: 1 },
-  { label: "2", value: 2 },
-  { label: "3", value: 3 },
-  { label: "4", value: 4 },
-  { label: "5", value: 5 },
-];
+// const ratingOptions = [
+//   { label: "0", value: 0 },
+//   { label: "1", value: 1 },
+//   { label: "2", value: 2 },
+//   { label: "3", value: 3 },
+//   { label: "4", value: 4 },
+//   { label: "5", value: 5 },
+// ];
 
 const validationSchema = Yup.object().shape({
   ratings: Yup.number()
@@ -66,8 +66,8 @@ const UserFeedback: React.FC = () => {
     <Sidebar>
       <ToastContainer containerId="Feedback-Create" />
       {/* min-h-screen */}
-      <div className="flex justify-center items-start w-full  bg-gradient-to-r from-green-300 to-teal-400 p-[1.25rem]">
-        <div className="bg-white w-full max-w-4xl rounded-2xl shadow-2xl p-12">
+      <div className="flex justify-center items-center min-h-[85vh] bg-gradient-to-r bg-gradient-to-r from-[#2e88c4] to-[#1abc9c] p-4">
+        <div className="bg-white w-full max-w-2xl md:max-w-3xl lg:max-w-4xl rounded-2xl shadow-2xl p-6 md:p-10">
 
           <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
             Feedback Form
@@ -147,7 +147,7 @@ const UserFeedback: React.FC = () => {
                   className={`w-full py-3 rounded-full text-lg font-semibold text-white transition 
                                     ${feedbackCreateLoading
                       ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-teal-600 hover:bg-teal-700"
+                      : "bg-[#037971] hover:bg-[#02675f]"
                     }`}
                 >
                   {feedbackCreateLoading ? "Submitting..." : "Submit"}

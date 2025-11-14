@@ -22,6 +22,10 @@ import UserSupportTicket from './components/userModule/userSupportTicket/UserSup
 import UserProfileEdit from './components/userModule/userProfile/UserProfileEdit';
 import UserFeedback from './components/userModule/userFeedback/UserFeedback';
 import AdminFeedbackView from './components/adminModule/adminFeedback/AdminFeedbackView';
+import UserFeedbackView from './components/userModule/userFeedback/UserFeedbackView';
+import UserCreateTicket from './components/userModule/userSupportTicket/UserCreateTicket';
+import UserEditTicket from './components/userModule/userSupportTicket/UserEditTicket';
+import UserTicketConversation from './components/userModule/userSupportTicket/UserTicketView';
 
 function App() {
 
@@ -55,14 +59,18 @@ function App() {
         <Route path="/user/profile" element={<UserProfile />} />
         <Route path="/user/plans" element={<UserPlanDetails />} />
         <Route path="/user/payments" element={<UserPayments />} />
-        <Route path="/user/supportTicket" element={<UserSupportTicket />} />
         <Route path="/user/feedback" element={<UserFeedback />} />
 
-         {/*Feedback  */}
+        {/*Feedback  */}
         <Route path="/admin/feedback/view/:id" element={<AdminFeedbackView />} />
-        
-        <Route path="/user/profile/edit" element={<UserProfileEdit />} />
+        <Route path="/user/feedback/list" element={<UserFeedbackView />} />
 
+        <Route path="/user/profile/edit" element={<UserProfileEdit />} />
+       
+        <Route path="/user/supportTicket" element={<UserSupportTicket />} />
+        <Route path="/user/supportTicket/create" element={<UserCreateTicket />} />
+        <Route path="/user/supportTicket/view/:id" element={<UserTicketConversation />} />
+        <Route path="/user/supportTicket/edit/:id" element={<UserEditTicket />} />
         
 
         <Route path="*" element={<Navigate to="/" />} />

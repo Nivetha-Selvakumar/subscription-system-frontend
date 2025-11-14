@@ -23,6 +23,14 @@ import UserFeedbackEditReducer from "../redux/reducer/UserModule/UserFeedback/us
 import UserFeedbackListReducer from "../redux/reducer/UserModule/UserFeedback/userFeedbackListReducer";
 import UserFeedbackViewReducer from "../redux/reducer/UserModule/UserFeedback/userFeedbackViewReducer";
 
+import SupportTicketCreateReducer from "../redux/reducer/AdminModule/AdminSupportTicket/adminSupportTicketCreateReducer";
+import SupportTicketEditReducer from "../redux/reducer/AdminModule/AdminSupportTicket/adminSupportTicketEditReducer";
+import SupportTicketResponseCreateReducer from "../redux/reducer/AdminModule/AdminSupportTicket/adminSupportTicketResponseCreateReducer";
+import SupportTicketResponseDeleteReducer from "../redux/reducer/AdminModule/AdminSupportTicket/adminSupportTicketResponseDeleteReducer";
+import SupportTicketResponseEditReducer from "../redux/reducer/AdminModule/AdminSupportTicket/adminSupportTicketResponseEditReducer";
+import SupportTicketViewReducer from "../redux/reducer/AdminModule/AdminSupportTicket/adminSupportTicketViewReducer";
+
+
 const rootReducer = combineReducers({
     loginUserReducer: LoginUserReducer,
     signupUserReducer: SignupUserReducer,
@@ -38,14 +46,21 @@ const rootReducer = combineReducers({
     planDeleteReducer: PlanDeleteReducer,
     planViewReducer: PlanViewReducer,
     paymentListReducer: PaymentListReducer,
-    supportTicketListReducer: SupportTicketListReducer,
-
+    
     userFeedbackCreateReducer: UserFeedbackCreateReducer,
     userFeedbackDeleteReducer: UserFeedbackDeleteReducer,
     userFeedbackEditReducer: UserFeedbackEditReducer,
     userFeedbackListReducer: UserFeedbackListReducer,
     userFeedbackViewReducer: UserFeedbackViewReducer,
-
+    
+    supportTicketCreateReducer: SupportTicketCreateReducer,
+    supportTicketEditReducer: SupportTicketEditReducer,
+    supportTicketListReducer: SupportTicketListReducer,
+    supportTicketResponseCreateReducer: SupportTicketResponseCreateReducer,
+    supportTicketResponseDeleteReducer: SupportTicketResponseDeleteReducer,
+    supportTicketResponseEditReducer: SupportTicketResponseEditReducer,
+    supportTicketViewReducer: SupportTicketViewReducer,
+    
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

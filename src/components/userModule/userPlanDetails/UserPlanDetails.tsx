@@ -1,13 +1,84 @@
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../layout/sideBar";
+import { useDispatch, useSelector } from "react-redux";
+import { PLAN_LIST_REQUEST } from "../../../redux/actionTypes/AdminModule/AdminPlan/adminPlanListActionTypes";
+import SubscriptionPlanCard from "../../../common-components/ui/SubscriptionPlanCard";
+
 
 const UserPlanDetails: React.FC = () => {
-    return (
-       <Sidebar>
-        <div style={{ padding: "20px", backgroundColor: "#f9f9f9"}}>
-          <h1>User Plan Details</h1>
-          <p>Welcome to the PlanDetails!</p>
+  const dispatch = useDispatch();
+  const [billing, setBilling] = useState("monthly");
+
+  const { planList } = useSelector((state: any) => state.planListReducer || {});
+
+  useEffect(() => {
+    dispatch({ type: PLAN_LIST_REQUEST, payload: {} });
+  }, [dispatch]);
+
+  const plans = planList?.data?.data || [];
+
+  const filteredPlans = plans.filter((p: any) =>
+    billing === "monthly"
+      ? p.planType?.toLowerCase() === "monthly"
+      : p.planType?.toLowerCase() === "yearly"
+  );
+
+  const onChoosePlan = (plan: any) => {
+    alert(`Selected: ${plan.planName}`);
+  };
+
+  return (
+    <Sidebar>
+      <div className="min-h-screen bg-[#e9f3f6] px-8 py-10">
+
+        {/* Header */}
+        <div className="flex items-center justify-between mb-10">
+          <div>
+            <h1 className="text-3xl font-bold text-[#0b3d52]">Choose Your Plan</h1>
+            <p className="text-sm text-gray-600 mt-1">
+              Best plans curated for your subscription needs.
+            </p>
+          </div>
+
+          <div className="bg-white shadow px-2 py-1 rounded-full flex gap-2">
+            <button
+              className={`px-5 py-2 rounded-full ${billing === "monthly"
+                ? "bg-[#e6f7f3] text-[#0b3d52]"
+                : "text-gray-700"
+                }`}
+              onClick={() => setBilling("monthly")}
+            >
+              Monthly
+            </button>
+            <button
+              className={`px-5 py-2 rounded-full ${billing === "yearly"
+                ? "bg-[#e6f7f3] text-[#0b3d52]"
+                : "text-gray-700"
+                }`}
+              onClick={() => setBilling("yearly")}
+            >
+              Yearly
+            </button>
+          </div>
         </div>
-      </Sidebar>
-    );
- }
+
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {filteredPlans.length ? (
+            filteredPlans.map((plan: any) => (
+              <SubscriptionPlanCard
+                key={plan.id}
+                plan={plan}
+                onSelect={onChoosePlan}
+              />
+            ))
+          ) : (
+            <p className="text-gray-600">No plans available.</p>
+          )}
+        </div>
+      </div>
+    </Sidebar>
+  );
+};
+
 export default UserPlanDetails;

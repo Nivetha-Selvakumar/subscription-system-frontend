@@ -9,7 +9,6 @@ import { watchUserEdit } from "./saga/AdminModule/AdminUsers/adminEditUserSaga";
 import { watchUserDelete } from "./saga/AdminModule/AdminUsers/adminDeleteUserSaga";
 import { watchUserView } from "./saga/AdminModule/AdminUsers/adminViewUserSaga";
 import adminPaymentListSaga from './saga/AdminModule/AdminPayment/adminPaymentListSaga';
-import adminSupportTicketListSaga from './saga/AdminModule/AdminSupportTicket/adminSupportTicketListSaga';
 import { watchPlanView } from "./saga/AdminModule/AdminPlan/adminPlanViewSaga";
 import { watchPlanCreate } from "./saga/AdminModule/AdminPlan/adminPlanCreateSaga";
 import { watchPlanEdit } from "./saga/AdminModule/AdminPlan/adminPlanEditSaga";
@@ -20,6 +19,13 @@ import { watchuserFeedbackDelete } from "./saga/UserModule/UserFeedback/userFeed
 import { watchuserFeedbackEdit } from "./saga/UserModule/UserFeedback/userFeedbackEditSaga";
 import { watchUserFeedbackList } from "./saga/UserModule/UserFeedback/userFeedbackListSaga";
 import { watchUserFeedbackView } from "./saga/UserModule/UserFeedback/userFeedbackViewSaga";
+import { watchSupportTicketList } from './saga/AdminModule/AdminSupportTicket/adminSupportTicketListSaga';
+import { watchSupportTicketCreate } from './saga/AdminModule/AdminSupportTicket/adminSupportTicketCreateSaga';
+import { watchSupportTicketEdit } from './saga/AdminModule/AdminSupportTicket/adminSupportTicketEditSaga';
+import { watchSupportTicketResponseCreate } from './saga/AdminModule/AdminSupportTicket/adminSupportTicketResponseCreateSaga';
+import { watchSupportTicketResponseDelete } from './saga/AdminModule/AdminSupportTicket/adminSupportTicketResponseDeleteSaga';
+import { watchSupportTicketResponseEdit } from './saga/AdminModule/AdminSupportTicket/adminSupportTicketResponseEditSaga';
+import { watchSupportTicketView } from './saga/AdminModule/AdminSupportTicket/adminSupportTicketViewSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -40,13 +46,20 @@ export default function* rootSaga() {
     watchPlanList(),
 
     adminPaymentListSaga(),
-    adminSupportTicketListSaga(),
 
     watchUserFeedbackCreate(),
     watchuserFeedbackEdit(),
     watchuserFeedbackDelete(),
     watchUserFeedbackList(),
     watchUserFeedbackView(),
+
+    watchSupportTicketList(),
+    watchSupportTicketCreate(),
+    watchSupportTicketEdit(),
+    watchSupportTicketResponseCreate(),
+    watchSupportTicketResponseDelete(),
+    watchSupportTicketResponseEdit(),
+    watchSupportTicketView(),
 
   ]);
 }
