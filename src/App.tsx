@@ -22,6 +22,7 @@ import UserSupportTicket from './components/userModule/userSupportTicket/UserSup
 import UserProfileEdit from './components/userModule/userProfile/UserProfileEdit';
 import UserFeedback from './components/userModule/userFeedback/UserFeedback';
 import AdminFeedbackView from './components/adminModule/adminFeedback/AdminFeedbackView';
+import UserFeedbackView from './components/userModule/userFeedback/UserFeedbackView';
 
 function App() {
 
@@ -58,12 +59,13 @@ function App() {
         <Route path="/user/supportTicket" element={<UserSupportTicket />} />
         <Route path="/user/feedback" element={<UserFeedback />} />
 
-         {/*Feedback  */}
+        {/*Feedback  */}
         <Route path="/admin/feedback/view/:id" element={<AdminFeedbackView />} />
-        
+        <Route path="/user/feedback/list" element={<UserFeedbackView />} />
+
         <Route path="/user/profile/edit" element={<UserProfileEdit />} />
 
-        
+
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

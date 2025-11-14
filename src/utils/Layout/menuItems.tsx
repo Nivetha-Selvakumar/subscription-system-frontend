@@ -24,7 +24,7 @@ export const menuConfig: MenuConfig = {
     { label: "Subscription Plan", path: "/user/plans", icon: "mingcute:box-3-line" },
     { label: "Support Ticket", path: "/user/supportTicket", icon: "mingcute:chat-4-line" },
     { label: "Payments", path: "/user/payments", icon: "mingcute:wallet-4-line" },
-    { label: "Feedback", path: "/user/feedback", icon: "mingcute:comment-2-line" },
+    { label: "Feedback", path: "/user/feedback/list", icon: "mingcute:comment-2-line" },
   ],
   subscriber: [
     { label: "Dashboard", path: "/user/dashboard", icon: "mingcute:grid-2-line" },
@@ -32,6 +32,6 @@ export const menuConfig: MenuConfig = {
     { label: "Subscription Plan", path: "/user/plans", icon: "mingcute:box-3-line" },
     { label: "Support Ticket", path: "/user/supportTicket", icon: "mingcute:chat-4-line" },
     { label: "Payments", path: "/user/payments", icon: "mingcute:wallet-4-line" },
-    { label: "Feedback", path: "/user/feedback", icon: "mingcute:comment-2-line" },
+    { label: "Feedback", path: "/user/feedback/list", icon: "mingcute:comment-2-line" },
   ],
 };

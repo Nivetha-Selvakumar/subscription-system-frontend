@@ -1,45 +1,71 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeLeading } from "redux-saga/effects";
+import axios from "axios";
 import {
-  SUPPORT_TICKET_LIST_FAILURE,
-  SUPPORT_TICKET_LIST_REQUEST,
-  SUPPORT_TICKET_LIST_SUCCESS,
-} from "../../../actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketListActionTypes";
-import { API_BASE_URL } from "../../../endpoints/endpoints";
+    fetchSupportTicketListSuccess,
+    fetchSupportTicketListFailure,
+} from "../../../action/AdminModule/AdminSupportTicket/adminSupportTicketListAction";
+import { SUPPORT_TICKET_LIST_REQUEST } from "../../../actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketListActionTypes";
+import showToast from "../../../../common-components/ui/toastNotification";
+import { AUTH } from "../../../endpoints/endpoints";
+
+let isPrevent = false;
 
 function* supportTicketListSaga(action: any): Generator<any, void, any> {
-  try {
-    const { search, sort, filter, offset, limit } = action.payload || {};
-    const params = new URLSearchParams();
+    if (isPrevent) return;
 
-    if (search) params.append("search", search);
-    if (sort) params.append("sort", sort);
-    if (filter) params.append("filter", filter);
-    if (typeof offset === "number") params.append("offset", String(offset));
-    if (typeof limit === "number") params.append("limit", String(limit));
+    try {
+        isPrevent = true;
 
-    const response = yield call(
-      fetch,
-      `${API_BASE_URL}/support-tickets${params.toString() ? `?${params.toString()}` : ""}`
-    );
-    const data = yield call([response, "json"]);
+        const payload = action.payload;
+        const tokenVal = localStorage.getItem("token");
+        const user_id = localStorage.getItem("user_id");
 
-    if (response.ok) {
-      yield put({ type: SUPPORT_TICKET_LIST_SUCCESS, payload: data });
-    } else {
-      yield put({
-        type: SUPPORT_TICKET_LIST_FAILURE,
-        payload: data?.message || "Failed to fetch support tickets",
-      });
+        // ▶ API CALL - GET Support Ticket List
+        const response = yield call(axios.get, AUTH.SUPPORT_TICKET_LIST, {
+            params: {
+                search: payload?.search || "",
+                filterBy: payload?.filterBy || "",
+                sortBy: payload?.sortBy || "createdAt",
+                sortDir: payload?.sortDir || "asc",
+                offset: payload?.offset || 0,
+                limit: payload?.limit || 10,
+            },
+            headers: {
+                Authorization: tokenVal ? `Bearer ${tokenVal}` : "",
+                "User-id": user_id,
+            },
+        });
+
+        console.log("Support Ticket List Response:", response);
+
+        // SUCCESS DISPATCH
+        yield put(fetchSupportTicketListSuccess(response?.data));
+
+    } catch (error: any) {
+
+        yield put(fetchSupportTicketListFailure(error.message));
+
+        const errorMessage = error?.response?.data?.Error;
+
+        // ▶ Toaster handling
+        if (Array.isArray(errorMessage)) {
+            showToast(errorMessage[0], "error", "Support-Ticket-List");
+        } else if (typeof errorMessage === "object" && errorMessage !== null) {
+            showToast(JSON.stringify(errorMessage), "error", "Support-Ticket-List");
+        } else {
+            showToast(
+                errorMessage || "An unexpected error occurred",
+                "error",
+                "Support-Ticket-List"
+            );
+        }
+
+    } finally {
+        isPrevent = false;
     }
-  } catch (error: any) {
-    yield put({
-      type: SUPPORT_TICKET_LIST_FAILURE,
-      payload: error?.message || "An error occurred",
-    });
-  }
 }
 
-export default function* adminSupportTicketListSaga() {
-  yield takeEvery(SUPPORT_TICKET_LIST_REQUEST, supportTicketListSaga);
+// ▶ Watcher
+export function* watchSupportTicketList() {
+    yield takeLeading(SUPPORT_TICKET_LIST_REQUEST, supportTicketListSaga);
 }
-
