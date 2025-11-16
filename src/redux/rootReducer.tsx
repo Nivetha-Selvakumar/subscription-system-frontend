@@ -31,6 +31,13 @@ import SupportTicketResponseEditReducer from "../redux/reducer/AdminModule/Admin
 import SupportTicketViewReducer from "../redux/reducer/AdminModule/AdminSupportTicket/adminSupportTicketViewReducer";
 
 
+import SubscriptionCancelReducer from "../redux/reducer/UserModule/UserSubscription/userSubscriptionCancelReducer";
+import SubscriptionCreateReducer from "../redux/reducer/UserModule/UserSubscription/userSubscriptionCreateReducer";
+import SubscriptionPaymentListReducer from "./reducer/UserModule/UserSubscription/userSubscriptionPaymentListReducer";
+import SubscriptionUpdateReducer from "../redux/reducer/UserModule/UserSubscription/userSubscriptionUpdateReducer";
+import SubscriptionViewReducer from "../redux/reducer/UserModule/UserSubscription/userSubscriptionViewReducer";
+
+
 const rootReducer = combineReducers({
     loginUserReducer: LoginUserReducer,
     signupUserReducer: SignupUserReducer,
@@ -46,13 +53,13 @@ const rootReducer = combineReducers({
     planDeleteReducer: PlanDeleteReducer,
     planViewReducer: PlanViewReducer,
     paymentListReducer: PaymentListReducer,
-    
+
     userFeedbackCreateReducer: UserFeedbackCreateReducer,
     userFeedbackDeleteReducer: UserFeedbackDeleteReducer,
     userFeedbackEditReducer: UserFeedbackEditReducer,
     userFeedbackListReducer: UserFeedbackListReducer,
     userFeedbackViewReducer: UserFeedbackViewReducer,
-    
+
     supportTicketCreateReducer: SupportTicketCreateReducer,
     supportTicketEditReducer: SupportTicketEditReducer,
     supportTicketListReducer: SupportTicketListReducer,
@@ -60,7 +67,13 @@ const rootReducer = combineReducers({
     supportTicketResponseDeleteReducer: SupportTicketResponseDeleteReducer,
     supportTicketResponseEditReducer: SupportTicketResponseEditReducer,
     supportTicketViewReducer: SupportTicketViewReducer,
-    
+
+    subscriptionCancelReducer: SubscriptionCancelReducer,
+    subscriptionCreateReducer: SubscriptionCreateReducer,
+    subscriptionPaymentListReducer: SubscriptionPaymentListReducer,
+    subscriptionUpdateReducer: SubscriptionUpdateReducer,
+    subscriptionViewReducer: SubscriptionViewReducer,
+
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -93,7 +93,6 @@ const UserEditTicket = () => {
     // On Reply Added
     useEffect(() => {
         if (supportTicketEdit?.code === 200 || supportTicketEdit?.code === 201) {
-            console.log("Hello");
             showToast("Ticket updated!", "success", "User-Ticket-Update");
             dispatch({ type: "SUPPORT_TICKET_EDIT_CLEAR" });
             fetchTicket();
@@ -151,7 +150,7 @@ const UserEditTicket = () => {
             <ToastContainer containerId={"User-Ticket-Update"} />
 
             <div className="flex justify-center items-start w-full min-h-screen bg-gray-50">
-                <div className="max-w-[75rem] w-full bg-white rounded-lg shadow flex flex-col h-[85vh] my-8">
+                <div className="max-w-[75rem] w-full bg-white rounded-lg shadow flex flex-col h-[80vh] my-8">
 
                     {/* Header */}
                     <div className="flex justify-between items-center px-6 py-4 border-b">
@@ -170,7 +169,7 @@ const UserEditTicket = () => {
 
                         {/* LEFT SIDE - Ticket Form */}
                         <div className="w-1/2 border-r p-6 overflow-y-auto"
-                            style={{ maxHeight: "calc(85vh - 100px)" }}>
+                            style={{ maxHeight: "calc(80vh - 100px)" }}>
 
                             <div className="space-y-6">
 
@@ -242,7 +241,7 @@ const UserEditTicket = () => {
                             <div
                                 ref={messagesContainerRef}
                                 className="flex-1 overflow-y-auto p-6 space-y-4"
-                                style={{ maxHeight: "calc(85vh - 200px)" }}
+                                style={{ maxHeight: "calc(80vh - 200px)" }}
                             >
                                 {ticketResponse.length === 0 && (
                                     <p className="text-gray-500 text-center">No responses yet.</p>

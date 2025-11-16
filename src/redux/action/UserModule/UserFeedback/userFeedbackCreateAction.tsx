@@ -7,22 +7,22 @@ import {
     USER_FEEDBACK_CREATE_SUCCESS,
 } from '../../../actionTypes/UserModule/UserFeedback/userFeedbackCreateActionTypes';
 
-export const fechUserFeedbackCreateRequest = (payload: any) => ({
+export const fetchUserFeedbackCreateRequest = (payload: any) => ({
     type: USER_FEEDBACK_CREATE_REQUEST,
     payload: payload,
 });
 
-export const fechUserFeedbackCreateSuccess = (data: string) => ({
+export const fetchUserFeedbackCreateSuccess = (data: string) => ({
     type: USER_FEEDBACK_CREATE_SUCCESS,
     payload: data,
 });
 
-export const fechUserFeedbackCreateFailure = (error: any) => ({
+export const fetchUserFeedbackCreateFailure = (error: any) => ({
     type: USER_FEEDBACK_CREATE_FAILURE,
     payload: error,
 });
 
-export const fechUserFeedbackCreateClear = (data: any) => ({
+export const fetchUserFeedbackCreateClear = (data: any) => ({
     type: USER_FEEDBACK_CREATE_CLEAR,
     payload: data,
 });

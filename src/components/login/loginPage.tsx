@@ -70,7 +70,6 @@ const LoginPage: React.FC = () => {
 
             setTimeout(() => {
                 const role = data?.role?.toLowerCase(); // ✅ fix here
-                console.log("User Role:", role);
                 if (role === "admin") {
                     navigate("/admin/dashboard");
                 } else {

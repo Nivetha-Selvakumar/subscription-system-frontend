@@ -108,7 +108,6 @@ const AdminFeedback: React.FC = () => {
       payload: { ...payload, filterBy },
     });
 
-    console.log("payload", { ...payload, filterBy });
   };
 
 

@@ -1,24 +1,24 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { PLAN_CREATE_REQUEST } from '../../../actionTypes/AdminModule/AdminPlan/adminPlanCreateActionTypes';
+import { SUBSCRIPTION_CREATE_REQUEST } from '../../../actionTypes/UserModule/UserSubscription/userSubscriptionCreateActionTypes';
 import { AUTH } from '../../../endpoints/endpoints';
 import axios from 'axios';
-import { fetchPlanCreateFailure, fetchPlanCreateSuccess } from '../../../action/AdminModule/AdminPlanDetails/adminCreatePlanAction';
+import { fetchSubscriptionCreateSuccess, fetchSubscriptionCreateFailure } from '../../../action/UserModule/UserSubscription/userSubscriptionCreateAction';
 import showToast from '../../../../common-components/ui/toastNotification';
 
 
 // Prevent duplicate API hits
 let isPrevent = false;
-function* planCreateSaga(action: any): Generator<any, void, any> {
+function* userSubscriptionCreateSaga(action: any): Generator<any, void, any> {
     if (isPrevent) return;
 
     try {
         isPrevent = true;
 
-        const payload = action.payload;
+        const { planId, payload } = action.payload;
         const tokenVal = localStorage.getItem("token");
         const user_id = localStorage.getItem("user_id"); // assuming admin is logged in
 
-        const url = `${AUTH.PLAN_CREATE}`;
+        const url = `${AUTH.SUBSCRIPTION_CREATE}?planId=${planId}`;
 
         // ✅ Correct axios signature: axios.post(url, data, config)
         const response = yield call(axios.post, url, payload, {
@@ -32,22 +32,21 @@ function* planCreateSaga(action: any): Generator<any, void, any> {
         // ✅ Extract data
         const data = yield response.data;
 
-        yield put(fetchPlanCreateSuccess(data));
-        // showToast("Plan created successfully", "success", "Plan-Create");
+        yield put(fetchSubscriptionCreateSuccess(data));
     } catch (error: any) {
 
-        yield put(fetchPlanCreateFailure(error.message));
+        yield put(fetchSubscriptionCreateFailure(error.message));
         const errorMessage = error?.response?.data?.Error;
 
         if (Array.isArray(errorMessage)) {
-            showToast(errorMessage[0], "error", "Plan-Create");
+            showToast(errorMessage[0], "error", "Feedback-Create");
         } else if (typeof errorMessage === "object" && errorMessage !== null) {
-            showToast(JSON.stringify(errorMessage), "error", "Plan-Create");
+            showToast(JSON.stringify(errorMessage), "error", "Feedback-Create");
         } else {
             showToast(
                 errorMessage || "An unexpected error occurred",
                 "error",
-                "Plan-Create"
+                "Feedback-Create"
             );
         }
     } finally {
@@ -55,6 +54,6 @@ function* planCreateSaga(action: any): Generator<any, void, any> {
     }
 }
 
-export function* watchPlanCreate() {
-    yield takeLatest(PLAN_CREATE_REQUEST, planCreateSaga);
+export function* watchSubscriptionCreate() {
+    yield takeLatest(SUBSCRIPTION_CREATE_REQUEST, userSubscriptionCreateSaga);
 }

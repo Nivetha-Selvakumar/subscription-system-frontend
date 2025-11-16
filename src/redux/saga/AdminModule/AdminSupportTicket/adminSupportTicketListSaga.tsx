@@ -36,7 +36,6 @@ function* supportTicketListSaga(action: any): Generator<any, void, any> {
             },
         });
 
-        console.log("Support Ticket List Response:", response);
 
         // SUCCESS DISPATCH
         yield put(fetchSupportTicketListSuccess(response?.data));

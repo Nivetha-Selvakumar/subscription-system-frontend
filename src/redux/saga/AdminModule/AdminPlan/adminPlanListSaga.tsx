@@ -36,8 +36,6 @@ function* planListSaga(action: any): Generator<any, void, any> {
             },
         });
 
-        console.log("Plan List Response:", response);
-
         // ✅ Dispatch success action
         yield put(fetchPlanListSuccess(response?.data));
     } catch (error: any) {

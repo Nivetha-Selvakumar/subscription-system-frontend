@@ -127,10 +127,10 @@ const AdminPayment: React.FC = () => {
     });
   };
 
-  const handleOpenFilter = (event: React.MouseEvent<HTMLElement>) => {
-    setPendingSearch(searchValue);
-    setFilterAnchorEl(event.currentTarget);
-  };
+  // const handleOpenFilter = (event: React.MouseEvent<HTMLElement>) => {
+  //   setPendingSearch(searchValue);
+  //   setFilterAnchorEl(event.currentTarget);
+  // };
   const handleCloseFilter = () => setFilterAnchorEl(null);
   const handleApplyFilter = () => {
     setSearchValue(pendingSearch);
@@ -153,12 +153,10 @@ const AdminPayment: React.FC = () => {
   };
 
   const handleViewPayment = (payment: any) => {
-    console.log("View payment", payment);
     handleMenuClose();
   };
 
   const handleDownloadReceipt = (payment: any) => {
-    console.log("Download receipt", payment);
     handleMenuClose();
   };
 

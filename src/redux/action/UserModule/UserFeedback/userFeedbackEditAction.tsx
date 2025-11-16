@@ -7,22 +7,22 @@ import {
     USER_FEEDBACK_EDIT_SUCCESS,
 } from '../../../actionTypes/UserModule/UserFeedback/userFeedbackEditActionTypes';
 
-export const fechUserFeedbackEditRequest = (payload: any) => ({
+export const fetchUserFeedbackEditRequest = (payload: any) => ({
     type: USER_FEEDBACK_EDIT_REQUEST,
     payload: payload,
 });
 
-export const fechUserFeedbackEditSuccess = (data: string) => ({
+export const fetchUserFeedbackEditSuccess = (data: string) => ({
     type: USER_FEEDBACK_EDIT_SUCCESS,
     payload: data,
 });
 
-export const fechUserFeedbackEditFailure = (error: any) => ({
+export const fetchUserFeedbackEditFailure = (error: any) => ({
     type: USER_FEEDBACK_EDIT_FAILURE,
     payload: error,
 });
 
-export const fechUserFeedbackEditClear = (data: any) => ({
+export const fetchUserFeedbackEditClear = (data: any) => ({
     type: USER_FEEDBACK_EDIT_CLEAR,
     payload: data,
 });

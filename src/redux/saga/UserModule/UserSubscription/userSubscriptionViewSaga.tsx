@@ -2,25 +2,25 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { AUTH } from "../../../endpoints/endpoints";
 import axios from "axios";
 import {
-    fetchUserFeedbackViewFailure,
-    fetchUserFeedbackViewSuccess,
-} from "../../../action/UserModule/UserFeedback/userFeedbackViewAction";
-import { USER_FEEDBACK_VIEW_REQUEST } from "../../../actionTypes/UserModule/UserFeedback/userFeedbackViewActionTypes";
+    fetchSubscriptionViewSuccess,
+    fetchSubscriptionViewFailure,
+} from "../../../action/UserModule/UserSubscription/userSubscriptionViewAction";
+import { SUBSCRIPTION_VIEW_REQUEST } from "../../../actionTypes/UserModule/UserSubscription/userSubscriptionViewActionTypes";
 
 let isPrevent = false;
 
-function* userFeedbackViewSaga(action: any): Generator<any, void, any> {
+function* userSubscriptionViewSaga(action: any): Generator<any, void, any> {
     if (isPrevent) return;
 
     try {
         isPrevent = true;
 
-        const { targetFeedbackId } = action.payload;
+        const { planId } = action.payload;
         const tokenVal = localStorage.getItem("token");
         const userId = localStorage.getItem("user_id");
 
         // ✅ Construct URL with query param
-        const url = `${AUTH.FEEDBACK_VIEW}?targetFeedbackId=${targetFeedbackId}`;
+        const url = `${AUTH.SUBSCRIPTION_VIEW}?planId=${planId}`;
 
         // ✅ API call with headers
         const response = yield call(axios.get, url, {
@@ -33,16 +33,16 @@ function* userFeedbackViewSaga(action: any): Generator<any, void, any> {
 
         // ✅ Extract and dispatch data
         const data = response.data;
-        yield put(fetchUserFeedbackViewSuccess(data));
+        yield put(fetchSubscriptionViewSuccess(data));
 
     } catch (error: any) {
-        yield put(fetchUserFeedbackViewFailure(error.message));
+        yield put(fetchSubscriptionViewFailure(error.message));
     } finally {
         isPrevent = false;
     }
 }
 
 // ✅ Watcher Saga
-export function* watchUserFeedbackView() {
-    yield takeLatest(USER_FEEDBACK_VIEW_REQUEST, userFeedbackViewSaga);
+export function* watchUserSubscriptionView() {
+    yield takeLatest(SUBSCRIPTION_VIEW_REQUEST, userSubscriptionViewSaga);
 }

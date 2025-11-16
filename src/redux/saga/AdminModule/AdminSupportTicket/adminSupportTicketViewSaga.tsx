@@ -37,7 +37,6 @@ function* supportTicketViewSaga(action: any): Generator<any, void, any> {
             }
         );
 
-        console.log("Support Ticket View Response:", response);
 
         // ▶ Dispatch Success
         yield put(fetchSupportTicketViewSuccess(response?.data));

@@ -113,7 +113,6 @@ const AdminAddUser: React.FC = () => {
 
     // ✅ Toast & redirect on success
     useEffect(() => {
-        console.log("userCreate changed:", userCreate);
         if (userCreate?.code === 201 || userCreate?.code === 200) {
             showToast('User created successfully', 'success', 'AddUser-Container');
             dispatch({ type: 'USER_CREATE_CLEAR' });

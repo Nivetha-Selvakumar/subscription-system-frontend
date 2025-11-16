@@ -59,7 +59,7 @@ const UserViewTicket = () => {
         <Sidebar>
 
             <div className="flex justify-center items-start w-full min-h-screen bg-gray-50">
-                <div className="max-w-[75rem] w-full bg-white rounded-lg shadow flex flex-col h-[85vh] my-8">
+                <div className="max-w-[75rem] w-full bg-white rounded-lg shadow flex flex-col h-[80vh] my-8">
 
                     {/* Header */}
                     <div className="flex justify-between items-center px-6 py-4 border-b">
@@ -133,7 +133,7 @@ const UserViewTicket = () => {
                             <div
                                 ref={messagesContainerRef}
                                 className="flex-1 overflow-y-auto p-6 space-y-4"
-                                style={{ maxHeight: "calc(85vh - 200px)" }}
+                                style={{ maxHeight: "calc(80vh - 200px)" }}
                             >
                                 {ticketResponse.length === 0 && (
                                     <p className="text-gray-500 text-center">No responses yet.</p>

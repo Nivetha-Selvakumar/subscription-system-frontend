@@ -35,7 +35,6 @@ function* userCreateSaga(action: any): Generator<any, void, any> {
 
     // ✅ Extract data
     const data = yield response.data;
-    console.log("User created successfully:", data);
 
     yield put(userCreateSuccess(data));
     showToast("User created successfully", "success", "User-Create");

@@ -26,6 +26,8 @@ import UserFeedbackView from './components/userModule/userFeedback/UserFeedbackV
 import UserCreateTicket from './components/userModule/userSupportTicket/UserCreateTicket';
 import UserEditTicket from './components/userModule/userSupportTicket/UserEditTicket';
 import UserTicketConversation from './components/userModule/userSupportTicket/UserTicketView';
+import UserPlanPaymentPage from './components/userModule/userPlanDetails/UserPlanPayment';
+import UserPaymentView from './components/userModule/userPayments/UserPaymentView';
 
 function App() {
 
@@ -72,6 +74,8 @@ function App() {
         <Route path="/user/supportTicket/view/:id" element={<UserTicketConversation />} />
         <Route path="/user/supportTicket/edit/:id" element={<UserEditTicket />} />
         
+        <Route path="/user/plan/payment/:id" element={<UserPlanPaymentPage />} />
+        <Route path="/user/plan/payment/view/:id" element={<UserPaymentView />} />
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
