@@ -7,7 +7,6 @@ import AdminUsers from './components/adminModule/adminUsers/AdminUsers';
 import AdminPlan from './components/adminModule/adminPlanDetails/AdminPlan';
 import AdminAddPlan from './components/adminModule/adminPlanDetails/AdminAddPlan';
 import AdminPayment from './components/adminModule/adminPayment/AdminPayment';
-import AdminSupportTicket from './components/adminModule/adminSupportTicket/AdminSupportTicktet';
 import AdminFeedback from './components/adminModule/adminFeedback/AdminFeedback';
 import AdminAddUser from './components/adminModule/adminUsers/AdminAddUser';
 import AdminViewUser from './components/adminModule/adminUsers/AdminViewUser';
@@ -28,6 +27,11 @@ import UserEditTicket from './components/userModule/userSupportTicket/UserEditTi
 import UserTicketConversation from './components/userModule/userSupportTicket/UserTicketView';
 import UserPlanPaymentPage from './components/userModule/userPlanDetails/UserPlanPayment';
 import UserPaymentView from './components/userModule/userPayments/UserPaymentView';
+import AdminViewTicket from './components/adminModule/adminSupportTicket/AdminSupportTicketView';
+import AdminSupportTicketList from './components/adminModule/adminSupportTicket/AdminSupportTicktet';
+import AdminSupportTicketEdit from './components/adminModule/adminSupportTicket/AdminSupportTicketEdit';
+import AdminPaymentDetails from './components/adminModule/adminPayment/AdminPaymentView';
+import AdminPaymentList from './components/adminModule/adminPayment/AdminPayment';
 
 function App() {
 
@@ -44,7 +48,7 @@ function App() {
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/admin/plans" element={<AdminPlan />} />
         <Route path="/admin/payments" element={<AdminPayment />} />
-        <Route path="/admin/adminSupportTicket" element={<AdminSupportTicket />} />
+        <Route path="/admin/adminSupportTicket" element={<AdminSupportTicketList />} />
         <Route path="/admin/feedback" element={<AdminFeedback />} />
 
         <Route path="/admin/create/user" element={<AdminAddUser />} />
@@ -68,14 +72,20 @@ function App() {
         <Route path="/user/feedback/list" element={<UserFeedbackView />} />
 
         <Route path="/user/profile/edit" element={<UserProfileEdit />} />
-       
+
         <Route path="/user/supportTicket" element={<UserSupportTicket />} />
         <Route path="/user/supportTicket/create" element={<UserCreateTicket />} />
         <Route path="/user/supportTicket/view/:id" element={<UserTicketConversation />} />
         <Route path="/user/supportTicket/edit/:id" element={<UserEditTicket />} />
-        
+
+        <Route path="/admin/supportTicket/view/:id" element={<AdminViewTicket />} />
+        <Route path="/admin/supportTicket/edit/:id" element={<AdminSupportTicketEdit />} />
+
         <Route path="/user/plan/payment/:id" element={<UserPlanPaymentPage />} />
         <Route path="/user/plan/payment/view/:id" element={<UserPaymentView />} />
+        
+        <Route path="/admin/plan/payment/:id" element={<AdminPaymentList />} />
+        <Route path="/admin/plan/payment/view/:id" element={<AdminPaymentDetails />} />
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
