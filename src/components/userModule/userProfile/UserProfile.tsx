@@ -65,7 +65,6 @@ const UserProfile: React.FC = () => {
 
   // ✅ Set user data when Redux state updates
   useEffect(() => {
-    console.log('userView data:', userView);
     if (userView?.userDetails) {
       const u = userView.userDetails;
       setUser({
@@ -87,7 +86,6 @@ const UserProfile: React.FC = () => {
         createdAt: u.createdAt || '',
         updatedAt: u.updatedAt || '',
       });
-      console.log('Set user state:', u);
       setLoading(false);
     } else if (userViewLoading === false) {
       setLoading(false);

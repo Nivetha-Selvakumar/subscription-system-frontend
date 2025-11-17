@@ -3,8 +3,8 @@ import { AUTH } from "../../../endpoints/endpoints";
 import axios from "axios";
 import showToast from "../../../../common-components/ui/toastNotification";
 import {
-    fechUserFeedbackEditFailure,
-    fechUserFeedbackEditSuccess,
+    fetchUserFeedbackEditFailure,
+    fetchUserFeedbackEditSuccess,
 } from "../../../action/UserModule/UserFeedback/userFeedbackEditAction";
 import { USER_FEEDBACK_EDIT_REQUEST } from "../../../actionTypes/UserModule/UserFeedback/userFeedbackEditActionTypes";
 
@@ -34,11 +34,11 @@ function*  userFeedbackEditSaga(action: any): Generator<any, void, any> {
         const data = response.data;
 
         // ✅ Dispatch success
-        yield put(fechUserFeedbackEditSuccess(data));
+        yield put(fetchUserFeedbackEditSuccess(data));
         showToast("Feedback updated successfully", "success", "Feedback-Edit");
     } catch (error: any) {
         // ✅ Dispatch failure
-        yield put(fechUserFeedbackEditFailure(error.message));
+        yield put(fetchUserFeedbackEditFailure(error.message));
 
         const errorMessage = error?.response?.data?.Error;
 

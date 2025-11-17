@@ -3,10 +3,11 @@ import Sidebar from "../../layout/sideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { PLAN_LIST_REQUEST } from "../../../redux/actionTypes/AdminModule/AdminPlan/adminPlanListActionTypes";
 import SubscriptionPlanCard from "../../../common-components/ui/SubscriptionPlanCard";
-
+import { useNavigate } from "react-router-dom";
 
 const UserPlanDetails: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [billing, setBilling] = useState("monthly");
 
   const { planList } = useSelector((state: any) => state.planListReducer || {});
@@ -24,9 +25,10 @@ const UserPlanDetails: React.FC = () => {
   );
 
   const onChoosePlan = (plan: any) => {
-    alert(`Selected: ${plan.planName}`);
+    navigate(`/user/plan/payment/${plan.id}`, {
+      state: { plan },  // send object
+    });
   };
-
   return (
     <Sidebar>
       <div className="min-h-screen bg-[#e9f3f6] px-8 py-10">

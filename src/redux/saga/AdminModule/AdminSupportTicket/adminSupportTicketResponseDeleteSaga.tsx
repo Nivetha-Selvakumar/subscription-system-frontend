@@ -34,8 +34,6 @@ function* supportTicketResponseDeleteSaga(action: any): Generator<any, void, any
             }
         );
 
-        console.log("Support Ticket Response Delete:", response);
-
         // ▶ Success
         yield put(fetchSupportTicketDeleteSuccess(response?.data));
 

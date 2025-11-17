@@ -35,7 +35,6 @@ function* supportTicketResponseCreateSaga(action: any): Generator<any, void, any
             }
         );
 
-        console.log("Support Ticket Response Create:", response);
 
         // ▶ Success Dispatch
         yield put(fetchSupportTicketCreateSuccess(response?.data));

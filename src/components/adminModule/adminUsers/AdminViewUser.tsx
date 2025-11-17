@@ -62,7 +62,6 @@ const AdminViewUser: React.FC = () => {
 
   // ✅ Set user data when Redux state updates
   useEffect(() => {
-    console.log('userView data:', userView);
     if (userView?.userDetails) {
       const u = userView.userDetails;
       setUser({

@@ -38,7 +38,6 @@ function* supportTicketResponseEditSaga(action: any): Generator<any, void, any> 
             }
         );
 
-        console.log("Support Ticket Response Edit Response:", response);
 
         // ▶ Dispatch success
         yield put(fetchSupportTicketCreateSuccess(response?.data));

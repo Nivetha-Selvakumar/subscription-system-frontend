@@ -2,14 +2,14 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { AUTH } from "../../../endpoints/endpoints";
 import axios from "axios";
 import {
-    fechUserFeedbackViewFailure,
-    fechUserFeedbackViewSuccess,
+    fetchUserFeedbackViewFailure,
+    fetchUserFeedbackViewSuccess,
 } from "../../../action/UserModule/UserFeedback/userFeedbackViewAction";
 import { USER_FEEDBACK_VIEW_REQUEST } from "../../../actionTypes/UserModule/UserFeedback/userFeedbackViewActionTypes";
 
 let isPrevent = false;
 
-function* userFeedbackListSaga(action: any): Generator<any, void, any> {
+function* userFeedbackViewSaga(action: any): Generator<any, void, any> {
     if (isPrevent) return;
 
     try {
@@ -33,10 +33,10 @@ function* userFeedbackListSaga(action: any): Generator<any, void, any> {
 
         // ✅ Extract and dispatch data
         const data = response.data;
-        yield put(fechUserFeedbackViewSuccess(data));
+        yield put(fetchUserFeedbackViewSuccess(data));
 
     } catch (error: any) {
-        yield put(fechUserFeedbackViewFailure(error.message));
+        yield put(fetchUserFeedbackViewFailure(error.message));
     } finally {
         isPrevent = false;
     }
@@ -44,5 +44,5 @@ function* userFeedbackListSaga(action: any): Generator<any, void, any> {
 
 // ✅ Watcher Saga
 export function* watchUserFeedbackView() {
-    yield takeLatest(USER_FEEDBACK_VIEW_REQUEST, userFeedbackListSaga);
+    yield takeLatest(USER_FEEDBACK_VIEW_REQUEST, userFeedbackViewSaga);
 }

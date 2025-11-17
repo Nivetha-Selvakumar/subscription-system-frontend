@@ -2,7 +2,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { USER_FEEDBACK_CREATE_REQUEST } from '../../../actionTypes/UserModule/UserFeedback/userFeedbackCreateActionTypes';
 import { AUTH } from '../../../endpoints/endpoints';
 import axios from 'axios';
-import { fechUserFeedbackCreateSuccess, fechUserFeedbackCreateFailure } from '../../../action/UserModule/UserFeedback/userFeedbackCreateAction';
+import { fetchUserFeedbackCreateSuccess, fetchUserFeedbackCreateFailure } from '../../../action/UserModule/UserFeedback/userFeedbackCreateAction';
 import showToast from '../../../../common-components/ui/toastNotification';
 
 
@@ -31,13 +31,12 @@ function* userFeedbackCreateSaga(action: any): Generator<any, void, any> {
 
         // ✅ Extract data
         const data = yield response.data;
-        console.log("Feedback created successfully:", data);
 
-        yield put(fechUserFeedbackCreateSuccess(data));
+        yield put(fetchUserFeedbackCreateSuccess(data));
         // showToast("Plan created successfully", "success", "Feedback-Create");
     } catch (error: any) {
 
-        yield put(fechUserFeedbackCreateFailure(error.message));
+        yield put(fetchUserFeedbackCreateFailure(error.message));
         const errorMessage = error?.response?.data?.Error;
 
         if (Array.isArray(errorMessage)) {

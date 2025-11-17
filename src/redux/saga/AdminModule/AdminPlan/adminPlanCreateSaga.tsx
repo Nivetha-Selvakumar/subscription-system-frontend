@@ -31,7 +31,6 @@ function* planCreateSaga(action: any): Generator<any, void, any> {
 
         // ✅ Extract data
         const data = yield response.data;
-        console.log("Plan created successfully:", data);
 
         yield put(fetchPlanCreateSuccess(data));
         // showToast("Plan created successfully", "success", "Plan-Create");

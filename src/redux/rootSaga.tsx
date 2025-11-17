@@ -26,6 +26,11 @@ import { watchSupportTicketResponseCreate } from './saga/AdminModule/AdminSuppor
 import { watchSupportTicketResponseDelete } from './saga/AdminModule/AdminSupportTicket/adminSupportTicketResponseDeleteSaga';
 import { watchSupportTicketResponseEdit } from './saga/AdminModule/AdminSupportTicket/adminSupportTicketResponseEditSaga';
 import { watchSupportTicketView } from './saga/AdminModule/AdminSupportTicket/adminSupportTicketViewSaga';
+import { watchSubscriptionCancel } from './saga/UserModule/UserSubscription/userSubscriptionCancelSaga';
+import { watchSubscriptionCreate } from './saga/UserModule/UserSubscription/userSubscriptionCreateSaga';
+import { watchSubscriptionPaymentList } from './saga/UserModule/UserSubscription/userSubscriptionPaymentListSaga';
+import { watchSubscriptionEdit } from './saga/UserModule/UserSubscription/userSubscriptionUpdateSaga';
+import { watchUserSubscriptionView } from './saga/UserModule/UserSubscription/userSubscriptionViewSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -60,6 +65,12 @@ export default function* rootSaga() {
     watchSupportTicketResponseDelete(),
     watchSupportTicketResponseEdit(),
     watchSupportTicketView(),
+
+    watchSubscriptionCancel(),
+    watchSubscriptionCreate(),
+    watchSubscriptionPaymentList(),
+    watchSubscriptionEdit(),
+    watchUserSubscriptionView(),
 
   ]);
 }

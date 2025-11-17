@@ -7,22 +7,22 @@ import {
     USER_FEEDBACK_DELETE_SUCCESS,
 } from '../../../actionTypes/UserModule/UserFeedback/userFeedbackDeleteActionTypes';
 
-export const fechUserFeedbackDeleteRequest = (payload: any) => ({
+export const fetchUserFeedbackDeleteRequest = (payload: any) => ({
     type: USER_FEEDBACK_DELETE_REQUEST,
     payload: payload,
 });
 
-export const fechUserFeedbackDeleteSuccess = (data: string) => ({
+export const fetchUserFeedbackDeleteSuccess = (data: string) => ({
     type: USER_FEEDBACK_DELETE_SUCCESS,
     payload: data,
 });
 
-export const fechUserFeedbackDeleteFailure = (error: any) => ({
+export const fetchUserFeedbackDeleteFailure = (error: any) => ({
     type: USER_FEEDBACK_DELETE_FAILURE,
     payload: error,
 });
 
-export const fechUserFeedbackDeleteClear = (data: any) => ({
+export const fetchUserFeedbackDeleteClear = (data: any) => ({
     type: USER_FEEDBACK_DELETE_CLEAR,
     payload: data,
 });

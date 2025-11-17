@@ -7,22 +7,22 @@ import {
     USER_FEEDBACK_VIEW_SUCCESS,
 } from '../../../actionTypes/UserModule/UserFeedback/userFeedbackViewActionTypes';
 
-export const fechUserFeedbackViewRequest = (payload: any) => ({
+export const fetchUserFeedbackViewRequest = (payload: any) => ({
     type: USER_FEEDBACK_VIEW_REQUEST,
     payload: payload,
 });
 
-export const fechUserFeedbackViewSuccess = (data: string) => ({
+export const fetchUserFeedbackViewSuccess = (data: string) => ({
     type: USER_FEEDBACK_VIEW_SUCCESS,
     payload: data,
 });
 
-export const fechUserFeedbackViewFailure = (error: any) => ({
+export const fetchUserFeedbackViewFailure = (error: any) => ({
     type: USER_FEEDBACK_VIEW_FAILURE,
     payload: error,
 });
 
-export const fechUserFeedbackViewClear = (data: any) => ({
+export const fetchUserFeedbackViewClear = (data: any) => ({
     type: USER_FEEDBACK_VIEW_CLEAR,
     payload: data,
 });

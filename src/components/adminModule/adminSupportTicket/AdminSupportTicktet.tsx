@@ -1,261 +1,303 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import {
-  Chip,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
   TableSortLabel,
+  TablePagination,
   IconButton,
   Menu,
   MenuItem,
-  Button,
+  Chip,
+  Paper,
 } from "@mui/material";
+
 import {
-  FilterList,
-  KeyboardArrowLeft,
-  KeyboardArrowRight,
   MoreVert,
   Visibility,
-  CheckCircleOutline,
-  Replay,
+  Edit,
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
 } from "@mui/icons-material";
+
 import { Icon } from "@iconify/react";
 import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "../../layout/sideBar";
+import { useNavigate } from "react-router-dom";
+
+import { SUPPORT_TICKET_LIST_REQUEST } from "../../../redux/actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketListActionTypes";
+
 import DynamicSearchField from "../../../common-components/ui/dynamicSearchField";
 import "../../../styles/AdminModule/AdminUser/userList.scss";
-import { SUPPORT_TICKET_LIST_REQUEST } from "../../../redux/actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketListActionTypes";
-import SupportTicketFilterModal from "./SupportTicketFilterModal";
+import { ToastContainer } from "react-toastify";
 
-const columns = [
-  { id: "ticketId", label: "Ticket ID", sortable: true },
-  { id: "subscriber_name", label: "Subscriber", sortable: true },
-  { id: "issue_desc", label: "Issue Description", sortable: false },
-  { id: "status", label: "Status", sortable: true },
-  { id: "created_at", label: "Created At", sortable: true },
-];
-
-const statusColorMap: Record<string, "success" | "warning" | "default"> = {
-  resolved: "success",
-  "in progress": "warning",
-  open: "default",
-};
-
-const AdminSupportTicket: React.FC = () => {
+const AdminSupportTicketList: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // ------------------------ STATES ------------------------
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [sortField, setSortField] = useState("created_at");
-  const [sortOrdered, setSortOrdered] = useState<"asc" | "desc">("desc");
+
+  const [sortField, setSortField] = useState("createdAt");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+
+  const [ticketFilter, setTicketFilter] = useState("ALL");
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedTicket, setSelectedTicket] = useState<any>(null);
-  const [columnAnchorEl, setColumnAnchorEl] = useState<null | HTMLElement>(null);
-  const [visibleColumnIds, setVisibleColumnIds] = useState<string[]>(columns.map(col => col.id));
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filterData, setFilterData] = useState<any>({});
 
-  const { supportTicketListLoading, supportTicketList } = useSelector(
+  const [columnAnchorEl, setColumnAnchorEl] = useState<null | HTMLElement>(null);
+
+  const [visibleColumns, setVisibleColumns] = useState<string[]>([
+    "username",
+    "subject",
+    "issueDescription",
+    "ticketStatus",
+    "status",
+    "createdAt",
+    "createdBy",
+    "updatedAt",
+    "updatedBy",
+  ]);
+
+  // ------------------------ REDUX ------------------------
+  const { supportTicketList, supportTicketListLoading } = useSelector(
     (state: any) => state.supportTicketListReducer || {}
   );
 
-  const tickets = supportTicketList?.ticketDetails?.ticketDetails || [];
-  const totalCount = supportTicketList?.ticketDetails?.totalCount || 0;
+  const tickets = supportTicketList?.data?.data || [];
+  const totalCount = supportTicketList?.data?.totalCount || 0;
 
-  const fetchSupportTickets = () => {
-    const filterPairs: string[] = [];
-    if (filterData.status) filterPairs.push(`status:${filterData.status}`);
-    if (filterData.startDate) filterPairs.push(`from:${filterData.startDate}`);
-    if (filterData.endDate) filterPairs.push(`to:${filterData.endDate}`);
+  // ------------------------ COLUMNS ------------------------
+  const columns = [
+    { id: "username", label: "Username", sortable: true },
+    { id: "subject", label: "Subject", sortable: true },
+    { id: "issueDescription", label: "Issue", sortable: true },
+    { id: "ticketStatus", label: "Ticket Status", sortable: true },
+    { id: "status", label: "Status", sortable: true },
+    { id: "createdAt", label: "Created Date", sortable: true },
+    { id: "createdBy", label: "Created By", sortable: true },
+    { id: "updatedAt", label: "Updated Date", sortable: true },
+    { id: "updatedBy", label: "Updated By", sortable: true },
+  ];
 
-    const payload: any = {
-      search: searchValue,
-      sort: `${sortField}:${sortOrdered}`,
-      filter: filterPairs.length ? filterPairs.join(",") : null,
-      offset: page * rowsPerPage,
-      limit: rowsPerPage,
-    };
+  // ------------------------ API CALL ------------------------
+  const fetchTicketList = () => {
+    let filterBy = "";
 
-    dispatch({ type: SUPPORT_TICKET_LIST_REQUEST, payload });
+    if (ticketFilter !== "ALL") {
+      filterBy = `ticketStatus:${ticketFilter}`;
+    }
+
+    dispatch({
+      type: SUPPORT_TICKET_LIST_REQUEST,
+      payload: {
+        search: searchValue,
+        filterBy,
+        sortBy: sortField,
+        sortDir,
+        offset: page * rowsPerPage,
+        limit: rowsPerPage,
+      },
+    });
   };
 
   useEffect(() => {
-    fetchSupportTickets();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, rowsPerPage, sortField, sortOrdered, searchValue, filterData]);
+    fetchTicketList();
+  }, [page, rowsPerPage, sortField, sortDir, searchValue, ticketFilter]);
 
-  const handleChangePage = (_: any, newPage: number) => setPage(newPage);
-  const handleChangeRowsPerPage = (event: any) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+  // ------------------------ HANDLERS ------------------------
+  const handlePageChange = (_: any, newPage: number) => setPage(newPage);
+  const handleRowsChange = (e: any) => {
+    setRowsPerPage(e.target.value);
     setPage(0);
   };
 
   const handleSort = (field: string) => {
-    const isAsc = sortField === field && sortOrdered === "asc";
+    const isAsc = sortField === field && sortDir === "asc";
     setSortField(field);
-    setSortOrdered(isAsc ? "desc" : "asc");
+    setSortDir(isAsc ? "desc" : "asc");
   };
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, ticket: any) => {
+  const handleMenuOpen = (event: any, ticket: any) => {
     setAnchorEl(event.currentTarget);
     setSelectedTicket(ticket);
   };
+
   const handleMenuClose = () => {
     setAnchorEl(null);
     setSelectedTicket(null);
   };
 
-  const handleOpenColumns = (event: React.MouseEvent<HTMLElement>) =>
-    setColumnAnchorEl(event.currentTarget);
-  const handleCloseColumns = () => setColumnAnchorEl(null);
+  const safeValue = (val: any) => (!val ? "-" : val);
 
   const handleToggleColumn = (id: string) => {
-    setVisibleColumnIds(prev => {
+    setVisibleColumns((prev) => {
       const exists = prev.includes(id);
-      if (exists) {
-        if (prev.length === 1) return prev;
-        return prev.filter(cid => cid !== id);
-      }
-      return [...prev, id];
+      if (exists && prev.length === 1) return prev;
+      return exists ? prev.filter((c) => c !== id) : [...prev, id];
     });
   };
 
-  const handleSearchText = (value: string) => {
-    setSearchValue(value);
-    setPage(0);
+  // ------------------------ STATUS COLORS ------------------------
+  const ticketStatusChip = (s: string) => {
+    if (s === "OPEN")
+      return <Chip label="Open" sx={{ background: "#bfdbfe", color: "#1e3a8a" }} />;
+    if (s === "IN_PROGRESS")
+      return <Chip label="In Progress" sx={{ background: "#fef9c3", color: "#854d0e" }} />;
+    if (s === "CLOSED")
+      return <Chip label="Closed" sx={{ background: "#fecaca", color: "#7f1d1d" }} />;
+    return <Chip label={s} />;
   };
 
-  const handleFilterChange = (newFilter: any) => {
-    setFilterData(newFilter);
-    setPage(0);
+  const statusChip = (s: string) => {
+    if (s === "ACTIVE")
+      return <Chip label="Active" sx={{ background: "#d1fae5", color: "#065f46" }} />;
+    if (s === "INACTIVE")
+      return <Chip label="Inactive" sx={{ background: "#fee2e2", color: "#991b1b" }} />;
+    return <Chip label={s} />;
   };
 
-  const handleViewTicket = (ticket: any) => {
-    alert("View ticket functionality not implemented yet.");
-    handleMenuClose();
-  };
-
-  const handleResolveTicket = (ticket: any) => {
-    alert("Resolve ticket functionality not implemented yet.");
-    handleMenuClose();
-  };
-
-  const handleReopenTicket = (ticket: any) => {
-    alert("Reopen ticket functionality not implemented yet.");
-    handleMenuClose();
-  };
-
-  const safeValue = (value: any) =>
-    value === null || value === undefined || value === "" ? "-" : value;
-
-  const renderStatusChip = (statusRaw: string) => {
-    const normalized = (statusRaw || "").toString().toLowerCase().replace(/_/g, " ");
-    const color = statusColorMap[normalized] || "default";
-    const label = normalized
-      ? normalized
-          .split(" ")
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" ")
-      : "-";
-    return <Chip label={label} color={color} variant="outlined" size="small" />;
-  };
-
+  // ------------------------ UI ------------------------
   return (
     <Sidebar>
+      <ToastContainer containerId="Admin-Support-Ticket-List" />
+
       <div className="list-parent-container">
+
+        {/* -------------------- HEADER -------------------- */}
         <div className="header-container">
           <div className="chip-container">
             <p className="department-text">Support Tickets</p>
             <Chip label={`${totalCount || 0} records`} className="overall-chips" />
           </div>
+
           <div className="search-container">
             <DynamicSearchField
               type="search"
               name=""
-              disabled={supportTicketListLoading}
               label="Search"
-              onChange={handleSearchText}
+              onChange={setSearchValue}
+              disabled={supportTicketListLoading}
             />
+
             <div className="button-container">
-              <Button
-                variant="outlined"
-                startIcon={<FilterList />}
-                className="filter-button"
-                onClick={() => setIsModalOpen(true)}
+
+              {/* FILTER DROPDOWN */}
+              <select
+                value={ticketFilter}
+                onChange={(e) => setTicketFilter(e.target.value)}
+                className="filter-dropdown"
               >
-                Filters
-              </Button>
-              <div className="columnGrid-container" onClick={handleOpenColumns}>
-                <Icon
-                  icon="mingcute:column-line"
-                  width="20"
-                  height="20"
-                  style={{ color: "#374151", cursor: "pointer" }}
-                />
+                <option value="ALL">All Tickets</option>
+                <option value="OPEN">Open</option>
+                <option value="IN_PROGRESS">In Progress</option>
+                <option value="CLOSED">Closed</option>
+              </select>
+
+              {/* NO CREATE BUTTON FOR ADMIN */}
+
+              {/* COLUMN SELECTOR */}
+              <div
+                className="columnGrid-container"
+                onClick={(e) => setColumnAnchorEl(e.currentTarget)}
+              >
+                <Icon icon="mingcute:column-line" width="20" />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="table-container-client">
+        {/* -------------------- TABLE -------------------- */}
+        <Paper className="table-container-client">
           <TableContainer>
             <Table stickyHeader className="admin-users-table">
               <TableHead>
                 <TableRow>
                   {columns
-                    .filter(column => visibleColumnIds.includes(column.id))
-                    .map(column => (
-                      <TableCell key={column.id}>
-                        {column.sortable ? (
+                    .filter((c) => visibleColumns.includes(c.id))
+                    .map((col) => (
+                      <TableCell key={col.id}>
+                        {col.sortable ? (
                           <TableSortLabel
-                            active={sortField === column.id}
-                            direction={sortOrdered}
-                            onClick={() => handleSort(column.id)}
+                            active={sortField === col.id}
+                            direction={sortDir}
+                            onClick={() => handleSort(col.id)}
                           >
-                            {column.label}
+                            {col.label}
                           </TableSortLabel>
                         ) : (
-                          column.label
+                          col.label
                         )}
                       </TableCell>
                     ))}
                   <TableCell align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
+
               <TableBody>
                 {supportTicketListLoading ? (
                   <TableRow>
-                    <TableCell colSpan={visibleColumnIds.length + 1} align="center">
+                    <TableCell colSpan={visibleColumns.length + 1} align="center">
                       Loading...
                     </TableCell>
                   </TableRow>
                 ) : tickets.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={visibleColumnIds.length + 1} align="center">
-                      No support tickets found
+                    <TableCell colSpan={visibleColumns.length + 1} align="center">
+                      No tickets found
                     </TableCell>
                   </TableRow>
                 ) : (
-                  tickets.map((ticket: any) => (
-                    <TableRow hover key={ticket.ticketId || ticket.id}>
-                      {columns
-                        .filter(column => visibleColumnIds.includes(column.id))
-                        .map(column => (
-                          <TableCell
-                            key={column.id}
-                            className={column.id === "issue_desc" ? "" : "nowrap-cell"}
-                          >
-                            {column.id === "status"
-                              ? renderStatusChip(ticket[column.id])
-                              : safeValue(ticket[column.id])}
-                          </TableCell>
-                        ))}
+                  tickets.map((t: any) => (
+                    <TableRow hover key={t.id}>
+
+                      {visibleColumns.includes("username") && (
+                        <TableCell>
+                          {safeValue(t.user?.firstName)} {safeValue(t.user?.lastName)}
+                        </TableCell>
+                      )}
+
+                      {visibleColumns.includes("subject") && (
+                        <TableCell>{safeValue(t.subject)}</TableCell>
+                      )}
+
+                      {visibleColumns.includes("issueDescription") && (
+                        <TableCell>{safeValue(t.issueDescription)}</TableCell>
+                      )}
+
+                      {visibleColumns.includes("ticketStatus") && (
+                        <TableCell>{ticketStatusChip(t.ticketStatus)}</TableCell>
+                      )}
+
+                      {visibleColumns.includes("status") && (
+                        <TableCell>{statusChip(t.status)}</TableCell>
+                      )}
+
+                      {visibleColumns.includes("createdAt") && (
+                        <TableCell>{safeValue(t.createdAt)}</TableCell>
+                      )}
+
+                      {visibleColumns.includes("createdBy") && (
+                        <TableCell>{safeValue(t.createdBy)}</TableCell>
+                      )}
+
+                      {visibleColumns.includes("updatedAt") && (
+                        <TableCell>{safeValue(t.updatedAt || t.updateAt)}</TableCell>
+                      )}
+
+                      {visibleColumns.includes("updatedBy") && (
+                        <TableCell>{safeValue(t.updatedBy)}</TableCell>
+                      )}
+
                       <TableCell align="center">
-                        <IconButton size="small" onClick={event => handleMenuOpen(event, ticket)}>
+                        <IconButton size="small" onClick={(e) => handleMenuOpen(e, t)}>
                           <MoreVert />
                         </IconButton>
                       </TableCell>
@@ -266,46 +308,47 @@ const AdminSupportTicket: React.FC = () => {
             </Table>
           </TableContainer>
 
+          {/* PAGINATION */}
           <div className="pagination-container">
             <TablePagination
               component="div"
               count={totalCount}
               page={page}
-              onPageChange={handleChangePage}
+              onPageChange={handlePageChange}
               rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              rowsPerPageOptions={[
-                { value: 10, label: "10 Records" },
-                { value: 20, label: "20 Records" },
-                { value: 30, label: "30 Records" },
-              ]}
-              labelRowsPerPage=""
+              onRowsPerPageChange={handleRowsChange}
+              rowsPerPageOptions={[10, 20, 30]}
               backIconButtonProps={{ children: <KeyboardArrowLeft /> }}
               nextIconButtonProps={{ children: <KeyboardArrowRight /> }}
             />
           </div>
-        </div>
+        </Paper>
 
+        {/* -------------- ROW ACTION MENU -------------- */}
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-          <MenuItem onClick={() => handleViewTicket(selectedTicket)}>
-            <Visibility fontSize="small" sx={{ mr: 1 }} /> View Details
+          <MenuItem onClick={() => navigate(`/admin/supportTicket/view/${selectedTicket.id}`)}>
+            <Visibility fontSize="small" sx={{ mr: 1 }} /> View
           </MenuItem>
-          <MenuItem onClick={() => handleResolveTicket(selectedTicket)}>
-            <CheckCircleOutline fontSize="small" sx={{ mr: 1 }} /> Mark as Resolved
-          </MenuItem>
-          <MenuItem onClick={() => handleReopenTicket(selectedTicket)}>
-            <Replay fontSize="small" sx={{ mr: 1 }} /> Reopen Ticket
+
+          <MenuItem onClick={() => navigate(`/admin/supportTicket/edit/${selectedTicket.id}`)}>
+            <Edit fontSize="small" sx={{ mr: 1 }} /> Edit
           </MenuItem>
         </Menu>
 
-        <Menu anchorEl={columnAnchorEl} open={Boolean(columnAnchorEl)} onClose={handleCloseColumns}>
-          {columns.map(column => {
-            const checked = visibleColumnIds.includes(column.id);
-            const disableUncheck = checked && visibleColumnIds.length === 1;
+        {/* -------------- COLUMN SELECTOR -------------- */}
+        <Menu
+          anchorEl={columnAnchorEl}
+          open={Boolean(columnAnchorEl)}
+          onClose={() => setColumnAnchorEl(null)}
+        >
+          {columns.map((col) => {
+            const checked = visibleColumns.includes(col.id);
+            const disableUncheck = checked && visibleColumns.length === 1;
+
             return (
               <MenuItem
-                key={column.id}
-                onClick={() => !disableUncheck && handleToggleColumn(column.id)}
+                key={col.id}
+                onClick={() => !disableUncheck && handleToggleColumn(col.id)}
                 disabled={disableUncheck}
               >
                 <input
@@ -314,21 +357,14 @@ const AdminSupportTicket: React.FC = () => {
                   readOnly
                   style={{ marginRight: 8 }}
                 />
-                {column.label}
+                {col.label}
               </MenuItem>
             );
           })}
         </Menu>
-
-        <SupportTicketFilterModal
-          isModalOpen={isModalOpen}
-          toggleModal={setIsModalOpen}
-          onChangeFilter={handleFilterChange}
-          initialFilter={filterData}
-        />
       </div>
     </Sidebar>
   );
 };
 
-export default AdminSupportTicket;
+export default AdminSupportTicketList;

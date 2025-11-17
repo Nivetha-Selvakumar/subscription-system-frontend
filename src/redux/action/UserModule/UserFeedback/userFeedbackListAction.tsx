@@ -7,22 +7,22 @@ import {
     USER_FEEDBACK_LIST_SUCCESS,
 } from '../../../actionTypes/UserModule/UserFeedback/userFeedbackListActionTypes';
 
-export const fechUserFeedbackListRequest = (payload: any) => ({
+export const fetchUserFeedbackListRequest = (payload: any) => ({
     type: USER_FEEDBACK_LIST_REQUEST,
     payload: payload,
 });
 
-export const fechUserFeedbackListSuccess = (data: string) => ({
+export const fetchUserFeedbackListSuccess = (data: string) => ({
     type: USER_FEEDBACK_LIST_SUCCESS,
     payload: data,
 });
 
-export const fechUserFeedbackListFailure = (error: any) => ({
+export const fetchUserFeedbackListFailure = (error: any) => ({
     type: USER_FEEDBACK_LIST_FAILURE,
     payload: error,
 });
 
-export const fechUserFeedbackListClear = (data: any) => ({
+export const fetchUserFeedbackListClear = (data: any) => ({
     type: USER_FEEDBACK_LIST_CLEAR,
     payload: data,
 });

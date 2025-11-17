@@ -2,8 +2,8 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { USER_FEEDBACK_DELETE_REQUEST } from "../../../actionTypes/UserModule/UserFeedback/userFeedbackDeleteActionTypes";
 import { AUTH } from "../../../endpoints/endpoints";
 import {
-    fechUserFeedbackDeleteFailure,
-    fechUserFeedbackDeleteSuccess,
+    fetchUserFeedbackDeleteFailure,
+    fetchUserFeedbackDeleteSuccess,
 } from "../../../action/UserModule/UserFeedback/userFeedbackDeleteAction";
 import showToast from "../../../../common-components/ui/toastNotification";
 import axios from "axios";
@@ -32,11 +32,11 @@ function* userFeedbackDeleteSaga(action: any): Generator<any, void, any> {
         });
 
         // ✅ Dispatch success
-        yield put(fechUserFeedbackDeleteFailure(response.data));
+        yield put(fetchUserFeedbackDeleteFailure(response.data));
         showToast("Feedback deleted successfully", "success", "Feedback-List");
     } catch (error: any) {
         // ✅ Handle failure
-        yield put(fechUserFeedbackDeleteSuccess(error.message));
+        yield put(fetchUserFeedbackDeleteSuccess(error.message));
 
         const errorMessage = error?.response?.data?.Error;
 

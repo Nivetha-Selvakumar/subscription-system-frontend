@@ -34,6 +34,15 @@ export const AUTH = {
   SUPPORT_TICKET_EDIT: `${subscribe}/edit/supportTicket`,
   SUPPORT_TICKET_RESPONSE_EDIT: `${subscribe}/edit/supportTicketResponse`,
   SUPPORT_TICKET_RESPONSE_DELETE: `${subscribe}/delete/supportTicketResponse`,
+  
+  
+  
+  SUBSCRIPTION_CREATE: `${subscribe}/create/subscription`,
+  SUBSCRIPTION_UPDATE: `${subscribe}/update/subscription`,
+  SUBSCRIPTION_CANCEL: `${subscribe}/cancel/subscription`,
+  SUBSCRIPTION_VIEW: `${subscribe}/get/subscriptionDetails`,
+  SUBSCRIPTION_PAYMENT_LIST: `${subscribe}/get/subscriptionPaymentList`,
+
 
 
 };

@@ -1,8 +1,8 @@
 import { call, put, takeLeading } from "redux-saga/effects";
 import axios from "axios";
 import {
-    fechUserFeedbackListFailure,
-    fechUserFeedbackListSuccess,
+    fetchUserFeedbackListFailure,
+    fetchUserFeedbackListSuccess,
 } from "../../../action/UserModule/UserFeedback/userFeedbackListAction";
 import showToast from "../../../../common-components/ui/toastNotification";
 import { AUTH } from "../../../endpoints/endpoints";
@@ -14,7 +14,6 @@ function* userFeedbackListSaga(action: any): Generator<any, void, any> {
     if (isPrevent) return;
 
     try {
-        console.log("Entered saga")
         isPrevent = true;
 
         const payload = action.payload;
@@ -37,13 +36,12 @@ function* userFeedbackListSaga(action: any): Generator<any, void, any> {
             },
         });
 
-        console.log("Plan List Response:", response);
 
         // ✅ Dispatch success action
-        yield put(fechUserFeedbackListSuccess(response?.data));
+        yield put(fetchUserFeedbackListSuccess(response?.data));
     } catch (error: any) {
         // ❌ Handle API or network errors
-        yield put(fechUserFeedbackListFailure(error.message));
+        yield put(fetchUserFeedbackListFailure(error.message));
 
         const errorMessage = error?.response?.data?.Error;
         if (Array.isArray(errorMessage)) {
