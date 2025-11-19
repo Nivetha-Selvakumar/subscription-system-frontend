@@ -8,7 +8,6 @@ import { watchSignupUser } from "./saga/SignUpPage/signUpUserSaga";
 import { watchUserEdit } from "./saga/AdminModule/AdminUsers/adminEditUserSaga";
 import { watchUserDelete } from "./saga/AdminModule/AdminUsers/adminDeleteUserSaga";
 import { watchUserView } from "./saga/AdminModule/AdminUsers/adminViewUserSaga";
-import adminPaymentListSaga from './saga/AdminModule/AdminPayment/adminPaymentListSaga';
 import { watchPlanView } from "./saga/AdminModule/AdminPlan/adminPlanViewSaga";
 import { watchPlanCreate } from "./saga/AdminModule/AdminPlan/adminPlanCreateSaga";
 import { watchPlanEdit } from "./saga/AdminModule/AdminPlan/adminPlanEditSaga";
@@ -31,6 +30,8 @@ import { watchSubscriptionCreate } from './saga/UserModule/UserSubscription/user
 import { watchSubscriptionPaymentList } from './saga/UserModule/UserSubscription/userSubscriptionPaymentListSaga';
 import { watchSubscriptionEdit } from './saga/UserModule/UserSubscription/userSubscriptionUpdateSaga';
 import { watchUserSubscriptionView } from './saga/UserModule/UserSubscription/userSubscriptionViewSaga';
+import { watchAdminDashboardList } from './saga/AdminModule/AdminDashboard/adminDashboardSaga';
+import { watchUserDashboardList } from './saga/UserModule/UserDashboard/userDashboardSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -49,8 +50,6 @@ export default function* rootSaga() {
     watchPlanDelete(),
     watchPlanEdit(),
     watchPlanList(),
-
-    adminPaymentListSaga(),
 
     watchUserFeedbackCreate(),
     watchuserFeedbackEdit(),
@@ -71,6 +70,9 @@ export default function* rootSaga() {
     watchSubscriptionPaymentList(),
     watchSubscriptionEdit(),
     watchUserSubscriptionView(),
+
+    watchAdminDashboardList(),
+    watchUserDashboardList(),
 
   ]);
 }

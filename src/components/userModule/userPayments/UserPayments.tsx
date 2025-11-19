@@ -27,6 +27,46 @@ import { Icon } from "@iconify/react";
 import DynamicSearchField from "../../../common-components/ui/dynamicSearchField";
 import { ToastContainer } from "react-toastify";
 import { SUBSCRIPTION_PAYMENT_LIST_REQUEST } from "../../../redux/actionTypes/UserModule/UserSubscription/userSubscriptionPaymentListActionTypes";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+
+
+const handleDownloadInvoice = (payment: any) => {
+  const doc = new jsPDF();
+
+  doc.setFontSize(18);
+  doc.text("Subscription Management system", 14, 20);
+
+  doc.setFontSize(12);
+  doc.text("Subscription Invoice", 14, 30);
+
+  autoTable(doc, {
+    startY: 45,
+    head: [["Field", "Details"]],
+    body: [
+      ["Plan Name", payment.planName],
+      ["Amount", ` Rs. ${payment.amount}`],
+      ["Payment Status", payment.paymentStatus],
+      ["Subscription Status", payment.subscriptionStatus],
+      ["Paid On", payment.paymentDate],
+    ],
+  });
+
+  // ✔ FIX — no TS error
+  const finalY = (doc as any).lastAutoTable?.finalY || 60;
+
+  doc.text(
+    "Thank you for choosing our subscription!",
+    14,
+    finalY + 15
+  );
+
+  doc.save(`invoice_${payment.planName}.pdf`);
+};
+
+
+
+
 
 const UserPaymentList: React.FC = () => {
   const dispatch = useDispatch();
@@ -74,6 +114,7 @@ const UserPaymentList: React.FC = () => {
     { id: "subscriptionStatus", label: "Subscription Status" },
     { id: "paymentDate", label: "Paid On", sortable: true },
   ];
+
 
   const fetchPaymentList = () => {
     dispatch({
@@ -183,7 +224,7 @@ const UserPaymentList: React.FC = () => {
                         )}
                       </TableCell>
                     ))}
-                  <TableCell align="center">View</TableCell>
+                  <TableCell align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
 
@@ -214,27 +255,52 @@ const UserPaymentList: React.FC = () => {
                         ))}
 
                       {/* ⭐ CLEAN VIEW BUTTON (NO BLUE BOX) */}
-                      <TableCell align="center">
+                      <TableCell
+                        align="center"
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          gap: "6px", // ⭐ light spacing
+                        }}
+                      >
+                        {/* VIEW BUTTON */}
                         <MenuItem
                           onClick={() => handleViewPayment(p)}
                           sx={{
-                            display: "inline-flex",
-                            padding: "4px 10px",
+                            padding: "4px",
                             borderRadius: "6px",
-                            fontSize: "0.875rem",
-                            border: "1px solid #d1d5db",
-                            "&:hover": { background: "#f3f4f6" },
-                            width: "fit-content",
-                            margin: "0 auto",
+                            border: "1px solid #E5E7EB",
+                            "&:hover": { background: "#F3F4F6" },
+                            minWidth: "32px",
+                            height: "32px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
                           }}
                         >
-                          <Icon
-                            icon="mingcute:eye-line"
-                            width="18"
-                          />
+                          <Icon icon="mingcute:eye-line" width="18" />
+                        </MenuItem>
 
+                        {/* DOWNLOAD BUTTON */}
+                        <MenuItem
+                          onClick={() => handleDownloadInvoice(p)}
+                          sx={{
+                            padding: "4px",
+                            borderRadius: "6px",
+                            border: "1px solid #E5E7EB",
+                            "&:hover": { background: "#F3F4F6" },
+                            minWidth: "32px",
+                            height: "32px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Icon icon="mingcute:download-line" width="18" />
                         </MenuItem>
                       </TableCell>
+
                     </TableRow>
                   ))
                 )}

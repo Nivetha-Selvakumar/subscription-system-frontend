@@ -10,36 +10,18 @@ import {
   USER_FEEDBACK_CREATE_CLEAR,
 } from "../../../redux/actionTypes/UserModule/UserFeedback/userFeedbackCreateActionTypes";
 
-// const ratingOptions = [
-//   { label: "0", value: 0 },
-//   { label: "1", value: 1 },
-//   { label: "2", value: 2 },
-//   { label: "3", value: 3 },
-//   { label: "4", value: 4 },
-//   { label: "5", value: 5 },
-// ];
-
 const validationSchema = Yup.object().shape({
-  ratings: Yup.number()
-    .min(0)
-    .max(5)
-    .required("Rating is required"),
-  comments: Yup.string()
-    .max(255, "Max 255 characters")
-    .required("Comments are required"),
+  ratings: Yup.number().min(0).max(5).required("Rating is required"),
+  comments: Yup.string().max(255).required("Comments are required"),
 });
 
 const UserFeedback: React.FC = () => {
   const dispatch = useDispatch();
-
   const { feedbackCreate, feedbackCreateLoading } = useSelector(
     (state: any) => state.userFeedbackCreateReducer || {}
   );
 
-  const initialValues = {
-    ratings: "",
-    comments: "",
-  };
+  const initialValues = { ratings: "", comments: "" };
 
   const handleSubmit = (values: any) => {
     dispatch({
@@ -51,11 +33,9 @@ const UserFeedback: React.FC = () => {
     });
   };
 
-  // Handle Success
   useEffect(() => {
     if (feedbackCreate?.code === 200 || feedbackCreate?.code === 201) {
       showToast("Feedback submitted successfully!", "success", "Feedback-Create");
-
       setTimeout(() => {
         dispatch({ type: USER_FEEDBACK_CREATE_CLEAR });
       }, 1000);
@@ -65,11 +45,14 @@ const UserFeedback: React.FC = () => {
   return (
     <Sidebar>
       <ToastContainer containerId="Feedback-Create" />
-      {/* min-h-screen */}
-      <div className="flex justify-center items-center min-h-[85vh] bg-gradient-to-r bg-gradient-to-r from-[#2e88c4] to-[#1abc9c] p-4">
+
+      {/* MAIN BACKGROUND */}
+      <div className="flex justify-center items-center min-h-[85vh] bg-gradient-to-r from-[#d9e9f7] to-[#9ac3e6] p-4">
+
+        {/* FORM CARD */}
         <div className="bg-white w-full max-w-2xl md:max-w-3xl lg:max-w-4xl rounded-2xl shadow-2xl p-6 md:p-10">
 
-          <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
+          <h2 className="text-3xl font-bold text-center mb-8 text-[#034078]">
             Feedback Form
           </h2>
 
@@ -88,9 +71,9 @@ const UserFeedback: React.FC = () => {
             }) => (
               <Form className="space-y-6">
 
-                {/* STAR RATING */}
+                {/* ⭐ STAR RATING */}
                 <div>
-                  <label className="block text-gray-700 font-medium mb-2">
+                  <label className="block text-[#034078] font-medium mb-2">
                     Rating
                   </label>
 
@@ -101,8 +84,8 @@ const UserFeedback: React.FC = () => {
                         onClick={() => setFieldValue("ratings", star)}
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
-                        fill={star <= Number(values.ratings) ? "gold" : "none"}
-                        stroke="gold"
+                        fill={star <= Number(values.ratings) ? "#FFD700" : "none"}
+                        stroke="#FFD700"
                         strokeWidth="2"
                         className="w-[6rem] h-8 cursor-pointer hover:scale-110 transition-transform"
                       >
@@ -112,16 +95,13 @@ const UserFeedback: React.FC = () => {
                   </div>
 
                   {errors.ratings && touched.ratings && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.ratings}
-                    </p>
+                    <p className="text-red-500 text-sm mt-1">{errors.ratings}</p>
                   )}
                 </div>
 
-
                 {/* COMMENTS */}
                 <div>
-                  <label className="block text-gray-700 font-medium mb-2">
+                  <label className="block text-[#034078] font-medium mb-2">
                     Comments
                   </label>
                   <textarea
@@ -131,12 +111,10 @@ const UserFeedback: React.FC = () => {
                     onBlur={handleBlur}
                     rows={4}
                     placeholder="Enter your feedback"
-                    className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-teal-500 outline-none resize-none"
+                    className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#034078] outline-none resize-none"
                   />
                   {errors.comments && touched.comments && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.comments}
-                    </p>
+                    <p className="text-red-500 text-sm mt-1">{errors.comments}</p>
                   )}
                 </div>
 
@@ -144,10 +122,10 @@ const UserFeedback: React.FC = () => {
                 <button
                   type="submit"
                   disabled={feedbackCreateLoading}
-                  className={`w-full py-3 rounded-full text-lg font-semibold text-white transition 
-                                    ${feedbackCreateLoading
+                  className={`w-full py-3 rounded-full text-lg font-semibold text-white transition
+                    ${feedbackCreateLoading
                       ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-[#037971] hover:bg-[#02675f]"
+                      : "bg-[#034078] hover:bg-[#02345F]"
                     }`}
                 >
                   {feedbackCreateLoading ? "Submitting..." : "Submit"}

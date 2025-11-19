@@ -14,7 +14,6 @@ import PlanCreateReducer from "../redux/reducer/AdminModule/AdminPlan/adminPlanC
 import PlanEditReducer from "../redux/reducer/AdminModule/AdminPlan/adminPlanEditReducer";
 import PlanDeleteReducer from "../redux/reducer/AdminModule/AdminPlan/adminPlanDeleteReducer";
 import PlanViewReducer from "../redux/reducer/AdminModule/AdminPlan/adminPlanViewReducer";
-import PaymentListReducer from "../redux/reducer/AdminModule/AdminPayment/adminPaymentListReducer";
 import SupportTicketListReducer from "../redux/reducer/AdminModule/AdminSupportTicket/adminSupportTicketListReducer";
 
 import UserFeedbackCreateReducer from "../redux/reducer/UserModule/UserFeedback/userFeedbackCreateReducer";
@@ -37,6 +36,9 @@ import SubscriptionPaymentListReducer from "./reducer/UserModule/UserSubscriptio
 import SubscriptionUpdateReducer from "../redux/reducer/UserModule/UserSubscription/userSubscriptionUpdateReducer";
 import SubscriptionViewReducer from "../redux/reducer/UserModule/UserSubscription/userSubscriptionViewReducer";
 
+import AdminDashboardListReducer from "../redux/reducer/AdminModule/AdminDashboard/adminDashboardReducer";
+import UserDashboardListReducer from "../redux/reducer/UserModule/UserDashboard/userDashboardReducer";
+
 
 const rootReducer = combineReducers({
     loginUserReducer: LoginUserReducer,
@@ -52,7 +54,6 @@ const rootReducer = combineReducers({
     planEditReducer: PlanEditReducer,
     planDeleteReducer: PlanDeleteReducer,
     planViewReducer: PlanViewReducer,
-    paymentListReducer: PaymentListReducer,
 
     userFeedbackCreateReducer: UserFeedbackCreateReducer,
     userFeedbackDeleteReducer: UserFeedbackDeleteReducer,
@@ -73,6 +74,9 @@ const rootReducer = combineReducers({
     subscriptionPaymentListReducer: SubscriptionPaymentListReducer,
     subscriptionUpdateReducer: SubscriptionUpdateReducer,
     subscriptionViewReducer: SubscriptionViewReducer,
+    
+    adminDashboardListReducer: AdminDashboardListReducer,
+    userDashboardListReducer: UserDashboardListReducer,
 
 });
 
