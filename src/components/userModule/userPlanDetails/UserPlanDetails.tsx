@@ -44,20 +44,23 @@ const UserPlanDetails: React.FC = () => {
 
           <div className="bg-white shadow px-2 py-1 rounded-full flex gap-2">
             <button
-              className={`px-5 py-2 rounded-full ${billing === "monthly"
-                ? "bg-[#e6f7f3] text-[#0b3d52]"
-                : "text-gray-700"
-                }`}
               onClick={() => setBilling("monthly")}
+              className={`px-6 py-2 rounded-full font-medium transition
+      ${billing === "monthly"
+                  ? "bg-[#034078] text-white"
+                  : "text-[#034078]"
+                }`}
             >
               Monthly
             </button>
+
             <button
-              className={`px-5 py-2 rounded-full ${billing === "yearly"
-                ? "bg-[#e6f7f3] text-[#0b3d52]"
-                : "text-gray-700"
-                }`}
               onClick={() => setBilling("yearly")}
+              className={`px-6 py-2 rounded-full font-medium transition
+      ${billing === "yearly"
+                  ? "bg-[#034078] text-white"
+                  : "text-[#034078]"
+                }`}
             >
               Yearly
             </button>

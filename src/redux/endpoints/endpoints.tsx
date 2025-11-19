@@ -42,6 +42,11 @@ export const AUTH = {
   SUBSCRIPTION_CANCEL: `${subscribe}/cancel/subscription`,
   SUBSCRIPTION_VIEW: `${subscribe}/get/subscriptionDetails`,
   SUBSCRIPTION_PAYMENT_LIST: `${subscribe}/get/subscriptionPaymentList`,
+  
+  
+  ADMIN_DASHBOARD: `${subscribe}/admin/dashboard`,
+  USER_DASHBOARD: `${subscribe}/user/dashboard`,
+
 
 
 
