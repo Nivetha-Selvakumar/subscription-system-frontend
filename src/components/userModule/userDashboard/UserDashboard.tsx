@@ -24,7 +24,7 @@ const UserDashboard = () => {
 
   // ⭐ Date Formatter → "Dec 17, 2025"
   const formatDate = (dateStr: string) => {
-    if (!dateStr) return "-";
+    if (!dateStr || dateStr === '-') return "-";
     try {
       return new Date(dateStr).toLocaleDateString("en-US", {
         year: "numeric",
@@ -35,6 +35,59 @@ const UserDashboard = () => {
       return dateStr;
     }
   };
+
+  const getStatusStyle = (status: string) => {
+    switch (status?.toUpperCase()) {
+      case "SUCCESS":
+        return {
+          label: "Paid",
+          style: {
+            background: "#D1FAE5",
+            color: "#065F46",
+            padding: "4px 12px",
+            borderRadius: "8px",
+            fontWeight: 600,
+          },
+        };
+
+      case "FAILED":
+        return {
+          label: "Failed",
+          style: {
+            background: "#FEE2E2",
+            color: "#B91C1C",
+            padding: "4px 12px",
+            borderRadius: "8px",
+            fontWeight: 600,
+          },
+        };
+
+      case "PENDING":
+        return {
+          label: "Pending",
+          style: {
+            background: "#FEF3C7",
+            color: "#B45309",
+            padding: "4px 12px",
+            borderRadius: "8px",
+            fontWeight: 600,
+          },
+        };
+
+      default:
+        return {
+          label: status || "Unknown",
+          style: {
+            background: "#E5E7EB",
+            color: "#374151",
+            padding: "4px 12px",
+            borderRadius: "8px",
+            fontWeight: 600,
+          },
+        };
+    }
+  };
+
 
   if (userDashboardListLoading || !userDashboardList) {
     return (
@@ -103,20 +156,26 @@ const UserDashboard = () => {
           <h3 style={{ marginBottom: "15px" }}>Recent Subscriptions</h3>
 
           {recentSubscriptions?.length > 0 ? (
-            recentSubscriptions.map((sub: any, index: number) => (
-              <div key={index} style={listItem}>
-                <div>
-                  <strong>{sub.planName}</strong>
-                  <p style={muted}>
-                    ₹{sub.price} / {sub.planType}
-                  </p>
+            recentSubscriptions.map((sub: any, index: number) => {
+              const statusInfo = getStatusStyle(sub.paymentStatus);
+
+              return (
+                <div key={index} style={listItem}>
+                  <div>
+                    <strong>{sub.planName}</strong>
+                    <p style={muted}>
+                      ₹{sub.price} / {sub.planType}
+                    </p>
+                  </div>
+
+                  <div style={statusInfo.style}>{statusInfo.label}</div>
                 </div>
-                <div style={statusPaid}>Paid</div>
-              </div>
-            ))
+              );
+            })
           ) : (
             <p style={muted}>No subscriptions found</p>
           )}
+
         </div>
 
         {/* UPCOMING PAYMENT */}
@@ -170,18 +229,13 @@ const value = { fontSize: "22px", fontWeight: 600 };
 const listItem = {
   display: "flex",
   justifyContent: "space-between",
-  padding: "12px 0",
+  alignItems: "center",   // ⭐ Aligning vertically
+  padding: "8px 0",       // ⭐ Reduced padding
   borderBottom: "1px solid #eee",
 };
 
-const muted = { color: "#6B7280", fontSize: "14px" };
 
-const statusPaid = {
-  background: "#D1FAE5",
-  color: "#065F46",
-  padding: "4px 12px",
-  borderRadius: "8px",
-};
+const muted = { color: "#6B7280", fontSize: "14px" };
 
 const payBtn = {
   marginTop: "15px",

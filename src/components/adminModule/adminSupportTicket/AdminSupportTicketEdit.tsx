@@ -51,7 +51,7 @@ const AdminSupportTicketEdit = () => {
     // Handle EDIT success
     useEffect(() => {
         if (supportTicketEdit?.code === 200) {
-            showToast("Ticket Updated!", "success", "Admin-Ticket");
+            showToast("Ticket Updated!", "success", "default");
             fetchTicket();
         }
     }, [supportTicketEdit, fetchTicket]);
@@ -59,7 +59,7 @@ const AdminSupportTicketEdit = () => {
     // Handle reply success
     useEffect(() => {
         if (supportTicketResponseCreate?.code === 200 || supportTicketResponseCreate?.code === 201) {
-            showToast("Reply Sent!", "success", "Admin-Ticket");
+            showToast("Reply Sent!", "success", "default");
             setResponseText("");
             fetchTicket();
             setTimeout(() => chatRef.current?.scrollTo(0, chatRef.current.scrollHeight), 200);
@@ -92,7 +92,7 @@ const AdminSupportTicketEdit = () => {
 
     return (
         <Sidebar>
-            <ToastContainer containerId="Admin-Ticket" />
+            <ToastContainer containerId="default" />
 
             <div className="flex justify-center items-start w-full min-h-screen bg-gray-50">
                 <div className="max-w-[75rem] w-full bg-white rounded-lg shadow flex flex-col h-[80vh] my-8">

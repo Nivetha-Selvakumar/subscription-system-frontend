@@ -49,6 +49,15 @@ const AdminSupportTicketView = () => {
     const data = supportTicketView?.data || {};
     const responses = data.ticketResponse || [];
 
+    const formatStatus = (text = "") => {
+        return text
+            .toLowerCase()
+            .split("_")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+    };
+
+
     return (
         <Sidebar>
 
@@ -101,7 +110,7 @@ const AdminSupportTicketView = () => {
                             <div>
                                 <label className="text-sm font-semibold text-gray-700">Status</label>
                                 <input disabled className="w-full mt-2 px-4 py-3 bg-gray-100 border rounded-lg"
-                                    value={data.ticketStatus || ""} />
+                                    value={formatStatus(data.ticketStatus) || ""} />
                             </div>
 
                         </div>
