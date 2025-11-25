@@ -5,24 +5,24 @@ import {
     SUPPORT_TICKET_RESPONSE_CREATE_FAILURE,
     SUPPORT_TICKET_RESPONSE_CREATE_REQUEST,
     SUPPORT_TICKET_RESPONSE_CREATE_SUCCESS,
-} from '../../../actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketResponseCreateActionType';
+} from '../../../actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketResponseCreateActionTypes';
 
-export const fetchSupportTicketCreateRequest = (payload: any) => ({
+export const fetchSupportTicketCreateResponseRequest = (payload: any) => ({
     type: SUPPORT_TICKET_RESPONSE_CREATE_REQUEST,
     payload: payload,
 });
 
-export const fetchSupportTicketCreateSuccess = (data: string) => ({
+export const fetchSupportTicketCreateResponseSuccess = (data: string) => ({
     type: SUPPORT_TICKET_RESPONSE_CREATE_SUCCESS,
     payload: data,
 });
 
-export const fetchSupportTicketCreateFailure = (error: any) => ({
+export const fetchSupportTicketCreateResponseFailure = (error: any) => ({
     type: SUPPORT_TICKET_RESPONSE_CREATE_FAILURE,
     payload: error,
 });
 
-export const fetchSupportTicketCreateClear = (data: any) => ({
+export const fetchSupportTicketCreateResponseClear = (data: any) => ({
     type: SUPPORT_TICKET_RESPONSE_CREATE_CLEAR,
     payload: data,
 });

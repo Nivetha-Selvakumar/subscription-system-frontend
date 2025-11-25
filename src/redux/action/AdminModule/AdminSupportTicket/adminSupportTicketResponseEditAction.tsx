@@ -7,22 +7,22 @@ import {
     SUPPORT_TICKET_RESPONSE_EDIT_SUCCESS,
 } from '../../../actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketResponseEditActionType';
 
-export const fetchSupportTicketCreateRequest = (payload: any) => ({
+export const fetchSupportTicketEditResponseRequest = (payload: any) => ({
     type: SUPPORT_TICKET_RESPONSE_EDIT_REQUEST,
     payload: payload,
 });
 
-export const fetchSupportTicketCreateSuccess = (data: string) => ({
+export const fetchSupportTicketEditResponseSuccess = (data: string) => ({
     type: SUPPORT_TICKET_RESPONSE_EDIT_SUCCESS,
     payload: data,
 });
 
-export const fetchSupportTicketCreateFailure = (error: any) => ({
+export const fetchSupportTicketEditResponseFailure = (error: any) => ({
     type: SUPPORT_TICKET_RESPONSE_EDIT_FAILURE,
     payload: error,
 });
 
-export const fetchSupportTicketCreateClear = (data: any) => ({
+export const fetchSupportTicketEditResponseClear = (data: any) => ({
     type: SUPPORT_TICKET_RESPONSE_EDIT_CLEAR,
     payload: data,
 });

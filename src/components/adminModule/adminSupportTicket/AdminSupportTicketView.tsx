@@ -118,21 +118,69 @@ const AdminSupportTicketView = () => {
                                     <p className="text-gray-500 text-center">No responses yet.</p>
                                 )}
 
-                                {responses.map((msg: any) => (
-                                    <div
-                                        key={msg.id}
-                                        className={`flex ${msg.senderRole === "ADMIN" ? "justify-end" : "justify-start"}`}
-                                    >
-                                        <div
-                                            className={`max-w-xs px-4 py-3 rounded-2xl shadow
-                      ${msg.senderRole === "ADMIN"
-                                                    ? "bg-blue-600 text-white rounded-br-none"
-                                                    : "bg-white border text-gray-900 rounded-bl-none"
-                                                }`}
-                                        >
-                                            <p>{msg.responseText}</p>
-                                            <p className="text-[10px] mt-1 text-gray-300">{msg.respondedAt}</p>
+                                {/* Group messages by date */}
+                                {Object.entries(
+                                    responses.reduce((acc: any, msg: any) => {
+                                        const dateKey = new Date(msg.createdAt).toDateString();
+                                        if (!acc[dateKey]) acc[dateKey] = [];
+                                        acc[dateKey].push(msg);
+                                        return acc;
+                                    }, {})
+                                ).map(([dateKey, messages]: any) => (
+                                    <div key={dateKey}>
+
+                                        {/* DATE SEPARATOR */}
+                                        <div className="flex justify-center my-3">
+                                            <span className="bg-gray-300 text-gray-700 px-3 py-1 rounded-md text-xs shadow">
+                                                {new Date(dateKey).toLocaleDateString("en-IN", {
+                                                    day: "2-digit",
+                                                    month: "short",
+                                                    year: "numeric",
+                                                })}
+                                            </span>
                                         </div>
+
+                                        {/* MESSAGES */}
+                                        {messages.map((msg: any, idx: number) => {
+                                            const loggedInUserId = localStorage.getItem("user_id");
+                                            const isUser = msg.responder?.id === loggedInUserId;
+
+                                            return (
+                                                <div
+                                                    key={msg.id ?? idx}
+                                                    className={`flex my-2 ${isUser ? "justify-end" : "justify-start"}`}
+                                                >
+                                                    <div
+                                                        className={`max-w-[70%] px-4 py-3 rounded-2xl shadow text-sm leading-snug
+                                    ${isUser
+                                                                ? "bg-blue-600 text-white rounded-br-none"
+                                                                : "bg-gray-100 text-gray-900 rounded-bl-none"
+                                                            }
+                                `}
+                                                    >
+                                                        {/* SENDER NAME */}
+                                                        <p className="text-xs font-semibold opacity-80 mb-1">
+                                                            {isUser
+                                                                ? `You (${msg.responder?.firstName} ${msg.responder?.lastName})`
+                                                                : `${msg.responder?.firstName} ${msg.responder?.lastName}`
+                                                            }
+                                                        </p>
+
+                                                        {/* MESSAGE */}
+                                                        <p className="whitespace-pre-line">{msg.responseText}</p>
+
+                                                        {/* TIME */}
+                                                        <p className="text-[10px] opacity-70 text-right mt-2">
+                                                            {new Date(msg.createdAt).toLocaleTimeString("en-IN", {
+                                                                hour: "2-digit",
+                                                                minute: "2-digit",
+                                                                hour12: true,
+                                                            })}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 ))}
                             </div>
