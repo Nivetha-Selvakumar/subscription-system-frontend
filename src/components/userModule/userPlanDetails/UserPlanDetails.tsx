@@ -13,7 +13,8 @@ const UserPlanDetails: React.FC = () => {
 
   const { planList } = useSelector((state: any) => state.planListReducer || {});
   const { userView } = useSelector((state: any) => state.userViewReducer || {});
-
+  
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [subscriptionAction, setSubscriptionAction] = useState<"" | "UPGRADE" | "DOWNGRADE" | "NONE">("");
 
   const userId = localStorage.getItem("user_id");
