@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { USER_DASHBOARD_LIST_REQUEST } from "../../../redux/actionTypes/UserModule/UserDashboard/userDashboardActionTypes";
 
+
 const UserDashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -11,6 +12,11 @@ const UserDashboard = () => {
   const { userDashboardList, userDashboardListLoading } = useSelector(
     (state: any) => state.userDashboardListReducer
   );
+
+  const isExpired = (endDate: string) => {
+    if (!endDate) return false;
+    return new Date(endDate) < new Date();
+  };
 
   useEffect(() => {
     dispatch({ type: USER_DASHBOARD_LIST_REQUEST });
@@ -68,7 +74,14 @@ const UserDashboard = () => {
 
         <div style={cardStyle}>
           <h4 style={title}>Next Billing Date</h4>
-          <p style={value}>{formatDate(nextBillingDate)}</p>
+
+          {isExpired(nextBillingDate) ? (
+            <p style={{ ...value, color: "red", fontWeight: 700 }}>
+              Plan Expired
+            </p>
+          ) : (
+            <p style={value}>{formatDate(nextBillingDate)}</p>
+          )}
         </div>
 
         <div style={cardStyle}>
@@ -110,7 +123,19 @@ const UserDashboard = () => {
         <div style={cardStyle}>
           <h3 style={{ marginBottom: "15px" }}>Upcoming Payment</h3>
 
-          {upcomingPayment ? (
+          {/* CHECK IF SUBSCRIPTION EXPIRED */}
+          {isExpired(nextBillingDate) ? (
+            <>
+              <p style={{ fontSize: "26px", fontWeight: 600, color: "red" }}>
+                Plan Expired
+              </p>
+              <p style={muted}>Subscribe to continue the service</p>
+
+              <button style={payBtn} onClick={() => navigate("/user/plans")}>
+                Subscribe Now
+              </button>
+            </>
+          ) : upcomingPayment ? (
             <>
               <p style={{ fontSize: "32px", fontWeight: 600 }}>
                 ₹{upcomingPayment.amount}
@@ -118,13 +143,14 @@ const UserDashboard = () => {
               <p style={muted}>Due on {formatDate(upcomingPayment.dueDate)}</p>
 
               <button style={payBtn} onClick={() => navigate("/user/plans")}>
-                Pay Now
+                View Plans
               </button>
             </>
           ) : (
             <p style={muted}>No upcoming payment</p>
           )}
         </div>
+
       </div>
     </DashboardLayout>
   );
