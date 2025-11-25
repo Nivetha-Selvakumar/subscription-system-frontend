@@ -1,12 +1,9 @@
 import { call, put, takeLeading } from "redux-saga/effects";
 import axios from "axios";
-import {
-    fetchSupportTicketCreateSuccess,
-    fetchSupportTicketCreateFailure,
-} from "../../../action/AdminModule/AdminSupportTicket/adminSupportTicketResponseCreateAction";
-import { SUPPORT_TICKET_RESPONSE_CREATE_REQUEST } from "../../../actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketResponseCreateActionType";
+import { SUPPORT_TICKET_RESPONSE_CREATE_REQUEST } from "../../../actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketResponseCreateActionTypes";
 import showToast from "../../../../common-components/ui/toastNotification";
 import { AUTH } from "../../../endpoints/endpoints";
+import { fetchSupportTicketCreateResponseFailure, fetchSupportTicketCreateResponseSuccess } from "../../../action/AdminModule/AdminSupportTicket/adminSupportTicketResponseCreateAction";
 
 let isPrevent = false;
 
@@ -36,31 +33,26 @@ function* supportTicketResponseCreateSaga(action: any): Generator<any, void, any
         );
 
 
+        console.log("response.data",response?.data);
         // ▶ Success Dispatch
-        yield put(fetchSupportTicketCreateSuccess(response?.data));
-
-        showToast(
-            "Support Ticket Response Created Successfully",
-            "success",
-            "Support-Ticket-Response-Create"
-        );
+        yield put(fetchSupportTicketCreateResponseSuccess(response?.data));
 
     } catch (error: any) {
 
         // ▶ Failure Dispatch
-        yield put(fetchSupportTicketCreateFailure(error.message));
+        yield put(fetchSupportTicketCreateResponseFailure(error.message));
 
         const errorMessage = error?.response?.data?.Error;
 
         if (Array.isArray(errorMessage)) {
-            showToast(errorMessage[0], "error", "Support-Ticket-Response-Create");
+            showToast(errorMessage[0], "error", "Support-Ticket-Edit");
         } else if (typeof errorMessage === "object" && errorMessage !== null) {
-            showToast(JSON.stringify(errorMessage), "error", "Support-Ticket-Response-Create");
+            showToast(JSON.stringify(errorMessage), "error", "Support-Ticket-Edit");
         } else {
             showToast(
                 errorMessage || "An unexpected error occurred",
                 "error",
-                "Support-Ticket-Response-Create"
+                "Support-Ticket-Edit"
             );
         }
 

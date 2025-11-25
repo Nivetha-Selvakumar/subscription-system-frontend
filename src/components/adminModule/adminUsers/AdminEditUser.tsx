@@ -14,6 +14,18 @@ import showToast from "../../../common-components/ui/toastNotification";
 import { USER_VIEW_REQUEST } from "../../../redux/actionTypes/AdminModule/AdminUsers/adminViewUserActionType";
 import { USER_EDIT_REQUEST } from "../../../redux/actionTypes/AdminModule/AdminUsers/adminEditUserActionType";
 
+// Dynamic role rules
+const getRoleOptions = (currentRole: string) => {
+    if (currentRole === "subscriber") {
+        return [{ label: "Subscriber", value: "subscriber" }];
+    }
+    return [
+        { label: "User", value: "user" },
+        { label: "Admin", value: "admin" },
+    ];
+};
+
+
 const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First name is required"),
     lastName: Yup.string().required("Last name is required"),
@@ -52,11 +64,11 @@ const genderOptions = [
     { label: "Other", value: "other" },
 ];
 
-const roleOptions = [
-    { label: "User", value: "user" },
-    { label: "Admin", value: "admin" },
-    { label: "Subscriber", value: "subscriber" },
-];
+// const roleOptions = [
+//     { label: "User", value: "user" },
+//     { label: "Admin", value: "admin" },
+//     { label: "Subscriber", value: "subscriber" },
+// ];
 
 const statusOptions = [
     { label: "Active", value: "active" },
@@ -332,80 +344,67 @@ const AdminEditUser: React.FC = () => {
                                             value={values.role}
                                             onChange={(e: any) => {
                                                 const v = e.target.value;
-                                                setFieldValue("role", v);
-                                                if (String(v).toLowerCase() !== "admin")
-                                                    setFieldValue("salary", "");
-                                                if (String(v).toLowerCase() !== "subscriber") {
-                                                    setFieldValue("subscriptionStartDate", "");
-                                                    setFieldValue("subscriptionEndDate", "");
-                                                    setFieldValue("joinDate", "");
+
+                                                // Prevent subscriber → other roles
+                                                if (initialValues.role === "subscriber" && v !== "subscriber") {
+                                                    showToast("Subscriber cannot be converted to another role", "error", "EditUser-Container");
+                                                    return;
                                                 }
+
+                                                // Prevent user/admin → subscriber
+                                                if (initialValues.role !== "subscriber" && v === "subscriber") {
+                                                    showToast("Cannot convert User/Admin to Subscriber", "error", "EditUser-Container");
+                                                    return;
+                                                }
+
+                                                setFieldValue("role", v);
                                             }}
                                             onBlur={handleBlur}
                                             error={errors.role}
                                             touched={touched.role}
-                                            options={roleOptions}
+                                            options={getRoleOptions(initialValues.role)}
                                         />
 
                                         {/* Subscriber fields */}
+
                                         {String(values.role).toLowerCase() === "subscriber" && (
                                             <>
                                                 <DynamicDatePicker
                                                     label="Subscription Start Date"
                                                     name="subscriptionStartDate"
                                                     value={values.subscriptionStartDate}
-                                                    onChange={(e) =>
-                                                        setFieldValue(
-                                                            "subscriptionStartDate",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    onBlur={handleBlur}
-                                                    error={errors.subscriptionStartDate}
-                                                    touched={touched.subscriptionStartDate}
+                                                    onChange={() => { }}
+                                                    disabled
                                                 />
 
                                                 <DynamicDatePicker
                                                     label="Subscription End Date"
                                                     name="subscriptionEndDate"
                                                     value={values.subscriptionEndDate}
-                                                    onChange={(e) =>
-                                                        setFieldValue(
-                                                            "subscriptionEndDate",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    onBlur={handleBlur}
-                                                    error={errors.subscriptionEndDate}
-                                                    touched={touched.subscriptionEndDate}
+                                                    onChange={() => { }}
+                                                    disabled
                                                 />
 
                                                 <DynamicDatePicker
                                                     label="Join Date"
                                                     name="joinDate"
                                                     value={values.joinDate}
-                                                    onChange={(e) =>
-                                                        setFieldValue("joinDate", e.target.value)
-                                                    }
-                                                    onBlur={handleBlur}
-                                                    error={errors.joinDate}
-                                                    touched={touched.joinDate}
+                                                    onChange={() => { }}
+                                                    disabled
                                                 />
-
+                                               
+                                                {/* currentSubStatus must be disabled */}
                                                 <DynamicDropdown
                                                     label="Current Subscription Status"
                                                     name="currentSubStatus"
                                                     value={values.currentSubStatus}
-                                                    onChange={(e: any) =>
-                                                        setFieldValue("currentSubStatus", e.target.value)
-                                                    }
-                                                    onBlur={handleBlur}
-                                                    error={errors.currentSubStatus}
-                                                    touched={touched.currentSubStatus}
+                                                    onChange={() => { }}
+                                                    disabled
                                                     options={statusOptions}
                                                 />
                                             </>
                                         )}
+
 
                                         {/* Admin salary */}
                                         {String(values.role).toLowerCase() === "admin" && (

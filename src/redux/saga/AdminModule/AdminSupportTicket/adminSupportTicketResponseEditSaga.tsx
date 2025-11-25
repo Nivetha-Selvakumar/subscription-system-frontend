@@ -1,8 +1,8 @@
 import { call, put, takeLeading } from "redux-saga/effects";
 import axios from "axios";
 import {
-    fetchSupportTicketCreateSuccess,
-    fetchSupportTicketCreateFailure,
+    fetchSupportTicketEditResponseSuccess,
+    fetchSupportTicketEditResponseFailure,
 } from "../../../action/AdminModule/AdminSupportTicket/adminSupportTicketResponseEditAction";
 import { SUPPORT_TICKET_RESPONSE_EDIT_REQUEST } from "../../../actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketResponseEditActionType";
 import showToast from "../../../../common-components/ui/toastNotification";
@@ -40,7 +40,7 @@ function* supportTicketResponseEditSaga(action: any): Generator<any, void, any> 
 
 
         // ▶ Dispatch success
-        yield put(fetchSupportTicketCreateSuccess(response?.data));
+        yield put(fetchSupportTicketEditResponseSuccess(response?.data));
 
         showToast(
             "Support Ticket Response Updated Successfully",
@@ -50,7 +50,7 @@ function* supportTicketResponseEditSaga(action: any): Generator<any, void, any> 
 
     } catch (error: any) {
         // ▶ Dispatch failure
-        yield put(fetchSupportTicketCreateFailure(error.message));
+        yield put(fetchSupportTicketEditResponseFailure(error.message));
 
         const errorMessage = error?.response?.data?.Error;
 

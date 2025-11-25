@@ -5,7 +5,7 @@ import Sidebar from "../../layout/sideBar";
 
 import { SUPPORT_TICKET_VIEW_REQUEST } from "../../../redux/actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketViewActionTypes";
 import { SUPPORT_TICKET_EDIT_REQUEST } from "../../../redux/actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketEditActionTypes";
-import { SUPPORT_TICKET_RESPONSE_CREATE_REQUEST } from "../../../redux/actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketResponseCreateActionType";
+import { SUPPORT_TICKET_RESPONSE_CREATE_REQUEST } from "../../../redux/actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketResponseCreateActionTypes";
 
 import showToast from "../../../common-components/ui/toastNotification";
 import { ToastContainer } from "react-toastify";
@@ -58,7 +58,7 @@ const AdminSupportTicketEdit = () => {
 
     // Handle reply success
     useEffect(() => {
-        if (supportTicketResponseCreate?.code === 200) {
+        if (supportTicketResponseCreate?.code === 200 || supportTicketResponseCreate?.code === 201) {
             showToast("Reply Sent!", "success", "Admin-Ticket");
             setResponseText("");
             fetchTicket();
@@ -161,25 +161,70 @@ const AdminSupportTicketEdit = () => {
                         {/* RIGHT CHAT */}
                         <div className="w-1/2 flex flex-col">
 
-                            <div ref={chatRef}
-                                className="flex-1 p-6 overflow-y-auto space-y-4"
+                            {/* CHAT AREA */}
+                            <div
+                                ref={chatRef}
+                                className="flex-1 overflow-y-auto p-6 space-y-4"
                                 style={{ maxHeight: "calc(80vh - 200px)" }}
                             >
-                                {responses.map((msg: any) => (
-                                    <div
-                                        key={msg.id}
-                                        className={`flex ${msg.senderRole === "ADMIN" ? "justify-end" : "justify-start"}`}
-                                    >
-                                        <div
-                                            className={`max-w-xs px-4 py-3 rounded-2xl shadow
-                      ${msg.senderRole === "ADMIN"
-                                                    ? "bg-blue-600 text-white rounded-br-none"
-                                                    : "bg-white border text-gray-900 rounded-bl-none"
-                                                }`}
-                                        >
-                                            <p>{msg.responseText}</p>
-                                            <p className="text-[10px] mt-1 text-gray-300">{msg.respondedAt}</p>
+                                {Object.entries(
+                                    responses.reduce((acc: any, msg: any) => {
+                                        const dateKey = new Date(msg.respondedAt).toDateString();
+                                        if (!acc[dateKey]) acc[dateKey] = [];
+                                        acc[dateKey].push(msg);
+                                        return acc;
+                                    }, {})
+                                ).map(([dateKey, messages]: any) => (
+                                    <div key={dateKey}>
+
+                                        {/* DATE SEPARATOR */}
+                                        <div className="flex justify-center my-3">
+                                            <span className="bg-gray-300 text-gray-700 px-3 py-1 rounded-full text-xs shadow">
+                                                {new Date(dateKey).toLocaleDateString("en-IN", {
+                                                    day: "2-digit",
+                                                    month: "short",
+                                                    year: "numeric",
+                                                })}
+                                            </span>
                                         </div>
+
+                                        {/* MESSAGES */}
+                                        {messages.map((msg: any, idx: number) => {
+                                            const loggedInId = localStorage.getItem("user_id");
+                                            const isMine = msg.responder?.id === loggedInId;
+
+                                            return (
+                                                <div
+                                                    key={msg.id ?? idx}
+                                                    className={`flex ${isMine ? "justify-end" : "justify-start"} my-2`}
+                                                >
+                                                    <div
+                                                        className={`max-w-[70%] px-4 py-3 rounded-2xl shadow 
+                ${isMine
+                                                                ? "bg-blue-600 text-white rounded-br-none"
+                                                                : "bg-gray-100 text-gray-900 rounded-bl-none"
+                                                            }
+              `}
+                                                    >
+                                                        <p className="text-xs font-semibold opacity-80 mb-1">
+                                                            {isMine
+                                                                ? `You (${msg.responder?.firstName} ${msg.responder?.lastName})`
+                                                                : `${msg.responder?.firstName} ${msg.responder?.lastName}`}
+                                                        </p>
+
+                                                        <p className="text-sm whitespace-pre-line">{msg.responseText}</p>
+
+                                                        <p className="text-[10px] text-right opacity-70 mt-2">
+                                                            {new Date(msg.respondedAt).toLocaleTimeString("en-IN", {
+                                                                hour: "2-digit",
+                                                                minute: "2-digit",
+                                                                hour12: true,
+                                                            })}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 ))}
                             </div>

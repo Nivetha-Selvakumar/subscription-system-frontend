@@ -3,7 +3,7 @@ import {
   SUPPORT_TICKET_RESPONSE_CREATE_FAILURE,
   SUPPORT_TICKET_RESPONSE_CREATE_REQUEST,
   SUPPORT_TICKET_RESPONSE_CREATE_SUCCESS,
-} from "../../../actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketResponseCreateActionType";
+} from "../../../actionTypes/AdminModule/AdminSupportTicket/adminSupportTicketResponseCreateActionTypes";
 
 const initialState = {
   supportTicketResponseCreate: null,
