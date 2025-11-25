@@ -69,7 +69,18 @@ const UserPlanPaymentPage = () => {
             });
         } else {
             // ❌ Payment Failed → go back
-            navigate("/user/dashboard");
+             dispatch({
+                type: SUBSCRIPTION_CREATE_REQUEST,
+                payload: {
+                    planId: id,
+                    payload: {
+                        amount: apiPlan?.planCost,
+                        paymentStatus: "FAILED",
+                        currentSubStatus: "INACTIVE"
+                    }
+                }
+            });
+            // navigate("/user/dashboard");
         }
     };
 

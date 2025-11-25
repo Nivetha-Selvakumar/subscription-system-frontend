@@ -36,7 +36,7 @@ function* supportTicketEditSaga(action: any): Generator<any, void, any> {
         // ▶ Success Dispatch
         yield put(fetchSupportTicketEditSuccess(response?.data));
 
-        showToast("Support Ticket Updated Successfully", "success", "Support-Ticket-Edit");
+        // showToast("Support Ticket Updated Successfully", "success", "default");
 
     } catch (error: any) {
         // ▶ Failure Dispatch
@@ -46,14 +46,14 @@ function* supportTicketEditSaga(action: any): Generator<any, void, any> {
 
         // ▶ Error Toast
         if (Array.isArray(errorMessage)) {
-            showToast(errorMessage[0], "error", "Support-Ticket-Edit");
+            showToast(errorMessage[0], "error", "default");
         } else if (typeof errorMessage === "object" && errorMessage !== null) {
-            showToast(JSON.stringify(errorMessage), "error", "Support-Ticket-Edit");
+            showToast(JSON.stringify(errorMessage), "error", "default");
         } else {
             showToast(
                 errorMessage || "An unexpected error occurred",
                 "error",
-                "Support-Ticket-Edit"
+                "default"
             );
         }
     } finally {

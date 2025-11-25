@@ -55,6 +55,14 @@ const UserViewTicket = () => {
     const data = supportTicketView?.data || {};
     const ticketResponse = data.ticketResponse || [];
 
+    const formatStatus = (text = "") => {
+        return text
+            .toLowerCase()
+            .split("_")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+    };
+
     return (
         <Sidebar>
 
@@ -119,7 +127,7 @@ const UserViewTicket = () => {
                                     <label className="text-sm font-semibold text-gray-700">Status</label>
                                     <input
                                         className="w-full mt-2 px-4 py-3 rounded-lg border bg-gray-100"
-                                        value={data.ticketStatus || ""}
+                                        value={formatStatus(data.ticketStatus) || ""}
                                         disabled
                                     />
                                 </div>

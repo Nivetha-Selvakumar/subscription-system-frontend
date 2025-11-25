@@ -30,19 +30,57 @@ import { SUBSCRIPTION_PAYMENT_LIST_REQUEST } from "../../../redux/actionTypes/Us
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-
 const handleDownloadInvoice = (payment: any) => {
-  const doc = new jsPDF();
+  const doc = new jsPDF({
+    unit: "pt",
+    format: "a4",
+  });
 
-  doc.setFontSize(18);
-  doc.text("Subscription Management system", 14, 20);
+  // Colors
+  const primaryColor = "#1f3b4d";
+  const lightGray = "#f0f0f0";
+  const darkText = "#1a1a1a";
 
+  // HEADER
+  doc.setFillColor(primaryColor);
+  doc.rect(0, 0, 600, 80, "F");
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(22);
+  doc.setTextColor("#ffffff");
+  doc.text("SUBSCRIPTION INVOICE", 40, 50);
+
+  // INVOICE INFO
+  doc.setFillColor(lightGray);
+  doc.rect(40, 100, 520, 70, "F");
+
+  doc.setFont("helvetica", "normal");
   doc.setFontSize(12);
-  doc.text("Subscription Invoice", 14, 30);
+  doc.setTextColor(darkText);
+  doc.text(`Invoice No: INV-${payment.id}`, 60, 130);
+  doc.text(`Invoice Date: ${payment.paymentDate}`, 60, 150);
 
+  // PAYMENT SUMMARY TITLE
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(primaryColor);
+  doc.text("Payment Summary", 40, 215);
+
+  // PAYMENT SUMMARY TABLE
   autoTable(doc, {
-    startY: 45,
-    head: [["Field", "Details"]],
+    startY: 230,
+    theme: "striped",
+    headStyles: {
+      fillColor: primaryColor,
+      textColor: "#ffffff",
+      halign: "left",
+    },
+    styles: {
+      halign: "left",
+      fontSize: 12,
+      cellPadding: 6,
+      textColor: darkText,
+    },
     body: [
       ["Plan Name", payment.planName],
       ["Amount", ` Rs. ${payment.amount}`],
@@ -52,18 +90,24 @@ const handleDownloadInvoice = (payment: any) => {
     ],
   });
 
-  // ✔ FIX — no TS error
-  const finalY = (doc as any).lastAutoTable?.finalY || 60;
+  // FOOTER
+  const finalY = (doc as any).lastAutoTable?.finalY || 300;
 
+  doc.setFont("helvetica", "italic");
+  doc.setFontSize(12);
+  doc.setTextColor(darkText);
   doc.text(
-    "Thank you for choosing our subscription!",
-    14,
-    finalY + 15
+    "Thank you for your payment! For support, contact support@subsystem.com",
+    40,
+    finalY + 40
   );
 
-  doc.save(`invoice_${payment.planName}.pdf`);
-};
+  doc.setFontSize(10);
+  doc.setTextColor("#555");
+  doc.text("© 2025 Subscription Management System", 40, finalY + 65);
 
+  doc.save(`Invoice_${payment.planName}.pdf`);
+};
 
 
 

@@ -82,7 +82,7 @@ const UserEditTicket = () => {
     // On Reply Added
     useEffect(() => {
         if (supportTicketResponseCreate?.code === 200 || supportTicketResponseCreate?.code === 201) {
-            showToast("Reply added successfully!", "success", "User-Ticket-Update");
+            showToast("Reply added successfully!", "success", "default");
             dispatch({ type: "SUPPORT_TICKET_RESPONSE_CREATE_CLEAR" });
             fetchTicket();
             setResponseText("");
@@ -93,7 +93,7 @@ const UserEditTicket = () => {
     // On Reply Added
     useEffect(() => {
         if (supportTicketEdit?.code === 200 || supportTicketEdit?.code === 201) {
-            showToast("Ticket updated!", "success", "User-Ticket-Update");
+            showToast("Ticket updated!", "success", "default");
             dispatch({ type: "SUPPORT_TICKET_EDIT_CLEAR" });
             fetchTicket();
             setResponseText("");
@@ -105,7 +105,7 @@ const UserEditTicket = () => {
     if (supportTicketViewLoading) {
         return (
             <Sidebar>
-                <ToastContainer containerId={"User-Ticket-Update"} />
+                <ToastContainer containerId={"default"} />
                 <div className="flex justify-center items-center min-h-screen">
                     <p className="text-gray-500">Loading...</p>
                 </div>
@@ -147,7 +147,7 @@ const UserEditTicket = () => {
 
     return (
         <Sidebar>
-            <ToastContainer containerId={"User-Ticket-Update"} />
+            <ToastContainer containerId={"default"} />
 
             <div className="flex justify-center items-start w-full min-h-screen bg-gray-50">
                 <div className="max-w-[75rem] w-full bg-white rounded-lg shadow flex flex-col h-[80vh] my-8">
@@ -202,10 +202,9 @@ const UserEditTicket = () => {
                                         value={ticketStatus}
                                         onChange={(e) => setTicketStatus(e.target.value)}
                                     >
-                                        <option value="Open">Open</option>
-                                        <option value="In-Progress">In Progress</option>
-                                        <option value="Closed">Closed</option>
-                                        <option value="Expired">Expired</option>
+                                        <option value="OPEN">Open</option>
+                                        <option value="IN_PROGRESS">In Progress</option>
+                                        <option value="CLOSED">Closed</option>
                                     </select>
                                 </div>
 
