@@ -89,6 +89,9 @@ const AdminPaymentList: React.FC = () => {
   };
 
   useEffect(() => {
+    document.title = "Subscription | Admin Payments";
+  }, []);
+  useEffect(() => {
     fetchPaymentList();
   }, [page, rowsPerPage, sortField, sortOrdered, searchValue]);
 

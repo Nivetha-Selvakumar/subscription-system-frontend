@@ -177,6 +177,10 @@ const UserPaymentList: React.FC = () => {
     fetchPaymentList();
   }, [page, rowsPerPage, sortField, sortOrdered, searchValue]);
 
+  useEffect(() => {
+    document.title = "Subscription | User Payments";
+  }, []);
+
   const handleChangePage = (_: any, newPage: number) => setPage(newPage);
   const handleChangeRowsPerPage = (event: any) => {
     setRowsPerPage(parseInt(event.target.value, 10));

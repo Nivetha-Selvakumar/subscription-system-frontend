@@ -69,6 +69,10 @@ const AdminAddPlan: React.FC = () => {
 		}
 	}, [planCreate, dispatch, navigate]);
 
+	useEffect(() => {
+		document.title = "Subscription | Admin Plan";
+	}, []);
+
 	return (
 		<Sidebar>
 			<ToastContainer containerId="Plan-Create" />

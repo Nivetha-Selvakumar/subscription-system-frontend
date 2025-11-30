@@ -37,6 +37,10 @@ const AdminSupportTicketEdit = () => {
 
     useEffect(() => { fetchTicket(); }, [fetchTicket]);
 
+    useEffect(() => {
+        document.title = "Subscription | Admin Support Ticket";
+    }, []);
+
     // Set form values from API
     useEffect(() => {
         const data = supportTicketView?.data;

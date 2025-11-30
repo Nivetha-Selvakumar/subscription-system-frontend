@@ -133,12 +133,16 @@ const AdminUsers: React.FC = () => {
   // 👇 Now useEffect can safely depend on fetchUserList
   useEffect(() => {
     fetchUserList();
-  }, [fetchUserList,userDelete]);
+  }, [fetchUserList, userDelete]);
 
   const handleFilterChange = (newFilter: any) => {
     setFilterData(newFilter);
     setPage(0);
   };
+
+  useEffect(() => {
+    document.title = "Subscription | Admin User Details";
+  }, []);
 
   const handleChangePage = (_: any, newPage: number) => setPage(newPage);
   const handleChangeRowsPerPage = (event: any) => {

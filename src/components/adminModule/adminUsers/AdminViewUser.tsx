@@ -97,6 +97,10 @@ const AdminViewUser: React.FC = () => {
     navigate('/admin/users');
   };
 
+  useEffect(() => {
+    document.title = "Subscription | Admin View User";
+  }, []);
+
   if (loading || userViewLoading) {
     return (
       <Sidebar>

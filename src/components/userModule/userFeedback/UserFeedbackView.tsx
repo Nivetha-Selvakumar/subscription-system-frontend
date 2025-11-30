@@ -13,6 +13,11 @@ const UserFeedbackView = () => {
 
     const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+        document.title = "Subscription | User Feedback";
+    }, []);
+
+
     const { userView, userViewLoading } = useSelector(
         (state: any) => state.userViewReducer || {}
     );

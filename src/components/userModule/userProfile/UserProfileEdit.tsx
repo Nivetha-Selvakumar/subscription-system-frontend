@@ -69,6 +69,10 @@ const UserProfileEdit: React.FC = () => {
   }, [dispatch, userId]);
 
   useEffect(() => {
+    document.title = "Subscription | User Profile Edit";
+  }, []);
+
+  useEffect(() => {
     if (userView?.userDetails) {
       const u = userView.userDetails;
       setInitialValues({

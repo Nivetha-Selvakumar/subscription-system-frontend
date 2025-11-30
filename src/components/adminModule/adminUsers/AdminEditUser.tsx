@@ -227,6 +227,10 @@ const AdminEditUser: React.FC = () => {
         }
     }, [userEdit, dispatch, navigate]);
 
+    useEffect(() => {
+        document.title = "Subscription | Admin Edit User";
+    }, []);
+
     return (
         <Sidebar>
             <ToastContainer containerId="EditUser-Container" />
@@ -392,7 +396,7 @@ const AdminEditUser: React.FC = () => {
                                                     onChange={() => { }}
                                                     disabled
                                                 />
-                                               
+
                                                 {/* currentSubStatus must be disabled */}
                                                 <DynamicDropdown
                                                     label="Current Subscription Status"

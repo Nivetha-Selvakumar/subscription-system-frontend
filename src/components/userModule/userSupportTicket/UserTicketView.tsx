@@ -28,6 +28,11 @@ const UserViewTicket = () => {
     }, [dispatch, id]);
 
     useEffect(() => {
+        document.title = "Subscription | User Ticket View";
+    }, []);
+
+
+    useEffect(() => {
         fetchTicket();
     }, [fetchTicket]);
 

@@ -136,6 +136,11 @@ const UserSupportTicket: React.FC = () => {
         setSelectedTicket(null);
     };
 
+    useEffect(() => {
+        document.title = "Subscription | User Ticket";
+    }, []);
+
+
     const safeValue = (val: any) => (!val ? "-" : val);
 
     const handleToggleColumn = (id: string) => {

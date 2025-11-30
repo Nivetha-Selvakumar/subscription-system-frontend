@@ -52,6 +52,11 @@ const BarItem = ({ value, label, height, tooltipStyle, barStyle }: any) => {
 const AdminDashboard = () => {
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    document.title = "Subscription | Admin Dashboard";
+  }, []);
+
+
   const { adminDashboardList } = useSelector(
     (state: any) => state.adminDashboardListReducer || {}
   );

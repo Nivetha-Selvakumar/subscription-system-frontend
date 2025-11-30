@@ -13,7 +13,7 @@ const UserPlanDetails: React.FC = () => {
 
   const { planList } = useSelector((state: any) => state.planListReducer || {});
   const { userView } = useSelector((state: any) => state.userViewReducer || {});
-  
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [subscriptionAction, setSubscriptionAction] = useState<"" | "UPGRADE" | "DOWNGRADE" | "NONE">("");
 
@@ -79,6 +79,11 @@ const UserPlanDetails: React.FC = () => {
   const onChoosePlan = (plan: any) => {
     navigate(`/user/plan/payment/${plan.id}`, { state: { plan } });
   };
+
+  useEffect(() => {
+    document.title = "Subscription | User Plan Details";
+  }, []);
+
 
   return (
     <Sidebar>

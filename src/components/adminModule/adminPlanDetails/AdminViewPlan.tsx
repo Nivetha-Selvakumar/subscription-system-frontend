@@ -52,6 +52,10 @@ const AdminViewPlan: React.FC = () => {
         }
     }, [id, dispatch]);
 
+    useEffect(() => {
+        document.title = "Subscription | Admin Plan";
+    }, []);
+
     // ✅ Set plan data when Redux state updates
     useEffect(() => {
         if (planView?.data) { // <---- changed from planDetails to data

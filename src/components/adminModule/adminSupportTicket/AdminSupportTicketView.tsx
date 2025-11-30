@@ -36,6 +36,10 @@ const AdminSupportTicketView = () => {
         }
     }, [supportTicketView]);
 
+    useEffect(() => {
+        document.title = "Subscription | Admin Support Ticket";
+    }, []);
+
     if (supportTicketViewLoading) {
         return (
             <Sidebar>
