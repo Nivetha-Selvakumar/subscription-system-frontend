@@ -36,6 +36,9 @@ const AdminFeedback: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    document.title = "Subscription | Admin Feedback";
+  }, []);
   // ================= STATE ======================
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);

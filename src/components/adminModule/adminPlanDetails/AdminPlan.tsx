@@ -112,6 +112,10 @@ const AdminPlan: React.FC = () => {
   };
 
   useEffect(() => {
+    document.title = "Subscription | Admin Plan";
+  }, []);
+
+  useEffect(() => {
     fetchPlanList();
   }, [page, rowsPerPage, sortField, sortOrdered, searchValue, filterData, planDelete]);
 

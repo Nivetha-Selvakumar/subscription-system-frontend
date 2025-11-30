@@ -63,6 +63,10 @@ const UserProfile: React.FC = () => {
     }
   }, [id, dispatch]);
 
+  useEffect(() => {
+    document.title = "Subscription | User Profile";
+  }, []);
+
   // ✅ Set user data when Redux state updates
   useEffect(() => {
     if (userView?.userDetails) {

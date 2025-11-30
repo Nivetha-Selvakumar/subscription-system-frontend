@@ -42,6 +42,10 @@ const UserFeedback: React.FC = () => {
     }
   }, [feedbackCreate, dispatch]);
 
+  useEffect(() => {
+    document.title = "Subscription | User Feedback";
+  }, []);
+
   return (
     <Sidebar>
       <ToastContainer containerId="Feedback-Create" />

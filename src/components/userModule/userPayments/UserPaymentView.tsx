@@ -1,5 +1,5 @@
 import Sidebar from "../../layout/sideBar";
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
@@ -30,6 +30,11 @@ const UserPaymentDetails: React.FC = () => {
     const payment: PaymentDetails | null = state || null;
 
     const handleBack = () => navigate("/user/payments");
+
+    useEffect(() => {
+        document.title = "Subscription | User Payments";
+    }, []);
+
 
     if (!payment) {
         return (
@@ -85,8 +90,8 @@ const UserPaymentDetails: React.FC = () => {
                                 <p className="text-gray-900 px-3 py-2 bg-gray-50 rounded-md border border-gray-200">
                                     <span
                                         className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${payment.paymentStatus === "SUCCESS"
-                                                ? "bg-green-100 text-green-800"
-                                                : "bg-red-100 text-red-800"
+                                            ? "bg-green-100 text-green-800"
+                                            : "bg-red-100 text-red-800"
                                             }`}
                                     >
                                         {payment.paymentStatus}
@@ -102,8 +107,8 @@ const UserPaymentDetails: React.FC = () => {
                                 <p className="text-gray-900 px-3 py-2 bg-gray-50 rounded-md border border-gray-200">
                                     <span
                                         className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${payment.subscriptionStatus === "ACTIVE"
-                                                ? "bg-green-100 text-green-800"
-                                                : "bg-orange-100 text-orange-800"
+                                            ? "bg-green-100 text-green-800"
+                                            : "bg-orange-100 text-orange-800"
                                             }`}
                                     >
                                         {payment.subscriptionStatus || "—"}

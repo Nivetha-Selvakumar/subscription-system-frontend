@@ -39,6 +39,9 @@ const AdminSupportTicketList: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    document.title = "Subscription | Admin Support Ticket";
+  }, []);
   // ------------------------ STATES ------------------------
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);

@@ -22,6 +22,12 @@ const UserDashboard = () => {
     dispatch({ type: USER_DASHBOARD_LIST_REQUEST });
   }, [dispatch]);
 
+
+  useEffect(() => {
+    document.title = "Subscription | User Dashboard";
+  }, []);
+
+
   // ⭐ Date Formatter → "Dec 17, 2025"
   const formatDate = (dateStr: string) => {
     if (!dateStr || dateStr === '-') return "-";

@@ -8,6 +8,9 @@ import { ToastContainer } from "react-toastify";
 import { USER_FEEDBACK_VIEW_REQUEST } from "../../../redux/actionTypes/UserModule/UserFeedback/userFeedbackViewActionTypes";
 
 const AdminFeedbackView: React.FC = () => {
+    useEffect(() => {
+        document.title = "Subscription | Admin Feedback";
+    }, []);
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -126,8 +129,8 @@ const AdminFeedbackView: React.FC = () => {
                                 <p className="px-3 py-2 bg-gray-50 border rounded-md">
                                     <span
                                         className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${feedback.status?.toLowerCase() === "active"
-                                                ? "bg-green-100 text-green-800"
-                                                : "bg-red-100 text-red-800"
+                                            ? "bg-green-100 text-green-800"
+                                            : "bg-red-100 text-red-800"
                                             }`}
                                     >
                                         {feedback.status || "—"}

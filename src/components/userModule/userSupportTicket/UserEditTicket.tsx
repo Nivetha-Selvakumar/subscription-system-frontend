@@ -67,6 +67,10 @@ const UserEditTicket = () => {
         }
     }, [supportTicketView]);
 
+    useEffect(() => {
+        document.title = "Subscription | User Ticket Edit";
+    }, []);
+
     // Auto Scroll
     const scrollToBottom = () => {
         if (!messagesContainerRef.current) return;

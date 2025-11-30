@@ -114,6 +114,10 @@ const AdminEditPlan: React.FC = () => {
     }
   }, [planEdit, dispatch, navigate]);
 
+  useEffect(() => {
+    document.title = "Subscription | Admin Plan";
+  }, []);
+
   return (
     <Sidebar>
       <ToastContainer containerId="EditPlan-Container" />
@@ -198,11 +202,10 @@ const AdminEditPlan: React.FC = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         rows={3}
-                        className={`w-full px-3 py-2 text-sm border rounded-md outline-none ${
-                          errors.description && touched.description
+                        className={`w-full px-3 py-2 text-sm border rounded-md outline-none ${errors.description && touched.description
                             ? "border-red-500"
                             : "border-gray-300"
-                        }`}
+                          }`}
                       />
                     </div>
                   </div>
@@ -218,11 +221,10 @@ const AdminEditPlan: React.FC = () => {
                     <button
                       type="submit"
                       disabled={planEditLoading}
-                      className={`px-4 py-2 text-sm font-medium text-white rounded-md ${
-                        planEditLoading
+                      className={`px-4 py-2 text-sm font-medium text-white rounded-md ${planEditLoading
                           ? "bg-gray-400 cursor-not-allowed"
                           : "bg-indigo-600 hover:bg-indigo-700"
-                      }`}
+                        }`}
                     >
                       {planEditLoading ? "Saving..." : "Save Changes"}
                     </button>

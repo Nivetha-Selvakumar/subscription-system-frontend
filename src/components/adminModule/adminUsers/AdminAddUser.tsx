@@ -83,6 +83,10 @@ const AdminAddUser: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        document.title = "Subscription | Admin Add User";
+    }, []);
+
     const { userCreate, userCreateLoading } = useSelector(
         (state: any) => state.userCreateReducer || {}
     );

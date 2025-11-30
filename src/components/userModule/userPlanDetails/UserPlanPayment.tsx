@@ -49,6 +49,10 @@ const UserPlanPaymentPage = () => {
         }
     }, [subscriptionCreate, dispatch, navigate]);
 
+    useEffect(() => {
+        document.title = "Subscription | User Payment page";
+    }, []);
+
     // ------------------------------
     //  HANDLE PAYMENT
     // ------------------------------
@@ -69,7 +73,7 @@ const UserPlanPaymentPage = () => {
             });
         } else {
             // ❌ Payment Failed → go back
-             dispatch({
+            dispatch({
                 type: SUBSCRIPTION_CREATE_REQUEST,
                 payload: {
                     planId: id,
