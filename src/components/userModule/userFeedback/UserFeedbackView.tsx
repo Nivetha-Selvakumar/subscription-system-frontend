@@ -110,18 +110,18 @@ const UserFeedbackView = () => {
     if (isAdmin === false && totalCount === 1) {
         return (
             <Sidebar>
-                <div className="flex justify-center items-center w-full h-[calc(100vh-100px)] bg-gray-50">
-                    <div className="bg-white p-10 rounded-2xl shadow-2xl max-w-lg w-full text-center border border-gray-100">
+                <div className="flex justify-center items-center w-full h-[calc(100vh-100px)] bg-gray-100">
+                    <div className="bg-white p-10 rounded-2xl shadow-xl max-w-lg w-full text-center border border-gray-200">
 
                         {/* Success Icon */}
                         <div className="flex justify-center mb-4">
-                            <div className="w-16 h-16 flex items-center justify-center rounded-full bg-green-100">
+                            <div className="w-16 h-16 flex items-center justify-center rounded-full bg-[#e6eef7]">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     strokeWidth="2"
-                                    stroke="green"
+                                    stroke="#034078"
                                     className="w-10 h-10"
                                 >
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
@@ -129,19 +129,20 @@ const UserFeedbackView = () => {
                             </div>
                         </div>
 
-                        <h2 className="text-3xl font-bold text-green-600 mb-3">
+                        <h2 className="text-3xl font-bold mb-3" style={{ color: "#034078" }}>
                             Feedback Already Submitted!
                         </h2>
 
-                        <p className="text-gray-500 text-md mb-6">
+                        <p className="text-gray-600 text-md mb-6">
                             Thank you for sharing your valuable feedback.
-                            We appreciate your time!
+                            We truly appreciate your time!
                         </p>
-
                         <button
                             onClick={() => window.location.href = "/user/dashboard"}
-                            className="mt-4 px-6 py-2 bg-green-600 text-white rounded-lg 
-                hover:bg-green-700 transition-all shadow-md"
+                            className="mt-4 px-6 py-2 text-white rounded-lg transition-all shadow-md"
+                            style={{
+                                backgroundColor: "#034078",
+                            }}
                         >
                             Go to Dashboard
                         </button>
