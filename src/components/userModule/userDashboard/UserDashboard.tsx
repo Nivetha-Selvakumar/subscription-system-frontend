@@ -158,7 +158,11 @@ const UserDashboard = () => {
         }}
       >
         {/* SUBSCRIPTION HISTORY */}
-        <div style={cardStyle}>
+        <div style={{
+          ...cardStyle,
+          // maxHeight: "450px",     // or any height you prefer
+          // overflowY: "auto"
+        }}>
           <h3 style={{ marginBottom: "15px" }}>Recent Subscriptions</h3>
 
           {recentSubscriptions?.length > 0 ? (
@@ -185,7 +189,7 @@ const UserDashboard = () => {
         </div>
 
         {/* UPCOMING PAYMENT */}
-        <div style={cardStyle}>
+        <div style={{...cardStyle,alignSelf: "start"}}>
           <h3 style={{ marginBottom: "15px" }}>Upcoming Payment</h3>
 
           {/* CHECK IF SUBSCRIPTION EXPIRED */}
