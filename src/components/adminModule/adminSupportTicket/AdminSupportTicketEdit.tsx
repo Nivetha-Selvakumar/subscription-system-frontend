@@ -94,6 +94,7 @@ const AdminSupportTicketEdit = () => {
         });
     };
 
+    const isTicketClosed = ticketStatus?.toUpperCase() === "CLOSED";
     return (
         <Sidebar>
             <ToastContainer containerId="default" />
@@ -236,14 +237,33 @@ const AdminSupportTicketEdit = () => {
                             {/* Reply Box */}
                             <div className="p-4 border-t flex gap-3">
                                 <textarea rows={2}
-                                    className="flex-1 p-2 border rounded-lg bg-gray-50"
-                                    placeholder="Type your reply..."
+                                    // className="flex-1 p-2 border rounded-lg bg-gray-50"
+                                    // placeholder="Type your reply..."
+                                    className={`flex-1 p-2 border rounded-lg
+                                        ${isTicketClosed
+                                            ? "bg-gray-200 cursor-not-allowed pointer-events-none"
+                                            : "bg-gray-50 focus:ring-2 focus:ring-blue-500"
+                                        }
+                                    `}
+                                    placeholder={
+                                        isTicketClosed
+                                            ? "Ticket is closed. You cannot reply."
+                                            : "Type your reply..."
+                                    }
                                     value={responseText}
                                     onChange={(e) => setResponseText(e.target.value)}
+                                    disabled={isTicketClosed}
                                 />
                                 <button
                                     onClick={sendReply}
-                                    className="px-5 py-2 bg-[#034078] text-white rounded-lg"
+                                    // className="px-5 py-2 bg-[#034078] text-white rounded-lg"
+                                    className={`px-6 py-3 font-semibold rounded-lg shadow text-white
+                                            ${isTicketClosed
+                                            ? "bg-gray-400 cursor-not-allowed pointer-events-none"
+                                            : "bg-[#034078] hover:bg-[#02345f]"
+                                        }
+                                        `}
+                                    disabled={isTicketClosed}
                                 >
                                     Send
                                 </button>
