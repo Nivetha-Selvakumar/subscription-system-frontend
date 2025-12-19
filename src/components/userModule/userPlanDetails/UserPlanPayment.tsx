@@ -40,8 +40,12 @@ const UserPlanPaymentPage = () => {
 
     useEffect(() => {
         if (subscriptionCreate?.code === 200 || subscriptionCreate?.code === 201) {
-
-            showToast("Subscription Paid Successfully", "success", "Subscription-Create");
+            console.log("Subscription Create Response:", subscriptionCreate?.data?.lastPaymentStatus);
+            if (subscriptionCreate?.data?.lastPaymentStatus?.toUpperCase() === "FAILED") {
+                showToast("Subscription Payment Failed", "error", "Subscription-Create");
+            } else {
+                showToast("Subscription Paid Successfully", "success", "Subscription-Create");
+            }
             dispatch({ type: "SUBSCRIPTION_CREATE_CLEAR" });
             setTimeout(() => {
                 navigate("/user/dashboard");
