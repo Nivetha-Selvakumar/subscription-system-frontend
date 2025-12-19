@@ -264,8 +264,8 @@ const SignUpPage: React.FC = () => {
                                     <button
                                         type="submit"
                                         disabled={signupUserLoading}
-                                        className={`w-full py-2 px-4 text-white text-sm leading-[2.25rem] font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 transition ${signupUserLoading ? "opacity-50 cursor-not-allowed" : ""
-                                            }`}
+                                        className={`w-full py-2 px-4 text-white text-sm leading-[2.25rem] font-medium rounded-md bg-[#034078] hover:bg-[#02345F] transition ${signupUserLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+
                                     >
                                         {signupUserLoading
                                             ? SIGNUP_PAGE_CONSTANTS.SIGNING_IN

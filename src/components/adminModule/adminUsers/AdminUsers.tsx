@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Chip,
   Table,
@@ -33,6 +33,7 @@ import DynamicSearchField from "../../../common-components/ui/dynamicSearchField
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import UserFilterModal from "./UserListFilter";
+import { ToastContainer } from "react-toastify";
 
 const AdminUsers: React.FC = () => {
   const dispatch = useDispatch();
@@ -54,8 +55,13 @@ const AdminUsers: React.FC = () => {
   const { userListLoading, userList } = useSelector(
     (state: any) => state.userListReducer
   );
-  const users = userList?.userDetails || [];
-  const totalCount = userList?.totalCount || users.length || 0;
+
+  const { userDelete } = useSelector(
+    (state: any) => state.userDeleteReducer
+  );
+
+  const users = userList?.userDetails?.userDetails || [];
+  const totalCount = userList?.userDetails?.totalCount || 0;
 
   const allColumns = [
     { id: "firstName", label: "User Name", sortable: true },
@@ -84,8 +90,8 @@ const AdminUsers: React.FC = () => {
     }
   };
 
-  const fetchUserList = () => {
-    // Base payload
+  // ✅ Memoized – will only recreate when values change
+  const fetchUserList = useCallback(() => {
     const payload: any = {
       search: searchValue,
       sortBy: sortField,
@@ -94,11 +100,10 @@ const AdminUsers: React.FC = () => {
       limit: rowsPerPage,
     };
 
-    // 🧠 Convert filters to backend-friendly format
     const filterPairs: string[] = [];
 
     if (filterData.role) filterPairs.push(`role:${filterData.role}`);
-    if (filterData.gender) filterPairs.push(`sex:${filterData.gender}`); // match backend field name
+    if (filterData.gender) filterPairs.push(`sex:${filterData.gender}`);
     if (filterData.status) filterPairs.push(`status:${filterData.status}`);
     if (filterData.salary) filterPairs.push(`salary:${filterData.salary}`);
     if (filterData.joinDate) filterPairs.push(`joinDate:${filterData.joinDate}`);
@@ -109,26 +114,35 @@ const AdminUsers: React.FC = () => {
     if (filterData.subEndDate)
       filterPairs.push(`subEndDate:${filterData.subEndDate}`);
 
-    // Join filters into single comma-separated string
-    const filterBy =
-      filterPairs.length > 0 ? filterPairs.join(",") : null;
+    const filterBy = filterPairs.length ? filterPairs.join(",") : null;
 
-    // Dispatch request
     dispatch({
       type: USER_LIST_REQUEST,
       payload: { ...payload, filterBy },
     });
-  };
+  }, [
+    searchValue,
+    sortField,
+    sortOrdered,
+    page,
+    rowsPerPage,
+    filterData,
+    dispatch,
+  ]);
 
-
+  // 👇 Now useEffect can safely depend on fetchUserList
   useEffect(() => {
     fetchUserList();
-  }, [page, rowsPerPage, sortField, sortOrdered, filterData,searchValue]);
+  }, [fetchUserList, userDelete]);
 
   const handleFilterChange = (newFilter: any) => {
     setFilterData(newFilter);
     setPage(0);
   };
+
+  useEffect(() => {
+    document.title = "Subscription | Admin User Details";
+  }, []);
 
   const handleChangePage = (_: any, newPage: number) => setPage(newPage);
   const handleChangeRowsPerPage = (event: any) => {
@@ -161,14 +175,53 @@ const AdminUsers: React.FC = () => {
   };
 
   const handleAddUser = () => {
-    navigate("/dashboard");
+    navigate("/admin/create/user");
   };
+
+  // 👇 handle view user
+  const handleViewUser = (user: any) => {
+    if (!user || !user.userId) return;
+    navigate(`/admin/users/view/${user.userId}`);
+    handleMenuClose();
+  };
+
+  // 👇 handle edit user
+  const handleEditUser = (user: any) => {
+    if (!user || !user.userId) return;
+    navigate(`/admin/users/edit/${user.userId}`);
+    handleMenuClose();
+  };
+
+  // 👇 handle delete user
+  const handleDeleteUser = (user: any) => {
+    if (!user || !user.userId) return;
+
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete the user "${user.firstName} ${user.lastName}"?`
+    );
+    if (!confirmDelete) return;
+
+    const adminUserId = localStorage.getItem("user_id"); // logged-in admin’s ID
+    const payload = {
+      userId: adminUserId, // from localStorage (header requirement)
+      targetUserId: user.userId, // from the row
+    };
+
+    dispatch({
+      type: "USER_DELETE_REQUEST",
+      payload,
+    });
+
+    handleMenuClose();
+  };
+
 
   const safeValue = (val: any) =>
     val === null || val === undefined || val === "" ? "-" : val;
 
   return (
     <Sidebar>
+      <ToastContainer containerId={"User-List"} />
       <div className="list-parent-container">
         {/* Header */}
         <div className="header-container">
@@ -270,42 +323,42 @@ const AdminUsers: React.FC = () => {
               <TableBody>
                 {userListLoading ? (
                   <TableRow>
-                    <TableCell
-                      colSpan={visibleColumns.length + 1}
-                      align="center"
-                    >
+                    <TableCell colSpan={visibleColumns.length + 1} align="center">
                       Loading...
                     </TableCell>
                   </TableRow>
                 ) : users.length === 0 ? (
                   <TableRow>
-                    <TableCell
-                      colSpan={visibleColumns.length + 1}
-                      align="center"
-                    >
+                    <TableCell colSpan={visibleColumns.length + 1} align="center">
                       No users found
                     </TableCell>
                   </TableRow>
                 ) : (
-                  users.map((user: any) => (
-                    <TableRow hover key={user.id}>
-                      {visibleColumns.map((col) => (
-                        <TableCell key={col.id} className="nowrap-cell">
-                          {col.id === "firstName"
-                            ? `${user.firstName || "-"} ${user.lastName || ""}`.trim()
-                            : safeValue(user[col.id])}
+                  users.map((user: any) => {
+                    const userId = user.userId || user.id; // ✅ pick whichever key your backend sends
+
+                    return (
+                      <TableRow hover key={userId}>
+                        {visibleColumns.map((col) => (
+                          <TableCell key={col.id} className="nowrap-cell">
+                            {col.id === "firstName"
+                              ? `${user.firstName || "-"} ${user.lastName || ""}`.trim()
+                              : safeValue(user[col.id])}
+                          </TableCell>
+                        ))}
+
+                        {/* Actions */}
+                        <TableCell align="center">
+                          <IconButton
+                            size="small"
+                            onClick={(e) => handleMenuOpen(e, { ...user, userId })}
+                          >
+                            <MoreVert />
+                          </IconButton>
                         </TableCell>
-                      ))}
-                      <TableCell align="center">
-                        <IconButton
-                          size="small"
-                          onClick={(e) => handleMenuOpen(e, user)}
-                        >
-                          <MoreVert />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))
+                      </TableRow>
+                    );
+                  })
                 )}
               </TableBody>
             </Table>
@@ -338,13 +391,13 @@ const AdminUsers: React.FC = () => {
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
         >
-          <MenuItem onClick={() => console.log("View", selectedUser)}>
+          <MenuItem onClick={() => handleViewUser(selectedUser)}>
             <Visibility fontSize="small" sx={{ mr: 1 }} /> View
           </MenuItem>
-          <MenuItem onClick={() => console.log("Edit", selectedUser)}>
+          <MenuItem onClick={() => handleEditUser(selectedUser)}>
             <Edit fontSize="small" sx={{ mr: 1 }} /> Edit
           </MenuItem>
-          <MenuItem onClick={() => console.log("Delete", selectedUser)}>
+          <MenuItem onClick={() => handleDeleteUser(selectedUser)}>
             <Delete fontSize="small" sx={{ mr: 1 }} /> Delete
           </MenuItem>
         </Menu>

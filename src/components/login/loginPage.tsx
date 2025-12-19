@@ -64,17 +64,16 @@ const LoginPage: React.FC = () => {
                 localStorage.setItem('lastName', data?.lastName);
                 localStorage.setItem('user_id', data?.id);
                 localStorage.setItem('role', data?.role);
-                localStorage.setItem('email',  data?.email);
+                localStorage.setItem('email', data?.email);
                 localStorage.setItem('userName', UserName);
             }
 
             setTimeout(() => {
                 const role = data?.role?.toLowerCase(); // ✅ fix here
-                console.log("User Role:", role);
                 if (role === "admin") {
                     navigate("/admin/dashboard");
                 } else {
-                    navigate("/dashboard");
+                    navigate("/user/dashboard");
                 }
                 dispatch({ type: FETCH_DATA_CLEAR });
             }, 2000)
@@ -138,21 +137,20 @@ const LoginPage: React.FC = () => {
                                     />
 
                                     {/* Forgot Password */}
-                                    <div className="flex items-center text-sm">
+                                    {/* <div className="flex items-center text-sm">
                                         <a
                                             href="/forgetPassword"
                                             className="text-indigo-600 hover:text-indigo-500"
                                         >
                                             {LOGIN_PAGE_CONSTANTS.FORGET_PASSWORD}
                                         </a>
-                                    </div>
+                                    </div> */}
 
                                     {/* Submit Button */}
                                     <button
                                         type="submit"
                                         disabled={loginUserLoading}
-                                        className={`w-full py-2 px-4 text-white text-sm leading-[2.25rem] font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 transition ${loginUserLoading ? "opacity-50 cursor-not-allowed" : ""
-                                            }`}
+                                        className={`w-full py-2 px-4 text-white text-sm leading-[2.25rem] font-medium rounded-md bg-[#034078] hover:bg-[#02345F] transition ${loginUserLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                                     >
                                         {loginUserLoading
                                             ? LOGIN_PAGE_CONSTANTS.SIGN_IN

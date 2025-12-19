@@ -36,7 +36,6 @@ function* userListSaga(action: any): Generator<any, void, any> {
       },
     });
 
-    console.log("User List Response:", response);
     yield put(fetchUserListSuccess(response?.data));
   } catch (error: any) {
     yield put(fetchUserListFailure(error.message));

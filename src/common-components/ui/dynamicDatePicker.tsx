@@ -10,6 +10,7 @@ interface DynamicDatePickerProps {
     placeholder?: string;
     error?: string;
     touched?: boolean;
+    disabled?: boolean;
 }
 
 const DynamicDatePicker: React.FC<DynamicDatePickerProps> = ({
@@ -21,6 +22,7 @@ const DynamicDatePicker: React.FC<DynamicDatePickerProps> = ({
     placeholder,
     error,
     touched,
+    disabled = false,
 }) => {
     return (
         <div className="flex flex-col">
@@ -39,6 +41,7 @@ const DynamicDatePicker: React.FC<DynamicDatePickerProps> = ({
                 value={value}
                 onChange={onChange}
                 onBlur={onBlur}
+                disabled = {disabled}
                 placeholder={placeholder}
                 className={`w-full px-3 py-2 border rounded-md text-sm
           placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 
