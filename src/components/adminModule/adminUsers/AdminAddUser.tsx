@@ -71,7 +71,7 @@ const genderOptions = [
 const roleOptions = [
     { label: 'User', value: 'user' },
     { label: 'Admin', value: 'admin' },
-    { label: 'Subscriber', value: 'subscriber' },
+    // { label: 'Subscriber', value: 'subscriber' },
 ];
 
 const statusOptions = [
